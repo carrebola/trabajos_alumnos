@@ -38,11 +38,49 @@ export const pruebaSupabase = {
 
         //Invocamos funcion proyectoDetalle
         
-        let { data, error } = await supabase
-        .rpc('proyectosdetalle')
 
-        if (error) console.error(error)
-        else console.log(data)
+        const leerProyectosDetalle = async ()=>{
+            //INVOKE FUNCTION
+            let { data, error } = await supabase
+            .rpc('proyectosdetalle')
+        
+            if (error) console.error(error)
+            else console.log('leer proyectos detalle ', data)
+        }
+        await leerProyectosDetalle()
 
+        //Registro de usuarios
+        const registro = async ()=>{
+            //USER SIGNUP
+            let { data, error } = await supabase.auth.signUp({
+              email: 'carrebola@fpllefia.com',
+              password: '123456'
+            })
+        }
+        //registro()
+        const login = async ()=>{
+        //USER LOGIN
+            let { data, error } = await supabase.auth.signInWithPassword({
+            email: 'carrebola@fpllefia.com',
+            password: '123456'
+            })
+        }
+        
+        const logout = async ()=>{
+            //USER LOGOUT
+            let { error } = await supabase.auth.signOut()
+        }
+        
+        const mostrarUsuarioLogeado = async ()=>{
+            //GET USER
+            const { data: { user } } = await supabase.auth.getUser()
+            console.log('usuario logueado', user)
+        }
+        
+        await mostrarUsuarioLogeado()
+        await login()
+        await mostrarUsuarioLogeado()
+        await logout()
+        await mostrarUsuarioLogeado()
     }
 }

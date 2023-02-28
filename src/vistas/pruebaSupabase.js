@@ -34,8 +34,15 @@ export const pruebaSupabase = {
         }
         //await agregarPerfil()
         datos = await verTodosLosPerfiles(); 
-        console.log(datos);
+        console.log(datos); 
 
+        //Invocamos funcion proyectoDetalle
         
+        let { data, error } = await supabase
+        .rpc('proyectosdetalle')
+
+        if (error) console.error(error)
+        else console.log(data)
+
     }
 }

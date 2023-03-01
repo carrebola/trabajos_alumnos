@@ -12,17 +12,20 @@ export const pruebaSupabase = {
 
         //Consulta a la tabla perfiles
         const verTodosLosPerfiles = async ()=>{
-        
                 let { data: perfiles, error } = await supabase
                 .from('perfiles')
                 .select('*')
-                return perfiles
-                
+                console.log('leer todos los perfiles: ', perfiles);       
         }
-        let datos = await verTodosLosPerfiles(); 
-        console.log(datos);
-        
 
+        //Consulta a la tabla proyectos
+        const verTodosLosProyectos = async ()=>{
+            let { data: proyectos, error } = await supabase
+            .from('proyectos')
+            .select('*')
+            console.log('leer todos los proyectos: ', proyectos);       
+    }
+ 
         //Agregar un nuevo perfil
         const agregarPerfil = async ()=>{
             //INSERT A ROW
@@ -32,13 +35,8 @@ export const pruebaSupabase = {
                 { nombre: 'cadmin'},
             ])
         }
-        //await agregarPerfil()
-        datos = await verTodosLosPerfiles(); 
-        console.log(datos); 
 
         //Invocamos funcion proyectoDetalle
-        
-
         const leerProyectosDetalle = async ()=>{
             //INVOKE FUNCTION
             let { data, error } = await supabase
@@ -47,7 +45,6 @@ export const pruebaSupabase = {
             if (error) console.error(error)
             else console.log('leer proyectos detalle ', data)
         }
-        await leerProyectosDetalle()
 
         //Registro de usuarios
         const registro = async ()=>{
@@ -57,30 +54,41 @@ export const pruebaSupabase = {
               password: '123456'
             })
         }
-        //registro()
-        const login = async ()=>{
-        //USER LOGIN
-            let { data, error } = await supabase.auth.signInWithPassword({
+        //login 
+        const usuario = {
             email: 'carrebola@fpllefia.com',
             password: '123456'
-            })
+        }
+        const login = async (usuario)=>{
+        //USER LOGIN
+            let { data, error } = await supabase.auth.signInWithPassword(usuario)
         }
         
+        //logout
         const logout = async ()=>{
             //USER LOGOUT
             let { error } = await supabase.auth.signOut()
         }
         
+        //mostrar usuarios logeados
         const mostrarUsuarioLogeado = async ()=>{
             //GET USER
             const { data: { user } } = await supabase.auth.getUser()
             console.log('usuario logueado', user)
         }
         
-        await mostrarUsuarioLogeado()
-        await login()
-        await mostrarUsuarioLogeado()
-        await logout()
-        await mostrarUsuarioLogeado()
+        //leer todos los proyectos
+        await verTodosLosProyectos()
+
+        //leer perfiles
+        await verTodosLosPerfiles()
+
+        //login como admin
+        login({
+            email: 'carrebola@fpllefia.com',
+            password: '123456'
+        })
+
+
     }
 }

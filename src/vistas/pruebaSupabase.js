@@ -29,7 +29,7 @@ export const pruebaSupabase = {
             const { data, error } = await supabase
             .from('perfiles')
             .insert([
-                { nombre: 'ejemplo'},
+                { nombre: 'cadmin'},
             ])
         }
         //await agregarPerfil()
@@ -53,7 +53,7 @@ export const pruebaSupabase = {
         const registro = async ()=>{
             //USER SIGNUP
             let { data, error } = await supabase.auth.signUp({
-              email: 'carrebola@fpllefia.com',
+              email: 'cadmin@fpllefia.com',
               password: '123456'
             })
         }

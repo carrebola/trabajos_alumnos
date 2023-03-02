@@ -7,15 +7,19 @@ const nuevoPerfil = new Perfil(null, 'Juan', 'Pérez', 'user-123', 'activo', 'ad
 
 await nuevoPerfil.create()
 
+const nuevoPerfil2 = new Perfil(null, 'Antonio', 'Pérez', 'user-123', 'activo', 'admin', 'https://url-del-avatar.jpg')
+
+await nuevoPerfil.create()
+
 //Acutualizar perfil
-const perfilExistente = await Perfil.getById(1)
+// const perfilExistente = await Perfil.getById(19)
 
-perfilExistente.nombre = 'Pedro'
-perfilExistente.apellidos = 'Gómez'
+// perfilExistente.nombre = 'Pedro'
+// perfilExistente.apellidos = 'Gómez'
 
-await perfilExistente.update()
+// await perfilExistente.update()
 
-//Eliminar perfil
-const perfilAEliminar = await Perfil.getById(2)
+// //Eliminar perfil
+// const perfilAEliminar = await Perfil.getById(20)
 
-await perfilAEliminar.delete()
+// await perfilAEliminar.delete()

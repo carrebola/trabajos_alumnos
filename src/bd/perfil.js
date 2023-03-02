@@ -3,7 +3,7 @@ import { supabase } from "./supabase";
 
 import { createClient } from '@supabase/supabase-js'
 
-class Perfil {
+export class Perfil {
   // Mapping de propiedades de la tabla perfiles
   constructor(id, nombre, apellidos, user_id, estado, rol, avatar) {
     this.id = id

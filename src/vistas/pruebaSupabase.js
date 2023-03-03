@@ -15,7 +15,7 @@ export const pruebaSupabase = {
                 let { data: perfiles, error } = await supabase
                 .from('perfiles')
                 .select('*')
-                console.log('leer todos los perfiles: ', perfiles);       
+                console.log('leer todos los perfiles: ', perfiles);    
         }
 
         //Consulta a la tabla proyectos
@@ -23,7 +23,7 @@ export const pruebaSupabase = {
             let { data: proyectos, error } = await supabase
             .from('proyectos')
             .select('*')
-            console.log('leer todos los proyectos: ', proyectos);       
+            console.log('leer todos los proyectos: ', proyectos);    
     }
  
         //Agregar un nuevo perfil
@@ -32,7 +32,7 @@ export const pruebaSupabase = {
             const { data, error } = await supabase
             .from('perfiles')
             .insert([
-                { nombre: 'cadmin'},
+                { nombre: 'cadmin', apellidos: 'Soy Administrador'},
             ])
         }
 

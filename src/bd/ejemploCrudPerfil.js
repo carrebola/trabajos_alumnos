@@ -1,25 +1,49 @@
 //Ejemplo para crud
+import { Perfil } from "./perfil"
 
 // Con estos métodos, podrás realizar operaciones CRUD completas en la tabla `perfiles` utilizando la clase `Perfil`. Por ejemplo, para crear un nuevo perfil:
 
+//Ver todos los perfiles
+try {
+    const perfiles  = await Perfil.getAll()
+    console.log(perfiles);
+} catch (error) {
+    throw new Error(error)
+    console.log('No puedo mostrar todos ', error)
+}
+console.log()
 
-const nuevoPerfil = new Perfil(null, 'Juan', 'Pérez', 'user-123', 'activo', 'admin', 'https://url-del-avatar.jpg')
+//creamos el perfil
+try {
+    const nuevoPerfil = {
+        nombre: 'Alberto',
+        apellidos: 'Perico'
+    }
+    //await Perfil.create(nuevoPerfil)  
+} catch (error) {
+    console.log('uf! error al crear: ' + error);
+}
 
-await nuevoPerfil.create()
 
-const nuevoPerfil2 = new Perfil(null, 'Antonio', 'Pérez', 'user-123', 'activo', 'admin', 'https://url-del-avatar.jpg')
-
-await nuevoPerfil.create()
 
 //Acutualizar perfil
-// const perfilExistente = await Perfil.getById(19)
+try {
+    const perfilExistente = await Perfil.getById(180)
+    console.log(perfilExistente)
+    perfilExistente.nombre = 'Pedro'
+    perfilExistente.apellidos = 'Gómez'
+    await perfilExistente.update()
+} catch (error) {
+    console.log('uf! error al actualizar: ' + error);
+}
 
-// perfilExistente.nombre = 'Pedro'
-// perfilExistente.apellidos = 'Gómez'
 
-// await perfilExistente.update()
+// Eliminar perfil
+try {
+    // const perfilAEliminar = await Perfil.getById(108)
+    // await perfilAEliminar.delete()
+} catch (error) {
+    console.log('uf! error al eliminar ',error);
+}
 
-// //Eliminar perfil
-// const perfilAEliminar = await Perfil.getById(20)
 
-// await perfilAEliminar.delete()

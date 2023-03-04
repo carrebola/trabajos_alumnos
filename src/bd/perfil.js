@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export class Perfil {
   // Mapping de propiedades de la tabla perfiles
-  constructor(id, nombre, apellidos, user_id, estado, rol, avatar) {
+  constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
     this.id = id
     this.nombre = nombre
     this.apellidos = apellidos
@@ -25,14 +25,13 @@ export class Perfil {
       throw new Error(error.message)
     }
 
+    //devuelve array de objetos 
     return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
       return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
     })
   }
 
   static async getById(id) {
-    
-
     const { data: perfil, error } = await supabase
       .from('perfiles')
       .select('*')
@@ -45,31 +44,24 @@ export class Perfil {
 
     return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
   }
-
-  static async create(perfilData) {
-    
-    const { data: perfil, error } = await supabase
+  
+  static async create(perfilData) {    
+    const { error } = await supabase
       .from('perfiles')
       .insert(perfilData)
-      .single()
-
+      .select()
+      console.log('nuevo perfil ',error);
     if (error) {
       throw new Error(error.message)
     }
-
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
   }
 
   async update() {
-    
-    const { data: perfil, error } = await supabase
+    const { error } = await supabase
       .from('perfiles')
       .update({
         nombre: this.nombre,
         apellidos: this.apellidos,
-        user_id: this.user_id,
-        estado: this.estado,
-        rol: this.rol,
         avatar: this.avatar
       })
       .eq('id', this.id)
@@ -78,12 +70,9 @@ export class Perfil {
     if (error) {
       throw new Error(error.message)
     }
-
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
   }
 
   async delete() {
-    
     const { error } = await supabase
       .from('perfiles')
       .delete()

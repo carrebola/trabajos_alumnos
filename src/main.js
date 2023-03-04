@@ -1,20 +1,3 @@
-//Probando la clase perfil
-import { Perfil } from './bd/perfil';
-
-const nuevoPerfilData = {
-    nombre: 'Juan',
-    apellidos: 'Pérez',
-    user_id: null,
-    estado: 'activo',
-    rol: 'admin',
-    avatar: null
-  }
-  
-  const nuevoPerfil = await Perfil.create(nuevoPerfilData)
-  console.log(nuevoPerfil);
-  console.log('perfilCreado');
-
-
 
 
 
@@ -27,10 +10,9 @@ import * as bootstrap from 'bootstrap'
 import { home } from "./vistas/home";
 import { header } from "./componentes/header";
 import { footer } from "./componentes/footer";
-import { pruebaSupabase } from './vistas/pruebaSupabase';
+//import { pruebaSupabase } from './vistas/pruebaSupabase';
 
-document.querySelector('#main').innerHTML = pruebaSupabase.template
-pruebaSupabase.script()
+document.querySelector('#main').innerHTML = home.template
 document.querySelector('#header').innerHTML = header.template;
 document.querySelector('#footer').innerHTML = footer.template;
 

@@ -24,7 +24,13 @@ try {
     console.log('uf! error al crear: ' + error);
 }
 
-
+//Leermos el perfil
+try {
+    const perfilExistente = await Perfil.getById(180)
+    console.log(perfilExistente)
+} catch (error) {
+    console.log('uf! error al actualizar: ' + error);
+}
 
 //Acutualizar perfil
 try {
@@ -37,7 +43,13 @@ try {
     console.log('uf! error al actualizar: ' + error);
 }
 
-
+//Leermos el perfil
+try {
+    const perfilExistente = await Perfil.getById(180)
+    console.log(perfilExistente)
+} catch (error) {
+    console.log('uf! error al actualizar: ' + error);
+}
 // Eliminar perfil
 try {
     // const perfilAEliminar = await Perfil.getById(108)

@@ -1,22 +1,23 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
 
-export class Perfil {
-  // Mapping de propiedades de la tabla perfiles
-  constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
+export class Trabajo {
+  // Mapping de propiedades de la tabla trabajos
+  constructor(id=null, nombre=null, definicion=null, uf=null, ra=null, fecha_inicio=null, fecha_final=null, modulo) {
     this.id = id
     this.nombre = nombre
-    this.apellidos = apellidos
-    this.user_id = user_id
-    this.estado = estado
-    this.rol = rol
-    this.avatar = avatar
+    this.definicion = definicion
+    this.uf = uf
+    this.ra = ra
+    this.fecha_inicio = fecha_inicio
+    this.fecha_final = fecha_final
+    this.modulo = modulo
   }
 
   //leer todos
   static async getAll() {
-    const { data: perfiles, error } = await supabase
-      .from('perfiles')
+    const { data: trabajos, error } = await supabase
+      .from('trabajos')
       .select('*')
 
     if (error) {
@@ -24,15 +25,15 @@ export class Perfil {
     }
 
     //devuelve array de objetos 
-    return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
-      return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
+    return trabajos.map(({ id, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo }) => {
+      return new Trabajo(id, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo)
     })
   }
 
   //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById(id) {
-    const { data: perfil, error } = await supabase
-      .from('perfiles')
+    const { data: trabajo, error } = await supabase
+      .from('trabajos')
       .select('*')
       .eq('id', id)
       .single()
@@ -41,16 +42,16 @@ export class Perfil {
       throw new Error(error.message)
     }
 
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
+    return new Trabajo(trabajo.id, trabajo.nombre, trabajo.apellidos, trabajo.user_id, trabajo.estado, trabajo.rol, trabajo.avatar)
   }
   
   //crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async create(perfilData) {    
+  static async create(trabajoData) {    
     const { error } = await supabase
-      .from('perfiles')
-      .insert(perfilData)
+      .from('trabajos')
+      .insert(trabajoData)
       .select()
-      console.log('nuevo perfil ',error);
+      console.log('nuevo trabajo ',error);
     if (error) {
       throw new Error(error.message)
     }
@@ -59,11 +60,15 @@ export class Perfil {
   //actualizar
   async update() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('trabajos')
       .update({
         nombre: this.nombre,
-        apellidos: this.apellidos,
-        avatar: this.avatar
+        definicion: this.definicion,
+        uf: this.uf,
+        ra: this.ra,
+        fecha_inicio: this.fecha_inicio,
+        fecha_final: this.fecha_final,
+        modulo: this.modulo
       })
       .eq('id', this.id)
       .single()
@@ -76,7 +81,7 @@ export class Perfil {
   //borrar
   async delete() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('trabajos')
       .delete()
       .eq('id', this.id)
 

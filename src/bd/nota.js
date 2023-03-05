@@ -1,22 +1,19 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
 
-export class Perfil {
-  // Mapping de propiedades de la tabla perfiles
-  constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
+export class Nota {
+  // Mapping de propiedades de la tabla notas
+  constructor(id=null, nota=null, proyecto_id=null, user_id=null) {
     this.id = id
-    this.nombre = nombre
-    this.apellidos = apellidos
+    this.nota = nota
+    this.proyecto_id = proyecto_id
     this.user_id = user_id
-    this.estado = estado
-    this.rol = rol
-    this.avatar = avatar
   }
 
   //leer todos
   static async getAll() {
-    const { data: perfiles, error } = await supabase
-      .from('perfiles')
+    const { data: notas, error } = await supabase
+      .from('notas')
       .select('*')
 
     if (error) {
@@ -24,15 +21,15 @@ export class Perfil {
     }
 
     //devuelve array de objetos 
-    return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
-      return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
+    return notas.map(({ id, nota, proyecto_id, user_id }) => {
+      return new Nota(id, nota, proyecto_id, user_id)
     })
   }
 
   //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById(id) {
-    const { data: perfil, error } = await supabase
-      .from('perfiles')
+    const { data: nota, error } = await supabase
+      .from('notas')
       .select('*')
       .eq('id', id)
       .single()
@@ -41,16 +38,16 @@ export class Perfil {
       throw new Error(error.message)
     }
 
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
+    return new Nota(nota.id, nota.nota, nota.proyecto_id, nota.user_id)
   }
   
   //crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async create(perfilData) {    
+  static async create(notaData) {    
     const { error } = await supabase
-      .from('perfiles')
-      .insert(perfilData)
+      .from('notas')
+      .insert(notaData)
       .select()
-      console.log('nuevo perfil ',error);
+      console.log('nuevo nota',error);
     if (error) {
       throw new Error(error.message)
     }
@@ -59,11 +56,11 @@ export class Perfil {
   //actualizar
   async update() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('notas')
       .update({
-        nombre: this.nombre,
-        apellidos: this.apellidos,
-        avatar: this.avatar
+        nota: this.nota,
+        proyecto_id: this.proyecto_id,
+        user_id: this.user_id
       })
       .eq('id', this.id)
       .single()
@@ -76,7 +73,7 @@ export class Perfil {
   //borrar
   async delete() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('notas')
       .delete()
       .eq('id', this.id)
 

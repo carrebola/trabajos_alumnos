@@ -1,22 +1,19 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
 
-export class Perfil {
-  // Mapping de propiedades de la tabla perfiles
-  constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
+export class Comentario {
+  // Mapping de propiedades de la tabla comentarios
+  constructor(id=null, Comentario=null, proyecto_id=null, user_id=null) {
     this.id = id
-    this.nombre = nombre
-    this.apellidos = apellidos
+    this.comentario = comentario
+    this.proyecto_id = proyecto_id
     this.user_id = user_id
-    this.estado = estado
-    this.rol = rol
-    this.avatar = avatar
   }
 
   //leer todos
   static async getAll() {
-    const { data: perfiles, error } = await supabase
-      .from('perfiles')
+    const { data: comentarios, error } = await supabase
+      .from('comentarios')
       .select('*')
 
     if (error) {
@@ -24,15 +21,15 @@ export class Perfil {
     }
 
     //devuelve array de objetos 
-    return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
-      return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
+    return comentarios.map(({ id, comentario, proyecto_id, user_id }) => {
+      return new Comentario(id, comentario, proyecto_id, user_id)
     })
   }
 
   //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById(id) {
-    const { data: perfil, error } = await supabase
-      .from('perfiles')
+    const { data: comentario, error } = await supabase
+      .from('comentarios')
       .select('*')
       .eq('id', id)
       .single()
@@ -41,16 +38,16 @@ export class Perfil {
       throw new Error(error.message)
     }
 
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
+    return new Comentario(comentario.id, comentario.comentario, comentario.proyecto_id, comentario.user_id)
   }
   
   //crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async create(perfilData) {    
+  static async create(comentarioData) {    
     const { error } = await supabase
-      .from('perfiles')
-      .insert(perfilData)
+      .from('comentarios')
+      .insert(comentarioData)
       .select()
-      console.log('nuevo perfil ',error);
+      console.log('nuevo comentario ',error);
     if (error) {
       throw new Error(error.message)
     }
@@ -59,11 +56,11 @@ export class Perfil {
   //actualizar
   async update() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('comentarios')
       .update({
-        nombre: this.nombre,
-        apellidos: this.apellidos,
-        avatar: this.avatar
+        nombre: this.comentario,
+        proyecto_id: this.proyecto_id,
+        user_id: this.user_id
       })
       .eq('id', this.id)
       .single()
@@ -76,7 +73,7 @@ export class Perfil {
   //borrar
   async delete() {
     const { error } = await supabase
-      .from('perfiles')
+      .from('comentarios')
       .delete()
       .eq('id', this.id)
 

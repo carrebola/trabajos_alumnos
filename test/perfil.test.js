@@ -1,100 +1,130 @@
 
-// import  { expect } from 'chai'
+import  { expect } from 'chai'
 
-// import { supabase } from '../src/bd/supabase.js';
-// import { Perfil } from '../src/bd/perfil.js';
+import { supabase } from '../src/bd/supabase.js';
+import { Perfil } from '../src/bd/perfil.js';
 
+//array donde guardaremos todos los perfiles creados
+let ArrayPerfiles = []
 
-// //Testeando la clase perfil
-// describe('Perfil', function() {
-  
-//   let perfil
-//   // Antes de cada prueba, borrar todos los registros de la tabla 'perfiles'
-//   beforeEach(async function() {
-//     try {
-//       const response = await supabase.from('perfiles').delete().eq('nombre','Pepe')
-//       //console.log(response)
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   })
+//Testeando la clase perfil
+//Borramos la tabla
 
-//   describe('getAll()', async function() {
+try {
+  const { data, error } = await supabase
+  .from('perfiles')
+  .delete()
+  .is('user_id', null)
+
+  console.log(data);
+} catch (error) {
+  console.error(error)
+}
+
+describe('Perfil', async function() {
+
+  let perfil
+  // Antes de cada prueba, borrar todos los registros de la tabla 'perfiles'
+  describe('getAll()', async function() {
     
+    it('debería devolver un array de perfiles vacío', async function() {
+      const perfiles = await Perfil.getAll()
+      expect(perfiles).to.be.an('array')
+      expect(perfiles.length).to.equal(0)
+    })
+  })
 
 
-//     it('debería devolver un array de perfiles vacío', async function() {
-//       const perfiles = await Perfil.getAll()
-//       expect(perfiles).to.be.an('array')
-//       expect(perfiles.length).to.equal(0)
-//     })
-//   })
+  describe('create()', async function() {
+    it('debería crear un nuevo perfil en la tabla "perfiles"', async function() {
+      // Datos para el nuevo perfil
+      ArrayPerfiles = [
+        {
+          nombre: 'Pepe',
+          apellidos: 'Gotera'      
+        },
+        {
+          nombre: 'Juan',
+          apellidos: 'Eustaquio'      
+        },
+        {
+          nombre: 'Ramona',
+          apellidos: 'Rizota'      
+        }
+      ]
+        
+      const perfilDevuelto = {
+        nombre: 'Pepe',
+        apellidos: 'Gotera',
+        user_id: null,
+        estado: 'pendiente',
+        rol: 'registrado',
+        avatar: null
+      }
 
+      // Crear el nuevo perfil
+      await Perfil.create(ArrayPerfiles[0])
+      await Perfil.create(ArrayPerfiles[1])
+      await Perfil.create(ArrayPerfiles[2])
 
-//   describe('create()', async function() {
-//     it('debería crear un nuevo perfil en la tabla "perfiles"', async function() {
-//       // Datos para el nuevo perfil
-//       const nuevoPerfilData = {
-//         nombre: 'Pepe',
-//         apellidos: 'Create',
-//       }
-//       const perfilDevuelto = {
-//         nombre: 'Pepe',
-//         apellidos: 'Create',
-//         user_id: null,
-//         estado: 'pendiente',
-//         rol: 'registrado',
-//         avatar: null
-//       }
+      // Verificar que se ha creado el perfil correctamente
+      const { data: perfiles } = await supabase.from('perfiles').select('*')
+      expect(perfiles).to.be.an('array')
+      expect(perfiles.length).to.equal(3)
+      expect(perfiles[0]).to.include(perfilDevuelto)
+    })
+  })
 
-//       // Crear el nuevo perfil
-//       await Perfil.create(nuevoPerfilData)
-
-//       // Verificar que se ha creado el perfil correctamente
-//       const { data: perfiles } = await supabase.from('perfiles').select('*')
-//       expect(perfiles).to.be.an('array')
-//       expect(perfiles.length).to.equal(1)
-//       expect(perfiles[0]).to.include(perfilDevuelto)
-//     })
-//   })
-
-//   describe('getById()', function() {
-//     it('debería devolver el perfil con el ID correspondiente', async function() {
-//       // Obtener el ID del perfil recién creado
-//       const { data: perfiles } = await supabase.from('perfiles').select('id')
-//       const perfilId = perfiles[0].id
-
-//       // Obtener el perfil por ID
-//       const perfil = await Perfil.getById(perfilId)
-//       expect(perfil).to.be.an.instanceof(Perfil)
-//     })
-//   })
-
-  
-
-//   describe('actualizarPerfil', () => {
-    
-//     it('debería actualizar el nombre y apellido del perfil', async () => {
+  describe('getById()', function() {
+    it('debería devolver el perfil con el ID correspondiente', async function() {
       
-//       perfil.actualizarPerfil({ nombre: 'Pedro', apellido: 'Gómez' });
-//       expect(perfil.nombre).toBe('Pedro');
-//       expect(perfil.apellido).toBe('Gómez');
-//     });
+      // Obtener el ID del perfil recién creado
+      const { data: perfiles } = await supabase.from('perfiles').select('id')
+      const perfilId = perfiles[0].id
 
-//     it('debería actualizar el correo electrónico del perfil', () => {
-//       perfil.actualizarPerfil({ correo: 'pedrogomez@example.com' });
-//       expect(perfil.correo).toBe('pedrogomez@example.com');
-//     });
+      // Obtener el perfil por ID
+      const perfil = await Perfil.getById(perfilId)
+      expect(perfil).to.be.an.instanceof(Perfil)
+    })
+  })
 
-//     it('debería actualizar la contraseña del perfil', () => {
-//       perfil.actualizarPerfil({ contraseña: 'abcdef' });
-//       expect(perfil.contraseña).toBe('abcdef');
-//     });
+  
 
-//     it('debería lanzar un error si se proporciona una propiedad no válida', () => {
-//       expect(() => {
-//         perfil.actualizarPerfil({ edad: 30 });
-//       }).toThrowError('Propiedad no válida: edad');
-//     });
-//   });
-// });
+  describe('actualizarPerfil', () => {
+    
+    it('debería actualizar el nombre y apellido del perfil', async () => {
+      // Obtener el ID del perfil recién creado
+      const { data: perfiles } = await supabase.from('perfiles').select('id').order('created_at')
+      const perfilId = perfiles[0].id
+
+      // Obtener el perfil por ID
+      const perfil = await Perfil.getById(perfilId)
+      perfil.nombre = 'Jose'
+      perfil.apellidos = 'GoteraNueva'
+    
+      await perfil.update()
+      const perfilActualizado = await Perfil.getById(perfilId)
+
+      expect(perfilActualizado.nombre).to.equal('Jose')
+      expect(perfilActualizado.apellidos).to.equal('GoteraNueva')
+    });
+
+  });
+  //Borrar perfil
+  describe('borraPerfil', () => {
+    
+    it('debería borrar el último perfil creado', async () => {
+      // Obtener el ID del perfil recién creado
+      const { data: perfiles } = await supabase.from('perfiles').select('id').order('created_at')
+      const perfilId = perfiles[0].id
+    
+      //obtengo el perfil
+      const perfilABorrar = await Perfil.getById(perfilId)
+      await Perfil.delete(perfilId) // asegúrate de que se complete antes de continuar
+      //Si los id no coinciden es que se ha borrado
+      expect(perfiles[0].id).to.equal(perfilABorrar.id) 
+    })
+
+   })
+
+})

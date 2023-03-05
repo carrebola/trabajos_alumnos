@@ -71,11 +71,11 @@ export class Nota {
   }
 
   //borrar
-  async delete() {
+  static async delete(id) {
     const { error } = await supabase
       .from('notas')
       .delete()
-      .eq('id', this.id)
+      .eq('id', id)
 
     if (error) {
       throw new Error(error.message)

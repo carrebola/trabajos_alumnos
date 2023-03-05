@@ -1,6 +1,7 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
 
+
 export class Perfil {
   // Mapping de propiedades de la tabla perfiles
   constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
@@ -74,11 +75,11 @@ export class Perfil {
   }
 
   //borrar
-  async delete() {
+  static async delete(id) {
     const { error } = await supabase
       .from('perfiles')
       .delete()
-      .eq('id', this.id)
+      .eq('id', id)
 
     if (error) {
       throw new Error(error.message)

@@ -73,11 +73,11 @@ export class Proyecto {
   }
 
   //borrar
-  async delete() {
+  static async delete(id) {
     const { error } = await supabase
       .from('proyectos')
       .delete()
-      .eq('id', this.id)
+      .eq('id', id)
 
     if (error) {
       throw new Error(error.message)

@@ -1,6 +1,5 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
-
 export class Trabajo {
   // Mapping de propiedades de la tabla trabajos
   constructor(id=null, nombre=null, definicion=null, uf=null, ra=null, fecha_inicio=null, fecha_final=null, modulo) {
@@ -79,11 +78,11 @@ export class Trabajo {
   }
 
   //borrar
-  async delete() {
+  static async delete(id) {
     const { error } = await supabase
       .from('trabajos')
       .delete()
-      .eq('id', this.id)
+      .eq('id', id)
 
     if (error) {
       throw new Error(error.message)

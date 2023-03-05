@@ -51,7 +51,7 @@ export class Perfil {
       .from('perfiles')
       .insert(perfilData)
       .select()
-      console.log('nuevo perfil ',error);
+      //console.log('nuevo perfil ',error);
     if (error) {
       throw new Error(error.message)
     }

@@ -4,7 +4,6 @@ import  { expect } from 'chai'
 import { supabase } from '../src/bd/supabase.js';
 import { Perfil } from '../src/bd/perfil.js';
 
-//array donde guardaremos todos los perfiles creados
 let ArrayPerfiles = []
 
 //Testeando la clase perfil
@@ -128,3 +127,5 @@ describe('Perfil', async function() {
    })
 
 })
+
+//exportamos los datos de perfiles

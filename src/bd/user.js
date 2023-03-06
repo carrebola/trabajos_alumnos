@@ -3,8 +3,7 @@ import { supabase } from "./supabase.js";
 
 export class User {
   // Mapping de propiedades de la tabla perfiles
-  constructor(id=null, email=null, password=null) {
-    this.id = id
+  constructor(email=null, password=null) {
     this.email =  email
     this.password = password
   }
@@ -21,9 +20,23 @@ export class User {
   }
 
   //login
+  static async login(userData){
+  //USER LOGIN
+      let { data, error } = await supabase.auth.signInWithPassword(userData)
+      if(error){
+        throw new Error(error.message)
+      }
+      return data
+  }
 
   //logout
-
+  static async logout(){
+    //USER LOGOUT
+    let { error } = await supabase.auth.signOut()
+    if(error){
+      throw new Error(error.message)
+    }
+  } 
 }
 
 

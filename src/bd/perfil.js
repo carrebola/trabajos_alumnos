@@ -1,11 +1,11 @@
 //Importamos la conexión a la base de datos
 import { supabase } from "./supabase.js";
 
-
 export class Perfil {
   // Mapping de propiedades de la tabla perfiles
-  constructor(id=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
+  constructor(id=null, created_at=null, nombre=null, apellidos=null, user_id=null, estado=null, rol=null, avatar=null) {
     this.id = id
+    this.created_at = created_at
     this.nombre = nombre
     this.apellidos = apellidos
     this.user_id = user_id
@@ -19,17 +19,15 @@ export class Perfil {
     const { data: perfiles, error } = await supabase
       .from('perfiles')
       .select('*')
-
     if (error) {
       throw new Error(error.message)
     }
-
     //devuelve array de objetos 
     return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
       return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
     })
   }
-
+  
   //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById(id) {
     const { data: perfil, error } = await supabase
@@ -37,11 +35,10 @@ export class Perfil {
       .select('*')
       .eq('id', id)
       .single()
-
     if (error) {
       throw new Error(error.message)
-    }
-
+    } 
+    //Devuelve un nuevo objeto con los datos del registro
     return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
   }
   
@@ -55,6 +52,7 @@ export class Perfil {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //actualizar
@@ -72,6 +70,7 @@ export class Perfil {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //borrar
@@ -84,6 +83,7 @@ export class Perfil {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 }
 

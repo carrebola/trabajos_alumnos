@@ -54,6 +54,7 @@ export class Trabajo {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //actualizar
@@ -75,6 +76,7 @@ export class Trabajo {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //borrar
@@ -87,6 +89,7 @@ export class Trabajo {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 }
 

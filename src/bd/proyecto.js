@@ -52,6 +52,7 @@ export class Proyecto {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //actualizar
@@ -70,6 +71,7 @@ export class Proyecto {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //borrar
@@ -82,6 +84,7 @@ export class Proyecto {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 }
 

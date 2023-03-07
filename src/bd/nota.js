@@ -51,6 +51,7 @@ export class Nota {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //actualizar
@@ -68,6 +69,7 @@ export class Nota {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 
   //borrar
@@ -80,6 +82,7 @@ export class Nota {
     if (error) {
       throw new Error(error.message)
     }
+    return true
   }
 }
 

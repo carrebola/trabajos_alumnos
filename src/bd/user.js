@@ -49,7 +49,6 @@ export class User {
     if(error){
       throw new Error(error.message)
     }
-    
     return new User(user.id, user.email)
   }
 

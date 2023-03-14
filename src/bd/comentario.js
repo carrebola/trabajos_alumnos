@@ -1,17 +1,17 @@
-//Importamos la conexión a la base de datos
-import { supabase } from "./supabase.js";
+// Importamos la conexión a la base de datos
+import { supabase } from './supabase.js'
 
 export class Comentario {
   // Mapping de propiedades de la tabla comentarios
-  constructor(id=null, Comentario=null, proyecto_id=null, user_id=null) {
+  constructor (id = null, Comentario = null, proyecto_id = null, user_id = null) {
     this.id = id
     this.comentario = comentario
     this.proyecto_id = proyecto_id
     this.user_id = user_id
   }
 
-  //leer todos
-  static async getAll() {
+  // leer todos
+  static async getAll () {
     const { data: comentarios, error } = await supabase
       .from('comentarios')
       .select('*')
@@ -20,14 +20,14 @@ export class Comentario {
       throw new Error(error.message)
     }
 
-    //devuelve array de objetos 
+    // devuelve array de objetos
     return comentarios.map(({ id, comentario, proyecto_id, user_id }) => {
       return new Comentario(id, comentario, proyecto_id, user_id)
     })
   }
 
-  //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async getById(id) {
+  // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async getById (id) {
     const { data: comentario, error } = await supabase
       .from('comentarios')
       .select('*')
@@ -40,22 +40,22 @@ export class Comentario {
 
     return new Comentario(comentario.id, comentario.comentario, comentario.proyecto_id, comentario.user_id)
   }
-  
-  //crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async create(comentarioData) {    
+
+  // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async create (comentarioData) {
     const { error } = await supabase
       .from('comentarios')
       .insert(comentarioData)
       .select()
-      console.log('nuevo comentario ',error);
+    console.log('nuevo comentario ', error)
     if (error) {
       throw new Error(error.message)
     }
     return true
   }
 
-  //actualizar
-  async update() {
+  // actualizar
+  async update () {
     const { error } = await supabase
       .from('comentarios')
       .update({
@@ -72,8 +72,8 @@ export class Comentario {
     return true
   }
 
-  //borrar
-  static async delete(id) {
+  // borrar
+  static async delete (id) {
     const { error } = await supabase
       .from('comentarios')
       .delete()
@@ -85,7 +85,3 @@ export class Comentario {
     return true
   }
 }
-
-
-
-

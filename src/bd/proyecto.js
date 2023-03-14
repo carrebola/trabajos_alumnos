@@ -1,9 +1,9 @@
-//Importamos la conexión a la base de datos
-import { supabase } from "./supabase.js";
+// Importamos la conexión a la base de datos
+import { supabase } from './supabase.js'
 
 export class Proyecto {
   // Mapping de propiedades de la tabla proyectos
-  constructor(id=null, nombre=null, descripcion=null, user_id=null, nota=null) {
+  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null) {
     this.id = id
     this.nombre = nombre
     this.descripcion = descripcion
@@ -11,8 +11,8 @@ export class Proyecto {
     this.nota = nota
   }
 
-  //leer todos
-  static async getAll() {
+  // leer todos
+  static async getAll () {
     const { data: proyectos, error } = await supabase
       .from('proyectos')
       .select('*')
@@ -21,14 +21,14 @@ export class Proyecto {
       throw new Error(error.message)
     }
 
-    //devuelve array de objetos 
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota}) => {
+    // devuelve array de objetos
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota }) => {
       return new Proyecto(id, nombre, descripcion, user_id, nota)
     })
   }
 
-  //leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async getById(id) {
+  // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async getById (id) {
     const { data: proyecto, error } = await supabase
       .from('proyectos')
       .select('*')
@@ -41,22 +41,22 @@ export class Proyecto {
 
     return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota)
   }
-  
-  //crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async create(proyectoData) {    
+
+  // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async create (proyectoData) {
     const { error } = await supabase
       .from('proyectos')
       .insert(proyectoData)
       .select()
-      console.log('nuevo proyecto ',error);
+    console.log('nuevo proyecto ', error)
     if (error) {
       throw new Error(error.message)
     }
     return true
   }
 
-  //actualizar
-  async update() {
+  // actualizar
+  async update () {
     const { error } = await supabase
       .from('proyectos')
       .update({
@@ -74,8 +74,8 @@ export class Proyecto {
     return true
   }
 
-  //borrar
-  static async delete(id) {
+  // borrar
+  static async delete (id) {
     const { error } = await supabase
       .from('proyectos')
       .delete()
@@ -87,7 +87,3 @@ export class Proyecto {
     return true
   }
 }
-
-
-
-

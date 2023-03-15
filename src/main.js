@@ -5,6 +5,8 @@ import './scss/styles.scss'
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
 
+// import 'bootswatch/dist/superhero/bootstrap.min.css'
+
 import { home } from './vistas/home'
 import { footer } from './componentes/footer'
 import { header } from './componentes/header'

@@ -1,4 +1,3 @@
-
 // Import our custom CSS
 import './scss/styles.scss'
 
@@ -10,8 +9,18 @@ import * as bootstrap from 'bootstrap'
 import { home } from './vistas/home'
 import { footer } from './componentes/footer'
 import { header } from './componentes/header'
+import { loginVista } from './vistas/loginVista'
+import { registroVista } from './vistas/registroVista'
+import { adminVista } from './vistas/adminVista'
 // import { pruebaSupabase } from './vistas/pruebaSupabase';
 
-document.querySelector('#main').innerHTML = home.template
+document.querySelector('#main').innerHTML = adminVista.template
 document.querySelector('#header').innerHTML = header.template
 document.querySelector('#footer').innerHTML = footer.template
+
+loginVista.script()
+registroVista.script()
+adminVista.script()
+
+
+

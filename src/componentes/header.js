@@ -1,3 +1,5 @@
+import { formEditarUsuario } from "./formEditarUsuario"
+
 export const header = {
   template: `
   
@@ -6,11 +8,11 @@ export const header = {
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" href="home.html">
       <img
-        src="../public/images/logo.svg"
+        src="/assets/logo_vanilla.svg"
         alt="Logo"
         width="50"
         height="50"
-        class="d-inline-block align-text-top"
+        class="d-inline-block align-text-top me-2"
       />
       <span class=""></span>
       Vanilla Games
@@ -56,7 +58,15 @@ export const header = {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <div class="avatarLogin d-inline-block"></div>
+          <div class="avatarLogin d-inline-block">
+            <img
+              src="/assets/avatar.svg"
+              alt="Logo"
+              width="50"
+              height="50"
+              class="d-inline-block align-text-top"
+            />
+          </div>
         </a>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="login.html">Login</a></li>
@@ -83,51 +93,7 @@ export const header = {
   </div>
 </nav>
 
-<!-- Modal -->
-<div class="modal fade" id="editar">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Editar usuario</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="p-3">
-          <label class="mt-3 form-label" for="nick">Nick: </label>
-          <input type="text" class="form-control" value="Charly" />
-
-          <label class="mt-3 form-label" for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            value="email@gmail.com"
-          />
-
-          <label class="mt-3 form-label" for="nick">Contraseña: </label>
-          <input type="password" class="form-control" value="123456" />
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">
-          Guardar cambios
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+//Modals
+${formEditarUsuario.template}
   `
 }

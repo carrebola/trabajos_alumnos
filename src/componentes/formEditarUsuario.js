@@ -52,5 +52,8 @@ export const formEditarUsuario = {
 </div>
 </div>
   
-  `
+  `,
+  script: () => {
+    // Código de validación
+  }
 }

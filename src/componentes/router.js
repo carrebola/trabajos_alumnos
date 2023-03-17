@@ -25,7 +25,7 @@ const router = async (event) => {
   } catch (error) {
     // Si se produce un error cargamos la vista 404
     console.log(error)
-    document.querySelector('main').innerHTML = '<h1>404</h1>'
+    // document.querySelector('main').innerHTML = '<h1>404</h1>'
   }
 }
 
@@ -45,7 +45,7 @@ export const observadorRutas = () => {
     })
   })
 
-  //Detectamos los cambios en barra de navegación
+  // Detectamos los cambios en barra de navegación
   window.addEventListener('hashchange', router)
   window.addEventListener('popstate', router)
   window.addEventListener('load', router)

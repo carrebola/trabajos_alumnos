@@ -1,4 +1,4 @@
-import { formEditarUsuario } from "./formEditarUsuario"
+import { formEditarUsuario } from './formEditarUsuario'
 
 export const header = {
   template: `
@@ -30,8 +30,8 @@ export const header = {
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">	
-      <ul class="navbar-nav">	
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="juegos.html">Juegos</a>
         </li>

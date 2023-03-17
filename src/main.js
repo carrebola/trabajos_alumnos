@@ -11,15 +11,16 @@ import { footer } from './componentes/footer'
 // registroVista.script()
 // home.script()
 
-// Escuchamos cambios en la url del navegador
+// Función para detectar eventos al cargar las vistas
 import { observadorRutas } from './componentes/router'
 // import { pruebaSupabase } from './vistas/pruebaSupabase';
 
 const componentelogin = await import('./vistas/loginVista')
 const loginVista = componentelogin.default
 document.querySelector('#main').innerHTML = loginVista.template
+loginVista.script()
+
 document.querySelector('#header').innerHTML = header.template
 document.querySelector('#footer').innerHTML = footer.template
 
-loginVista.script()
 observadorRutas()

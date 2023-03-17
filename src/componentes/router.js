@@ -45,6 +45,7 @@ export const observadorRutas = () => {
     })
   })
 
+  //Detectamos los cambios en barra de navegación
   window.addEventListener('hashchange', router)
   window.addEventListener('popstate', router)
   window.addEventListener('load', router)

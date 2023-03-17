@@ -10,8 +10,8 @@ export const header = {
       <img
         src="/assets/logo_vanilla.svg"
         alt="Logo"
-        width="50"
-        height="50"
+        width="30"
+        height="30"
         class="d-inline-block align-text-top me-2"
       />
       <span class=""></span>
@@ -62,8 +62,8 @@ export const header = {
             <img
               src="/assets/avatar.svg"
               alt="Logo"
-              width="50"
-              height="50"
+              width="30"
+              height="30"
               class="d-inline-block align-text-top"
             />
           </div>

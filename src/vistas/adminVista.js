@@ -1,4 +1,4 @@
-export const adminVista = {
+export default {
   template: `
   <main style="padding-top: 100px">
   <div class="container mt-5">

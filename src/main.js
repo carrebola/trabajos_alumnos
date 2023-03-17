@@ -6,21 +6,20 @@ import * as bootstrap from 'bootstrap'
 
 // import 'bootswatch/dist/superhero/bootstrap.min.css'
 
-import { home } from './vistas/home'
-import { footer } from './componentes/footer'
+import { observadorRutas } from './componentes/router'
 import { header } from './componentes/header'
-import { loginVista } from './vistas/loginVista'
-import { registroVista } from './vistas/registroVista'
-import { adminVista } from './vistas/adminVista'
+import { footer } from './componentes/footer'
 // import { pruebaSupabase } from './vistas/pruebaSupabase';
 
-document.querySelector('#main').innerHTML = adminVista.template
+const componentelogin = await import('./vistas/loginVista')
+const loginVista = componentelogin.default
+document.querySelector('#main').innerHTML = loginVista.template
 document.querySelector('#header').innerHTML = header.template
 document.querySelector('#footer').innerHTML = footer.template
 
 loginVista.script()
-registroVista.script()
-adminVista.script()
+// registroVista.script()
+// home.script()
 
-
-
+// Escuchamos cambios en la url del navegador
+observadorRutas()

@@ -1,4 +1,4 @@
-export const loginVista = {
+export default {
   template: `
   
   <div

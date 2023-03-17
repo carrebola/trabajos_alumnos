@@ -1,4 +1,4 @@
-export const registroVista = {
+export default {
   template: `
   <div
   class="vh-100 d-flex align-items-center justify-content-center"

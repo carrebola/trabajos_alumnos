@@ -6,9 +6,13 @@ import * as bootstrap from 'bootstrap'
 
 // import 'bootswatch/dist/superhero/bootstrap.min.css'
 
-import { observadorRutas } from './componentes/router'
 import { header } from './componentes/header'
 import { footer } from './componentes/footer'
+// registroVista.script()
+// home.script()
+
+// Escuchamos cambios en la url del navegador
+import { observadorRutas } from './componentes/router'
 // import { pruebaSupabase } from './vistas/pruebaSupabase';
 
 const componentelogin = await import('./vistas/loginVista')
@@ -18,8 +22,4 @@ document.querySelector('#header').innerHTML = header.template
 document.querySelector('#footer').innerHTML = footer.template
 
 loginVista.script()
-// registroVista.script()
-// home.script()
-
-// Escuchamos cambios en la url del navegador
 observadorRutas()

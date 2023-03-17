@@ -6,7 +6,7 @@ export const header = {
 <!-- Navbar  -->
 <nav class="navbar navbar-expand-sm bg-light fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="home.html">
+    <a class="navbar-brand d-flex align-items-center" href="/">
       <img
         src="/assets/logo_vanilla.svg"
         alt="Logo"
@@ -84,7 +84,7 @@ export const header = {
           </li>
           <div class="dropdown-divider"></div>
           <li>
-            <a class="dropdown-item" href="admin.html">Admin Usuarios</a>
+            <a class="dropdown-item" href="adminUsuarios.html">Admin Usuarios</a>
           </li>
         </ul>
     </ul>

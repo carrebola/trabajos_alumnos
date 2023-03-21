@@ -1,3 +1,5 @@
+import { User } from '../bd/user'
+import { Perfil } from '../bd/perfil'
 export default {
   template: `
   <div
@@ -8,15 +10,29 @@ export default {
       <h1 class="text-center p-2">Registro</h1>
       <form id="form_registro" class="p-3" novalidate>
           <label class="mt-3 form-label" for="nombre">Nombre: </label>
-          <input type="text" class="form-control" value="" placeholder ="Manolito" required />
+          <input
+            id="nombre" 
+            type="text" 
+            class="form-control" 
+            value="" 
+            placeholder ="Manolito" 
+            required 
+          />
           <div class="invalid-feedback">El nombre no es correcto</div>
 
           <label class="mt-3 form-label" for="apellidos">Apellidos: </label>
-          <input type="text" class="form-control" value="" placeholder = "Gafotas Rotas" required />
+          <input 
+            id="apellidos"
+            type="text" 
+            class="form-control" 
+            value="" 
+            placeholder = "Gafotas Rotas" required 
+            />
           <div class="invalid-feedback">Este campo no es correcto</div>
 
           <label class="mt-3 form-label" for="email">Email</label>
           <input
+              id="email"
               type="email"
               class="form-control"
               value=""
@@ -27,6 +43,7 @@ export default {
 
           <label class="mt-3 form-label" for="nick">Contraseña: </label>
           <input
+              id="contrasena"
               type="password"
               class="form-control"
               value=""
@@ -49,5 +66,19 @@ export default {
       </form>
   </div>
 </div>
-    `
+    `,
+  script: () => {
+    document.querySelector('#form_registro').addEventListener('submit', async function (e) {
+      e.preventDefault()
+      console.log('submit')
+      const usuario = {
+        email: document.querySelector('#email').value,
+        password: document.querySelector('#contrasena').value
+      }
+      console.log(usuario)
+      const nuevoUser = await User.create(usuario)
+      console.log(nuevoUser)
+      // Perfil.create(perfilData)
+    })
+  }
 }

@@ -1,18 +1,17 @@
 
 // Objeto con todas las rutas y su vista asociada
 const rutas = {
-  '/': import('../vistas/homeVista.js'),
-  '/adminUsuarios': import('../vistas/adminVista.js'),
-  '/registro': import('../vistas/registroVista.js'),
-  '/login': import('../vistas/loginVista.js')
+  '#/home': import('../vistas/homeVista.js'),
+  '#/adminUsuarios': import('../vistas/adminVista.js'),
+  '#/registro': import('../vistas/registroVista.js'),
+  '#/login': import('../vistas/loginVista.js')
 }
 
 // Función que obtiene la ruta del navegador
-const router = async (event) => {
-  // Capturamos la url
-  let path = window.location.pathname
-  // eliminamos el '.html'
-  path = path.split('.')[0]
+const router = async () => {
+  // Capturamos el hash # que ha cambiado en la url
+  const path = window.location.hash
+
   // capturamos el componente con ese nombre de la vista
   const componenteVista = await rutas[path]
   // Si existe la vista la podremos cargar
@@ -25,7 +24,6 @@ const router = async (event) => {
   } catch (error) {
     // Si se produce un error cargamos la vista 404
     console.log(error)
-    // document.querySelector('main').innerHTML = '<h1>404</h1>'
   }
 }
 
@@ -46,7 +44,17 @@ export const observadorRutas = () => {
   })
 
   // Detectamos los cambios en barra de navegación
-  window.addEventListener('hashchange', router)
-  window.addEventListener('popstate', router)
-  window.addEventListener('load', router)
+  window.addEventListener('hashchange', () => {
+    console.log('hashchange')
+    router()
+  })
+
+  window.addEventListener('popstate', () => {
+    console.log('popstate')
+    router()
+  })
+  window.addEventListener('load', () => {
+    console.log('load')
+    router()
+  })
 }

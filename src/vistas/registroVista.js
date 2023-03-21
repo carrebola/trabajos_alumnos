@@ -2,7 +2,7 @@ export default {
   template: `
   <div
   class="vh-100 d-flex align-items-center justify-content-center"
-  style="padding-top: 100px"
+  
 >
   <div class="col-12 col-md-4">
       <h1 class="text-center p-2">Registro</h1>

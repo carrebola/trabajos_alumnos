@@ -6,7 +6,7 @@ export const header = {
 <!-- Navbar  -->
 <nav class="navbar navbar-expand-sm bg-light fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="/">
+    <a class="navbar-brand d-flex align-items-center" href="#/home">
       <img
         src="/assets/logo_vanilla.svg"
         alt="Logo"
@@ -33,15 +33,15 @@ export const header = {
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="juegos.html">Juegos</a>
+          <a class="nav-link" href="#">Juegos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="recursos.html">Recursos</a>
+          <a class="nav-link" href="#/recursos">Recursos</a>
         </li>
         <li><hr /></li>
         
         <li class="nav-item">
-          <a class="nav-link" href="adminUsuarios.html">Admin</a>
+          <a class="nav-link" href="#/adminUsuarios">Admin</a>
         </li>
         
       </li>
@@ -69,22 +69,22 @@ export const header = {
           </div>
         </a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="login.html">Login</a></li>
+          <li><a class="dropdown-item" href="#/login">Login</a></li>
           <li>
-            <a class="dropdown-item" href="registro.html">Registrate</a>
+            <a class="dropdown-item" href="#/registro">Registrate</a>
           </li>
           <li>
             <a
               data-bs-toggle="modal"
               data-bs-target="#editar"
               class="dropdown-item"
-              href="editarPerfil.html"
+              href="#/editarPerfil"
               >Editar perfil</a
             >
           </li>
           <div class="dropdown-divider"></div>
           <li>
-            <a class="dropdown-item" href="adminUsuarios.html">Admin Usuarios</a>
+            <a class="dropdown-item" href="#/adminUsuarios">Admin Usuarios</a>
           </li>
         </ul>
     </ul>

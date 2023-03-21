@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "host": "vite -- --host 0.0.0.0",
     "dev": "vite",
     "build": "vite build --emptyOutDir",
     "preview": "vite preview",
@@ -21,7 +22,8 @@
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "@supabase/supabase-js": "^2.8.0",
-    "bootstrap": "^5.2.3"
+    "bootstrap": "^5.2.3",
+    "bootswatch": "^5.2.3"
   },
   "eslintConfig": {
     "extends": [

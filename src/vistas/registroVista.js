@@ -70,15 +70,27 @@ export default {
   script: () => {
     document.querySelector('#form_registro').addEventListener('submit', async function (e) {
       e.preventDefault()
-      console.log('submit')
-      const usuario = {
-        email: document.querySelector('#email').value,
-        password: document.querySelector('#contrasena').value
+      try {
+        // Objeto con datos para el registro de user
+        const usuario = {
+          email: document.querySelector('#email').value,
+          password: document.querySelector('#contrasena').value
+        }
+        const nuevoUser = await User.create(usuario)
+        // Objeto con datos para perfil
+        const perfilData = {
+          nombre: document.querySelector('#nombre').value,
+          apellidos: document.querySelector('#apellidos').value,
+          user_id: nuevoUser.id // Tomamos el id que nos devuelve el registro
+        }
+        await Perfil.create(perfilData)
+        alert('Usuario creado con éxito')
+        // Cargamos la página login
+        window.location.href = '/#/login'
+      } catch (error) {
+        console.log(error)
+        alert('Error al crear usuario')
       }
-      console.log(usuario)
-      const nuevoUser = await User.create(usuario)
-      console.log(nuevoUser)
-      // Perfil.create(perfilData)
     })
   }
 }

@@ -19,21 +19,21 @@ export const formEditarUsuario = {
     <div class="modal-body">
         <form class="p-3">
         <label class="mt-3 form-label" for="nick">Nombre: </label>
-        <input id="nombre" type="text" class="form-control" value="" />
+        <input id="edit_nombre" type="text" class="form-control" value="" />
 
         <label class="mt-3 form-label" for="apellidos">Apellidos: </label>
-        <input id="apellidos" type="text" class="form-control" value="" />
+        <input id="edit_apellidos" type="text" class="form-control" value="" />
 
         <label class="mt-3 form-label" for="email">Email</label>
         <input
-            id="email"
+            id="edit_email"
             type="email"
             class="form-control"
             value="email@gmail.com"
         />
 
         <label class="mt-3 form-label" for="contraseña">Contraseña: </label>
-        <input id="contraseña" type="password" class="form-control" value="123456" />
+        <input id="edit_contraseña" type="password" class="form-control" value="123456" />
         </form>
     </div>
     <div class="modal-footer">

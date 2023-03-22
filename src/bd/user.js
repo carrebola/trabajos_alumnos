@@ -44,7 +44,6 @@ export class User {
   static async getUser () {
     // GET USER
     const { data: { user } } = await supabase.auth.getUser()
-    console.log('Usuario logeado desde getuser', user)
     if (user) return new User(user.id, user.email)
   }
 

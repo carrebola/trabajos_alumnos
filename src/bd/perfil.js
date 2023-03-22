@@ -23,8 +23,8 @@ export class Perfil {
       throw new Error(error.message)
     }
     // devuelve array de objetos
-    return perfiles.map(({ id, nombre, apellidos, user_id, estado, rol, avatar }) => {
-      return new Perfil(id, nombre, apellidos, user_id, estado, rol, avatar)
+    return perfiles.map(({ id, created_at, nombre, apellidos, user_id, estado, rol, avatar }) => {
+      return new Perfil(id, created_at, nombre, apellidos, user_id, estado, rol, avatar)
     })
   }
 
@@ -33,13 +33,13 @@ export class Perfil {
     const { data: perfil, error } = await supabase
       .from('perfiles')
       .select('*')
-      .eq('id', id)
+      .eq('user_id', id)
       .single()
     if (error) {
       throw new Error(error.message)
     }
     // Devuelve un nuevo objeto con los datos del registro
-    return new Perfil(perfil.id, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
+    return new Perfil(perfil.id, perfil.created_at, perfil.nombre, perfil.apellidos, perfil.user_id, perfil.estado, perfil.rol, perfil.avatar)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)

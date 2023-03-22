@@ -81,6 +81,7 @@ export const header = {
           </li>
           <li>
             <a
+              id="editarPerfil"
               data-bs-toggle="modal"
               data-bs-target="#editar"
               class="dropdown-item"
@@ -105,7 +106,7 @@ ${formEditarUsuario.template}
   script: async () => {
     // Capturamos los datos del usuario logueado
     const usuarioLogeado = await User.getUser()
-    // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario 
+    // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario
     const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
     if (usuarioLogeado) {
       divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
@@ -125,6 +126,11 @@ ${formEditarUsuario.template}
       // y ocultamos la opción login del menu del usuario
       document.querySelector('.liLogout').classList.add('d-none')
       document.querySelector('.liLogin').classList.remove('d-none')
+    })
+
+    document.querySelector('#editarPerfil').addEventListener('click', (e) => {
+      e.preventDefault()
+      formEditarUsuario.script()
     })
   }
 }

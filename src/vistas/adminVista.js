@@ -45,14 +45,13 @@ export default {
             <td>${perfil.bloqueado}</td>
             <td class="text-end">
               <button
-                data-id="${perfil.data_id}"
-                id="btn_editar"
+                data-id="${perfil.id}"
                 type="button"
-                class="btn text-info btn_editar"
+                class="btn text-info editar"
                 data-bs-toggle="modal"
                 data-bs-target="#editar"
               >
-                <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" />
+                <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${perfil.id}"/>
               </button>
             
               <button
@@ -120,11 +119,24 @@ export default {
           alert('No se han podido borrar el usuario' + error)
         }
       }
+      // editar PERFIL USUARIO
+      if (e.target.classList.contains('editar')) {
+        const form = document.querySelector('#form_editar')
+        const id = e.target.dataset.id
+        try {
+          const usuarioAEditar = await Perfil.getById(id)
+          form.id = usuarioAEditar.id
+          form.nombre = usuarioAEditar.nombre
+          form.apellidos = usuarioAEditar.apellidos
+        } catch (error) {
+          alert('No se han podido cargar los datos en el formulario' + error)
+        }
+      }
     })
 
-    // Edición de perfil de usuario
-    // Script para la validación del formulario
-    const form = document.querySelector('#form_editar')
+    // // Edición de perfil de usuario
+    // // Script para la validación del formulario
+    // const form = document.querySelector('#form_editar')
     const btnEditar = document.querySelector('#btn_editar')
     btnEditar.addEventListener('click', (event) => {
       event.preventDefault()

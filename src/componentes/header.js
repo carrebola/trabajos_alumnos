@@ -116,9 +116,9 @@ ${formEditarUsuario.template}
     }
 
     // Capturamos click en logout
-    document.querySelector('.liLogout').addEventListener('click', () => {
+    document.querySelector('.liLogout').addEventListener('click', async () => {
       // Cerramos sesión utilizando el método de logout de nuestra clase User
-      User.logout()
+      await User.logout()
       // Borramos de header el email del usuario logueado
       divUsuarioLogeado[0].innerHTML = ''
       divUsuarioLogeado[1].innerHTML = ''

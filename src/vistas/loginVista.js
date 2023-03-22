@@ -44,7 +44,6 @@ export default {
   `,
   script: () => {
     // script para validación de formulario
-    console.log('scripts form login')
     const form = document.querySelector('#login')
     form.addEventListener('submit', async (event) => {
       event.preventDefault()
@@ -63,7 +62,7 @@ export default {
           }
           // Intentamos loguearnos utilizando el método login de nuestra clase User
           const usuarioLogeado = await User.login(userData)
-          // Si nos logueamos con exito pintamos el email en header y menú de usuario 
+          // Si nos logueamos con exito pintamos el email en header y menú de usuario
           const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
           divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
           divUsuarioLogeado[1].innerHTML = usuarioLogeado.email

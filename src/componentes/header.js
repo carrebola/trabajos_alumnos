@@ -128,6 +128,7 @@ ${formEditarUsuario.template}
       document.querySelector('.liLogin').classList.remove('d-none')
     })
 
+    // Gestionamos click en editar perfil
     document.querySelector('#editarPerfil').addEventListener('click', (e) => {
       e.preventDefault()
       formEditarUsuario.script()

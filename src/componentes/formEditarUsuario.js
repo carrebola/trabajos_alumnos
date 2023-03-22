@@ -60,7 +60,7 @@ export const formEditarUsuario = {
     if (usuarioLogueado) {
       const userId = usuarioLogueado.id
       // Capturamos los datos del perfil del usuario logueado
-      const datosUsuario = await Perfil.getById(userId)
+      const datosUsuario = await Perfil.getByUserId(userId)
       // Insertamos los datos en el formulario para editar el usuario
       formulario.nombre.value = datosUsuario.nombre
       formulario.apellidos.value = datosUsuario.apellidos
@@ -71,7 +71,7 @@ export const formEditarUsuario = {
       try {
         // Capturamos los datos del usuario logueado
         const usuarioLogueado = await User.getUser()
-        const datosUsuario = await Perfil.getById(usuarioLogueado.id)
+        const datosUsuario = await Perfil.getByUserId(usuarioLogueado.id)
         // Modificamos los campos del usuario
         datosUsuario.nombre = formulario.nombre.value
         datosUsuario.apellidos = formulario.apellidos.value

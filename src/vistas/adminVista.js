@@ -11,38 +11,13 @@ export default {
                   <th>NOMBRE</th>
                   <th>APELLIDOS</th>
                   <th>EMAIL</th>
-                  <th></th>
+                  <th>BLOQUEADO</th>
+                  <th class="w-100"></th>
               </tr>
           </thead>
           <tbody>
                      
-              <tr>
-                  <td>
-                      <img src="/assets/avatar.svg" width="50" alt="" />
-                  </td>
-                  <td>Charly</td>
-                    <td>Bazoca Rota</td>
-                    <td>carly@gmail.com</td>
-                  <td class="text-end">
-                      <button
-                          id="btn_editar"
-                          type="button"
-                          class="btn text-info"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editar"
-                      >
-                        <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" />
-                      </button>
-                      <button
-                          type="button"
-                          class="btn text-danger"
-                          data-bs-toggle="modal"
-                          data-bs-target="#borrar"
-                      >
-                        <img src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
-                      </button>
-                  </td>
-              </tr>
+              
               
           </tbody>
       </table>
@@ -67,25 +42,33 @@ export default {
             <td>${perfil.nombre}</td>
             <td>${perfil.apellidos}</td>
             <td>${perfil.email}</td>
+            <td>${perfil.bloqueado}</td>
             <td class="text-end">
               <button
                 data-id="${perfil.data_id}"
                 id="btn_editar"
                 type="button"
-                class="btn text-info"
+                class="btn text-info btn_editar"
                 data-bs-toggle="modal"
                 data-bs-target="#editar"
               >
                 <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" />
               </button>
+            
               <button
                   data-id="${perfil.id}"
                   type="button"
-                  class="btn text-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#borrar"
+                  class="btn text-danger bloquear"
               >
-                <img src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+                <img  data-id="${perfil.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+              </button>
+            
+              <button
+                  data-id="${perfil.id}"
+                  type="button"
+                  class="btn text-danger borrar"
+              >
+                <img  data-id="${perfil.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
               </button>
             </td>
           </tr>
@@ -95,6 +78,49 @@ export default {
     } catch (error) {
       alert('No se han podido cargar la tabla de usuarios ' + error)
     }
+
+    // Borrar y Editar usuario
+    document.querySelector('#tablaPerfiles').addEventListener('click', async (e) => {
+      // si es un boton de bloquear
+      if (e.target.classList.contains('bloquear')) {
+        const id = e.target.dataset.id
+        try {
+          const usuarioABloquear = await Perfil.getById(id)
+          if (usuarioABloquear.bloqueado) {
+            usuarioABloquear.bloqueado = false
+            e.target.classList.remove('bloqueado')
+            alert('Usuario desbloqueado')
+          } else {
+            usuarioABloquear.bloqueado = true
+            e.target.classList.add('bloqueado')
+            console.log(e.target.classList)
+            alert('Usuario bloqueado')
+          }
+
+          await usuarioABloquear.block()
+          window.location.href = '/#/adminUsuarios'
+        } catch (error) {
+          alert('No se han podido bloquear el usuario' + error)
+        }
+      }
+
+      // BORRAR PERFIL USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
+      if (e.target.classList.contains('borrar')) {
+        const id = e.target.dataset.id
+        try {
+          const usuarioABorrar = await Perfil.getById(id)
+
+          const seguro = confirm('¿Está seguro que desea borrar el usuario? ' + id)
+
+          if (seguro) {
+            await Perfil.delete(id)
+          }
+          window.location.href = '/#/adminUsuarios'
+        } catch (error) {
+          alert('No se han podido borrar el usuario' + error)
+        }
+      }
+    })
 
     // Edición de perfil de usuario
     // Script para la validación del formulario

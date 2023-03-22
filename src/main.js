@@ -11,7 +11,10 @@ import { footer } from './componentes/footer'
 import { observadorRutas } from './componentes/router'
 
 document.querySelector('#header').innerHTML = header.template
+header.script()
 document.querySelector('#footer').innerHTML = footer.template
+
+
 
 observadorRutas()
 

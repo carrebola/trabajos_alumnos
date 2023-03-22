@@ -1,4 +1,5 @@
 import { formEditarUsuario } from './formEditarUsuario'
+import { User } from '../bd/user'
 
 export const header = {
   template: `
@@ -59,6 +60,7 @@ export const header = {
           aria-expanded="false"
         >
           <div class="avatarLogin d-inline-block">
+          <span class="emailUsuarioLogueado pe-3 text-dark"></span>
             <img
               src="/assets/avatar.svg"
               alt="Logo"
@@ -68,8 +70,12 @@ export const header = {
             />
           </div>
         </a>
+        
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#/login">Login</a></li>
+          <li><div class="emailUsuarioLogueado text-center fw-bold"></div></li>
+          <li><hr></li>
+          <li><a class="liLogin dropdown-item" href="#/login">Login</a></li>
+          <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
           <li>
             <a class="dropdown-item" href="#/registro">Registrate</a>
           </li>
@@ -95,5 +101,30 @@ export const header = {
 
 //Modals
 ${formEditarUsuario.template}
-  `
+  `,
+  script: async () => {
+    // Capturamos los datos del usuario logueado
+    const usuarioLogeado = await User.getUser()
+    // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario 
+    const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
+    if (usuarioLogeado) {
+      divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
+      divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
+      // y ocultamos la opción login del menu del usuario
+      document.querySelector('.liLogin').classList.add('d-none')
+      document.querySelector('.liLogout').classList.remove('d-none')
+    }
+
+    // Capturamos click en logout
+    document.querySelector('.liLogout').addEventListener('click', () => {
+      // Cerramos sesión utilizando el método de logout de nuestra clase User
+      User.logout()
+      // Borramos de header el email del usuario logueado
+      divUsuarioLogeado[0].innerHTML = ''
+      divUsuarioLogeado[1].innerHTML = ''
+      // y ocultamos la opción login del menu del usuario
+      document.querySelector('.liLogout').classList.add('d-none')
+      document.querySelector('.liLogin').classList.remove('d-none')
+    })
+  }
 }

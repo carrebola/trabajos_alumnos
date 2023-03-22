@@ -27,7 +27,6 @@ export class User {
     if (error) {
       throw new Error(error.message)
     }
-    console.log('usuario logeado', data.user)
     return new User(data.user.id, data.user.email)
   }
 
@@ -45,11 +44,8 @@ export class User {
   static async getUser () {
     // GET USER
     const { data: { user } } = await supabase.auth.getUser()
-    console.log('Ususario logeado desde getuser', user)
-    if (error) {
-      throw new Error(error.message)
-    }
-    return new User(user.id, user.email)
+    console.log('Usuario logeado desde getuser', user)
+    if (user) return new User(user.id, user.email)
   }
 
   // actualizar usuario (NO SE COMO USARLO DE MOMENTO)

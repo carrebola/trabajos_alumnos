@@ -20,7 +20,7 @@ const router = async () => {
     const vista = await componenteVista.default
     // inyectamos vista y ejecutamos su script
     document.querySelector('main').innerHTML = vista.template
-    // vista.script()
+    vista.script()
   } catch (error) {
     // Si se produce un error cargamos la vista 404
     console.log(error)
@@ -45,16 +45,13 @@ export const observadorRutas = () => {
 
   // Detectamos los cambios en barra de navegación
   window.addEventListener('hashchange', () => {
-    console.log('hashchange')
     router()
   })
 
   window.addEventListener('popstate', () => {
-    console.log('popstate')
     router()
   })
   window.addEventListener('load', () => {
-    console.log('load')
     router()
   })
 }

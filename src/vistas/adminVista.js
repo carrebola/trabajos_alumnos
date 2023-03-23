@@ -1,4 +1,5 @@
 import { Perfil } from '../bd/perfil'
+import { formEditarUsuario } from '../componentes/formEditarUsuario'
 export default {
   template: `
   <main style="padding-top: 100px">
@@ -23,6 +24,7 @@ export default {
       </table>
   </div>
 </main>
+${formEditarUsuario.template}
 
 `,
 
@@ -49,7 +51,7 @@ export default {
                 type="button"
                 class="btn text-info editar"
                 data-bs-toggle="modal"
-                data-bs-target="#editar"
+                data-bs-target="#editarUsuario"
               >
                 <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${perfil.id}"/>
               </button>
@@ -80,9 +82,10 @@ export default {
 
     // Borrar y Editar usuario
     document.querySelector('#tablaPerfiles').addEventListener('click', async (e) => {
+      // capturamos el id del usuarios
+      const id = e.target.dataset.id
       // si es un boton de bloquear
       if (e.target.classList.contains('bloquear')) {
-        const id = e.target.dataset.id
         try {
           const usuarioABloquear = await Perfil.getById(id)
           if (usuarioABloquear.bloqueado) {
@@ -105,11 +108,10 @@ export default {
 
       // BORRAR PERFIL USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
       if (e.target.classList.contains('borrar')) {
-        const id = e.target.dataset.id
         try {
           const usuarioABorrar = await Perfil.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el usuario? ' + id)
+          const seguro = confirm('¿Está seguro que desea borrar el usuario? ' + usuarioABorrar.apellidos + ', ' + usuarioABorrar.nombre)
 
           if (seguro) {
             await Perfil.delete(id)
@@ -121,16 +123,7 @@ export default {
       }
       // editar PERFIL USUARIO
       if (e.target.classList.contains('editar')) {
-        const form = document.querySelector('#form_editar')
-        const id = e.target.dataset.id
-        try {
-          const usuarioAEditar = await Perfil.getById(id)
-          form.id = usuarioAEditar.id
-          form.nombre = usuarioAEditar.nombre
-          form.apellidos = usuarioAEditar.apellidos
-        } catch (error) {
-          alert('No se han podido cargar los datos en el formulario' + error)
-        }
+        formEditarUsuario.script(id)
       }
     })
 

@@ -1,17 +1,23 @@
 
 // Objeto con todas las rutas y su vista asociada
 const rutas = {
-  '#/home': import('../vistas/homeVista.js'),
-  '#/adminUsuarios': import('../vistas/adminVista.js'),
-  '#/registro': import('../vistas/registroVista.js'),
-  '#/login': import('../vistas/loginVista.js'),
-  '#/proyectos': import('../vistas/proyectosVista.js')
+  home: import('../vistas/homeVista.js'),
+  adminUsuarios: import('../vistas/adminVista.js'),
+  registro: import('../vistas/registroVista.js'),
+  login: import('../vistas/loginVista.js'),
+  proyectos: import('../vistas/proyectosVista.js'),
+  nuevoProyecto: import('../vistas/nuevoProyectoVista.js'),
+  editarProyecto: import('../vistas/editarProyectoVista.js'),
+  detalleProyecto: import('../vistas/detalleProyectoVista.js')
 }
 
 // Función que obtiene la ruta del navegador
 const router = async () => {
   // Capturamos el hash # que ha cambiado en la url
-  const path = window.location.hash
+  const pathCompleto = window.location.hash
+  // Separamos la ruta del posible parametro que reciba
+  const path = pathCompleto.split('/')[1]
+  const parametro = pathCompleto.split('/')[2]
 
   // capturamos el componente con ese nombre de la vista
   const componenteVista = await rutas[path]
@@ -21,7 +27,7 @@ const router = async () => {
     const vista = await componenteVista.default
     // inyectamos vista y ejecutamos su script
     document.querySelector('main').innerHTML = vista.template
-    vista.script()
+    vista.script(parametro)
   } catch (error) {
     // Si se produce un error cargamos la vista 404
     console.log(error)

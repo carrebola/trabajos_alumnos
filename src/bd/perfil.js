@@ -16,11 +16,12 @@ export class Perfil {
     this.bloqueado = bloqueado
   }
 
-  // leer todos
+  // leer todos en orden descendiente a como se han creado
   static async getAll () {
     const { data: perfiles, error } = await supabase
       .from('perfiles')
       .select('*')
+      .order('created_at', { ascending: false })
     if (error) {
       throw new Error(error.message)
     }

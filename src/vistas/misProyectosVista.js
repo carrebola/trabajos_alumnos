@@ -1,10 +1,11 @@
 import { Perfil } from '../bd/perfil'
 import { Proyecto } from '../bd/proyecto'
+import { User } from '../bd/user'
 export default {
   template: `
   <main style="padding-top: 100px">
   <div class="container">
-      <h1>Proyectos</h1>
+      <h1>Mis Proyectos</h1>
       <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success mt-3">Nuevo Proyecto</a>
       <a href="/#/misProyectos" id="misProyectos" class="btn btn-warning mt-3 ms-2">Mis Proyectos</a>
       <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
@@ -33,8 +34,10 @@ export default {
   script: async () => {
   // Generación de tabla
     try {
+      const user = await User.getUser()
       // Capturamos todos los usuarios de la tabla perfiles
-      const proyectos = await Proyecto.getAll()
+      const proyectos = await Proyecto.getAllByUserId(user.id)
+      console.log('user_id', user)
       console.log('numero proyectos ', proyectos.length)
       // Generamos la tabla tablaProyectos
       let tabla = ''
@@ -101,7 +104,7 @@ export default {
     document.querySelector('#tablaProyectos').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
-      //BLOQUEAR PROYECTO
+      // BLOQUEAR PROYECTO
       if (e.target.classList.contains('bloquear')) {
         try {
           const proyectoABloquear = await Proyecto.getById(id)

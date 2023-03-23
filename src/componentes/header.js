@@ -75,7 +75,10 @@ export const header = {
           <li><div class="emailUsuarioLogueado text-center fw-bold"></div></li>
           <li><hr></li>
           <li><a class="liLogin dropdown-item" href="#/login">Login</a></li>
-          <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
+          
+          <li>
+            <a class="liMisProyectos dropdown-item d-none" href="#/misProyectos">Mis Proyectos</a>
+          </li>
           <li>
             <a class="liRegistro dropdown-item" href="#/registro">Registrate</a>
           </li>
@@ -93,6 +96,7 @@ export const header = {
           <li>
             <a class="dropdown-item" href="#/adminUsuarios">Admin Usuarios</a>
           </li>
+          <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
         </ul>
     </ul>
 
@@ -115,6 +119,7 @@ ${formEditarPerfil.template}
       document.querySelector('.liLogin').classList.add('d-none')
       document.querySelector('.liLogout').classList.remove('d-none')
       document.querySelector('.liRegistro').classList.add('d-none')
+      document.querySelector('.liMisProyectos').classList.remove('d-none')
     }
 
     // Capturamos click en logout
@@ -128,6 +133,7 @@ ${formEditarPerfil.template}
       document.querySelector('.liLogout').classList.add('d-none')
       document.querySelector('.liLogin').classList.remove('d-none')
       document.querySelector('.liRegistro').classList.remove('d-none')
+      document.querySelector('.liMisProyectos').classList.add('d-none')
     })
 
     // Gestionamos click en editar perfil

@@ -8,7 +8,8 @@ const rutas = {
   proyectos: import('../vistas/proyectosVista.js'),
   nuevoProyecto: import('../vistas/nuevoProyectoVista.js'),
   editarProyecto: import('../vistas/editarProyectoVista.js'),
-  detalleProyecto: import('../vistas/detalleProyectoVista.js')
+  detalleProyecto: import('../vistas/detalleProyectoVista.js'),
+  misProyectos: import('../vistas/misProyectosVista.js')
 }
 
 // Función que obtiene la ruta del navegador

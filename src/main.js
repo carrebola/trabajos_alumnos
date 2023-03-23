@@ -14,9 +14,7 @@ document.querySelector('#header').innerHTML = header.template
 header.script()
 document.querySelector('#footer').innerHTML = footer.template
 
-
-
 observadorRutas()
 
 // Cargamos la página home
-window.location = '#/proyectos'
+window.location = '#/home'

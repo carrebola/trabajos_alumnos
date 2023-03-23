@@ -24,7 +24,25 @@ export class Proyecto {
     }
 
     // devuelve array de objetos
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo}) => {
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo }) => {
+      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo)
+    })
+  }
+
+  // leer todos en orden descendiente a como se han creado
+  static async getAllByUserId (user_id) {
+    const { data: proyectos, error } = await supabase
+      .from('proyectos')
+      .select('*')
+      .eq('user_id', user_id)
+      // .order('created_at', { ascending: false })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    // devuelve array de objetos
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo }) => {
       return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo)
     })
   }

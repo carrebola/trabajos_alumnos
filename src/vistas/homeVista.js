@@ -1,7 +1,9 @@
 export default {
   template: `
-  <h1>Home</h1>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam cumque, vero quod dolor eos distinctio, unde ducimus inventore quia, blanditiis facilis quaerat. Dolore veritatis debitis atque inventore autem corrupti aspernatur.</p>
+  <div class="vh-100 d-flex flex-column align-items-center justify-content-center">
+    <img src="/assets/logo_vanilla.svg" class="w-25 d-block" alt="Vanilla Games">
+    <h1>Vanilla Games</h1>
+  </div>
   
   `,
   script: () => {

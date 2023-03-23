@@ -6,7 +6,7 @@ export default {
   <div class="container">
       <h1>Proyectos</h1>
       <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-primary mt-3">Nuevo Proyecto</a>
-      <table id="tablaPerfiles" class="table table-striped table-hover mt-5 align-middle">
+      <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
                   <th></th>
@@ -15,6 +15,7 @@ export default {
                   <th>DESCRIPCIÓN</th>
                   <th>ENLACE</th>
                   <th>NOTA</th>
+                  <th>ACTIVO</th>
                   <th class="w-100"></th>
               </tr>
           </thead>
@@ -34,12 +35,12 @@ export default {
       // Capturamos todos los usuarios de la tabla perfiles
       const proyectos = await Proyecto.getAll()
       console.log('numero proyectos ', proyectos.length)
-      // Generamos la tabla tablaPerfiles
+      // Generamos la tabla tablaProyectos
       let tabla = ''
 
       for (const proyecto of proyectos) {
         // Si proyecto.nota es null no pintamos nada
-        if (!proyecto.nota) proyecto.nota = ''
+        if (!proyecto.nota) proyecto.nota = '-'
 
         // Capturamos el nombre del autor de cada proyecto
         const perfil = await Perfil.getByUserId(proyecto.user_id)
@@ -53,7 +54,8 @@ export default {
         <td>${proyecto.nombre}</td>
         <td class="w-100">${proyecto.descripcion}</td>
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
-        <td>${proyecto.nota}</td>
+        <td class="text-center">${proyecto.nota}</td>
+        <td class="text-center">${proyecto.activo}</td>
         <td class="text-end">
           <button
             data-id="${proyecto.id}"
@@ -89,52 +91,49 @@ export default {
       </tr>
       `
       }
-      document.querySelector('#tablaPerfiles tbody').innerHTML = tabla
+      document.querySelector('#tablaProyectos tbody').innerHTML = tabla
     } catch (error) {
       alert('No se han podido cargar la tabla de usuarios ' + error)
     }
 
     // Borrar y Editar usuario
-    document.querySelector('#tablaPerfiles').addEventListener('click', async (e) => {
+    document.querySelector('#tablaProyectos').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
-      // BLOQUEAR PROYECTO
-      // if (e.target.classList.contains('bloquear')) {
-      //   try {
-      //     const usuarioABloquear = await Perfil.getById(id)
-      //     if (usuarioABloquear.bloqueado) {
-      //       usuarioABloquear.bloqueado = false
-      //       e.target.classList.remove('bloqueado')
-      //       alert('Usuario desbloqueado')
-      //     } else {
-      //       usuarioABloquear.bloqueado = true
-      //       e.target.classList.add('bloqueado')
-      //       console.log(e.target.classList)
-      //       alert('Usuario bloqueado')
-      //     }
+      //BLOQUEAR PROYECTO
+      if (e.target.classList.contains('bloquear')) {
+        try {
+          const proyectoABloquear = await Proyecto.getById(id)
+          if (proyectoABloquear.activo) {
+            proyectoABloquear.activo = false
+            e.target.classList.remove('bloqueado')
+          } else {
+            proyectoABloquear.activo = true
+            e.target.classList.add('bloqueado')
+          }
 
-      //     await usuarioABloquear.block()
-      //     window.location.href = '/#/adminUsuarios'
-      //   } catch (error) {
-      //     alert('No se han podido bloquear el usuario' + error)
-      //   }
-      // }
+          await proyectoABloquear.block()
+          window.location.href = '/#/proyectos'
+        } catch (error) {
+          alert('No se han podido desactivar el proyecto' + error)
+        }
+      }
 
       // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
-      // if (e.target.classList.contains('borrar')) {
-      //   try {
-      //     const usuarioABorrar = await Perfil.getById(id)
+      if (e.target.classList.contains('borrar')) {
+        try {
+          const proyectoABorrar = await Proyecto.getById(id)
 
-      //     const seguro = confirm('¿Está seguro que desea borrar el usuario? ' + usuarioABorrar.apellidos + ', ' + usuarioABorrar.nombre)
+          const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
 
-      //     if (seguro) {
-      //       await Perfil.delete(id)
-      //     }
-      //     window.location.href = '/#/adminUsuarios'
-      //   } catch (error) {
-      //     alert('No se han podido borrar el usuario' + error)
-      //   }
-      // }
+          if (seguro) {
+            await Proyecto.delete(id)
+          }
+          window.location.href = '/#/proyectos'
+        } catch (error) {
+          alert('No se han podido borrar el proyecto' + error)
+        }
+      }
       // EDITAR PROYECTO  USUARIO
       if (e.target.classList.contains('editar')) {
         window.location.href = '/#/editarProyecto/' + id

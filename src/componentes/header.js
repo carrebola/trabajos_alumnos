@@ -34,7 +34,7 @@ export const header = {
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Juegos</a>
+          <a class="nav-link" href="#/proyectos">Proyectos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#/recursos">Recursos</a>

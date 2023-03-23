@@ -4,7 +4,8 @@ const rutas = {
   '#/home': import('../vistas/homeVista.js'),
   '#/adminUsuarios': import('../vistas/adminVista.js'),
   '#/registro': import('../vistas/registroVista.js'),
-  '#/login': import('../vistas/loginVista.js')
+  '#/login': import('../vistas/loginVista.js'),
+  '#/proyectos': import('../vistas/proyectosVista.js')
 }
 
 // Función que obtiene la ruta del navegador

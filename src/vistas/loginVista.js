@@ -69,6 +69,7 @@ export default {
           // y ocultamos item 'login' para mostrar item 'logout'
           document.querySelector('.liLogout').classList.remove('d-none')
           document.querySelector('.liLogin').classList.add('d-none')
+          document.querySelector('.liRegistro').classList.add('d-none')
           // Cagamos la página home
           window.location.href = '/#/home'
         } catch (error) {

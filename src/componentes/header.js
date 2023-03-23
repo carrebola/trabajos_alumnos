@@ -1,4 +1,4 @@
-import { formEditarUsuario } from './formEditarUsuario'
+import { formEditarPerfil } from './formEditarPerfil'
 import { User } from '../bd/user'
 
 export const header = {
@@ -77,7 +77,7 @@ export const header = {
           <li><a class="liLogin dropdown-item" href="#/login">Login</a></li>
           <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
           <li>
-            <a class="dropdown-item" href="#/registro">Registrate</a>
+            <a class="liRegistro dropdown-item" href="#/registro">Registrate</a>
           </li>
           <li>
             <a
@@ -101,7 +101,7 @@ export const header = {
 </nav>
 
 //Modals
-${formEditarUsuario.template}
+${formEditarPerfil.template}
   `,
   script: async () => {
     // Capturamos los datos del usuario logueado
@@ -111,9 +111,10 @@ ${formEditarUsuario.template}
     if (usuarioLogeado) {
       divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
       divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
-      // y ocultamos la opción login del menu del usuario
+      // y ocultamos la opción login del menu del usuario y la de registro
       document.querySelector('.liLogin').classList.add('d-none')
       document.querySelector('.liLogout').classList.remove('d-none')
+      document.querySelector('.liRegistro').classList.add('d-none')
     }
 
     // Capturamos click en logout
@@ -123,14 +124,16 @@ ${formEditarUsuario.template}
       // Borramos de header el email del usuario logueado
       divUsuarioLogeado[0].innerHTML = ''
       divUsuarioLogeado[1].innerHTML = ''
-      // y ocultamos la opción login del menu del usuario
+      // y ocultamos la opción login del menu del usuario y mostramos la opción de registro
       document.querySelector('.liLogout').classList.add('d-none')
       document.querySelector('.liLogin').classList.remove('d-none')
+      document.querySelector('.liRegistro').classList.remove('d-none')
     })
 
+    // Gestionamos click en editar perfil
     document.querySelector('#editarPerfil').addEventListener('click', (e) => {
       e.preventDefault()
-      formEditarUsuario.script()
+      formEditarPerfil.script()
     })
   }
 }

@@ -26,7 +26,7 @@ try {
 
 // Leermos el perfil
 try {
-  const perfilExistente = await Perfil.getById(180)
+  const perfilExistente = await Perfil.getByUserId(180)
   console.log(perfilExistente)
 } catch (error) {
   console.log('uf! error al actualizar: ' + error)
@@ -34,7 +34,7 @@ try {
 
 // Acutualizar perfil
 try {
-  const perfilExistente = await Perfil.getById(180)
+  const perfilExistente = await Perfil.getByUserId(180)
   console.log(perfilExistente)
   perfilExistente.nombre = 'Pedro'
   perfilExistente.apellidos = 'Gómez'
@@ -45,14 +45,14 @@ try {
 
 // Leermos el perfil
 try {
-  const perfilExistente = await Perfil.getById(180)
+  const perfilExistente = await Perfil.getByUserId(180)
   console.log(perfilExistente)
 } catch (error) {
   console.log('uf! error al actualizar: ' + error)
 }
 // Eliminar perfil
 try {
-  // const perfilAEliminar = await Perfil.getById(108)
+  // const perfilAEliminar = await Perfil.getByUserId(108)
   // await perfilAEliminar.delete()
 } catch (error) {
   console.log('uf! error al eliminar ', error)

@@ -4,15 +4,15 @@ import { Perfil } from '../bd/perfil'
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
 
-export const formEditarUsuario = {
+export const formEditarPerfil = {
   template: `
     
 <!-- Modal -->
-<div class="modal fade" id="editarUsuario">
+<div class="modal fade" id="editar">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Editar usuario</h5>
+        <h5 class="modal-title">Editar perfil</h5>
         <button
         type="button"
         class="btn-close"
@@ -23,7 +23,7 @@ export const formEditarUsuario = {
         </button>
     </div>
     <div class="modal-body">
-        <form id="formEditarUsuario" class="p-3">
+        <form id="formEditarPerfil" class="p-3">
         <label class="mt-3 form-label" for="nick">Nombre: </label>
         <input id="edit_nombre" type="text" class="form-control" name="nombre" value="" />
 
@@ -32,7 +32,7 @@ export const formEditarUsuario = {
         </form>
     </div>
     <div class="modal-footer">
-        <button id="guardarCambiosUsuario" type="button" class="btn btn-primary"  data-bs-dismiss="modal">
+        <button id="guardarCambios" type="button" class="btn btn-primary"  data-bs-dismiss="modal">
         Guardar cambios
         </button>
         <button
@@ -46,32 +46,37 @@ export const formEditarUsuario = {
     </div>
 </div>
 </div>
+  
   `,
-  script: async (id) => {
+  script: async () => {
     // Código de validación
     // Seleccionamos el formulario de editar usuario
-    const formulario = document.querySelector('#formEditarUsuario')
-    try {
-      // Capturamos los datos del usuario a editar
-      const usuario = await Perfil.getById(id)
+    const formulario = document.querySelector('#formEditarPerfil')
+
+    // Capturamos los datos del usuario logueado
+    const usuarioLogueado = await User.getUser()
+
+    // Si el usuario logeado existe
+    if (usuarioLogueado) {
+      const userId = usuarioLogueado.id
+      // Capturamos los datos del perfil del usuario logueado
+      const datosUsuario = await Perfil.getByUserId(userId)
       // Insertamos los datos en el formulario para editar el usuario
-      formulario.nombre.value = usuario.nombre
-      formulario.apellidos.value = usuario.apellidos
-    } catch (error) {
-      console.error(error)
+      formulario.nombre.value = datosUsuario.nombre
+      formulario.apellidos.value = datosUsuario.apellidos
     }
 
     // Evento de click en el botón guardar
-    document.querySelector('#guardarCambiosUsuario').addEventListener('click', async (e) => {
+    document.querySelector('#guardarCambios').addEventListener('click', async (e) => {
       try {
-        // Capturamos los datos del usuario a editar
-        const usuario = await Perfil.getById(id)
+        // Capturamos los datos del usuario logueado
+        const usuarioLogueado = await User.getUser()
+        const datosUsuario = await Perfil.getByUserId(usuarioLogueado.id)
         // Modificamos los campos del usuario
-        usuario.nombre = formulario.nombre.value
-        usuario.apellidos = formulario.apellidos.value
+        datosUsuario.nombre = formulario.nombre.value
+        datosUsuario.apellidos = formulario.apellidos.value
         // Guardamos los cambios en la bd
-        await usuario.update()
-        window.location.href = '/#/adminUsuarios'
+        await datosUsuario.update(datosUsuario)
         alert('Usuario actualizado')
       } catch (error) {
         alert('No se pudo guardar los cambios ' + error)

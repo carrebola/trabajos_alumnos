@@ -1,5 +1,6 @@
 import { formEditarPerfil } from './formEditarPerfil'
 import { User } from '../bd/user'
+import { Perfil } from '../bd/perfil'
 
 export const header = {
   template: `
@@ -62,6 +63,7 @@ export const header = {
           <div class="avatarLogin d-inline-block">
           <span class="emailUsuarioLogueado pe-3 text-dark"></span>
             <img
+              id="imgAvatar"
               src="/assets/avatar.svg"
               alt="Logo"
               width="30"
@@ -108,18 +110,27 @@ export const header = {
 ${formEditarPerfil.template}
   `,
   script: async () => {
-    // Capturamos los datos del usuario logueado
-    const usuarioLogeado = await User.getUser()
-    // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario
-    const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
-    if (usuarioLogeado) {
-      divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
-      divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
-      // y ocultamos la opción login del menu del usuario y la de registro
-      document.querySelector('.liLogin').classList.add('d-none')
-      document.querySelector('.liLogout').classList.remove('d-none')
-      document.querySelector('.liRegistro').classList.add('d-none')
-      document.querySelector('.liMisProyectos').classList.remove('d-none')
+    try {
+      // Capturamos los datos del usuario logueado
+      const usuarioLogeado = await User.getUser()
+      const perfilLogueado = await Perfil.getByUserId(usuarioLogeado.id)
+      const imgAvatar = perfilLogueado.avatar
+
+      // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario
+      const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
+      if (usuarioLogeado) {
+        divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
+        divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
+        // Insertamos la foto del avatar
+        document.querySelector('#imgAvatar').src = imgAvatar
+        // y ocultamos la opción login del menu del usuario y la de registro
+        document.querySelector('.liLogin').classList.add('d-none')
+        document.querySelector('.liLogout').classList.remove('d-none')
+        document.querySelector('.liRegistro').classList.add('d-none')
+        document.querySelector('.liMisProyectos').classList.remove('d-none')
+      }
+    } catch (error) {
+      alert('No he podido cargar el usuario logueado')
     }
 
     // Capturamos click en logout

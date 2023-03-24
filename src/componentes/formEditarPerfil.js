@@ -10,6 +10,7 @@ export const formEditarPerfil = {
     
 <!-- Modal -->
 <div class="modal fade" id="editar">
+
 <div class="modal-dialog" role="document">
     <div class="modal-content">
     <div class="modal-header">
@@ -41,6 +42,8 @@ export const formEditarPerfil = {
         <div class="col-12 col-md-4 mt-5 ">
           <img src="https://images.hola.com/imagenes/estar-bien/20221018219233/buenas-personas-caracteristicas/1-153-242/getty-chica-feliz-t.jpg?tx=w_680" id="imagenAvatar" class="img img-fluid">
         </div>
+        <button id="verImagenesPerfil">Ver imagenes perfil</button>
+        <div id="#imagenesPerfil">LISTA DE IMAGENES</div>
     </div>
     <div class="modal-footer">
         <button id="guardarCambios" type="button" class="btn btn-primary"  data-bs-dismiss="modal">
@@ -88,8 +91,20 @@ export const formEditarPerfil = {
 
       // Capturamos una lista de las imagenes que ha subido el usuario
       const listaImagenes = await Archivo.getImagesByUser(userId, 'avatar')
-      console.log(userId)
-      console.log(listaImagenes)
+      let divImagenes = '<div>'
+      for (let i = 1; i < listaImagenes.length; i++) {
+        console.log('imagen', listaImagenes[i].name)
+        const nombreImagen = listaImagenes[i].name
+        console.log(listaImagenes[i])
+        //const url = await Archivo.getUrl(userId, 'avatar', listaImagenes[1])
+        //console.log(url)
+        // divImagenes += `
+        //   <img src=${url} alt='' class="w-25">
+        // `
+      }
+      divImagenes += '</div>'
+      console.log(divImagenes)
+      //document.querySelector('#imagenesPerfil').innerHTML = divImagenes
     }
 
     // Evento de click en el botón guardar
@@ -103,9 +118,9 @@ export const formEditarPerfil = {
         const datosUsuario = await Perfil.getByUserId(usuarioLogueado.id)
         if (file) {
           const data = await Archivo.uploadFile(usuarioLogueado.id, 'avatar', file)
-          console.log(data)
+          console.log('data', data)
           // Obtenemos la url
-          url = await Archivo.getUrl('avatar', data)
+          url = await Archivo.getUrl(usuarioLogueado.id, 'avatar', data)
           console.log('url de la imagen subida', url)
         }
 

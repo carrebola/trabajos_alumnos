@@ -18,9 +18,11 @@ export class Archivo {
   }
 
   // Devuelve una url a partir de la key de la imagen
-  static async getUrl (bucket, file) {
+  static async getUrl (userId, bucket, file) {
+    console.log('file', file)
     const key = file.path.match(/[^/]*$/)[0] // nos quedamos solo con el nombre del archivo
-    const { data, error } = await supabase.storage.from(bucket).getPublicUrl(key)
+
+    const { data, error } = await supabase.storage.from(bucket + '/' + userId).getPublicUrl(key)
 
     if (error) {
       throw new Error(`Error al obtener el archivo: ${error.message}`)

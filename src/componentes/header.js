@@ -114,6 +114,7 @@ ${formEditarPerfil.template}
       // Capturamos los datos del usuario logueado
       const usuarioLogeado = await User.getUser()
       const perfilLogueado = await Perfil.getByUserId(usuarioLogeado.id)
+      // Leemos la url de la imagen que está en la carpeta user_id
       const imgAvatar = perfilLogueado.avatar
 
       // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario

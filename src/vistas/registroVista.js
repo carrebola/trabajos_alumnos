@@ -6,7 +6,7 @@ export default {
   <div class="container mt-5">
     <div class="row">
     <h1 class="text-center p-2 w-100">Registro</h1>
-    <div class="col-12 col-md-4 offset-md-2">
+    <div class="col-12 col-md-4 offset-md-4">
       <form id="form_registro" class="p-3" novalidate>
         <label class="mt-3 form-label" for="nombre">Nombre: </label>
         <input
@@ -61,6 +61,7 @@ export default {
         </button>
       </form>
     </div>
+    
    
 </div>
     `,

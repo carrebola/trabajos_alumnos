@@ -1,6 +1,7 @@
 import { User } from '../bd/user'
 import { Perfil } from '../bd/perfil'
 import { Archivo } from '../bd/archivo'
+import { header } from '../componentes/header'
 
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
@@ -39,11 +40,10 @@ export const formEditarPerfil = {
             value=""
         />
         </form>
-        <div class="col-12 col-md-4 mt-5 ">
-          <img src="https://images.hola.com/imagenes/estar-bien/20221018219233/buenas-personas-caracteristicas/1-153-242/getty-chica-feliz-t.jpg?tx=w_680" id="imagenAvatar" class="img img-fluid">
+        <div class="d-flex justify-content-center mt-2" >
+          <img src="/assets/iconos/icons8-spinner.gif" id="imagenAvatar" class="img img-fluid w-50">
         </div>
-        <button id="verImagenesPerfil">Ver imagenes perfil</button>
-        <div id="#imagenesPerfil">LISTA DE IMAGENES</div>
+        <div id="imagenesPerfil" class="d-flex justify-content-center">LISTA DE IMAGENES</div>
     </div>
     <div class="modal-footer">
         <button id="guardarCambios" type="button" class="btn btn-primary"  data-bs-dismiss="modal">
@@ -64,7 +64,7 @@ export const formEditarPerfil = {
   `,
   script: async () => {
     // Seleccionamos el input de avatar para detectar cuando cambia porque se ha seleccionado una imagen
-    document.querySelector('#inputAvatar').addEventListener('change', function (e) {
+    document.querySelector('#inputAvatar').addEventListener('change', (e) => {
       // Capturamos la imagen del input
       const file = e.target.files[0]
       // Cargamos la imagen en un div creando una url a partir del archivo
@@ -90,23 +90,47 @@ export const formEditarPerfil = {
       document.querySelector('#imagenAvatar').src = datosUsuario.avatar
 
       // Capturamos una lista de las imagenes que ha subido el usuario
-      const listaImagenes = await Archivo.getImagesByUser(userId, 'avatar')
-      let divImagenes = '<div>'
-      for (let i = 1; i < listaImagenes.length; i++) {
-        console.log('imagen', listaImagenes[i].name)
-        const nombreImagen = listaImagenes[i].name
-        console.log(listaImagenes[i])
-        //const url = await Archivo.getUrl(userId, 'avatar', listaImagenes[1])
-        //console.log(url)
-        // divImagenes += `
-        //   <img src=${url} alt='' class="w-25">
-        // `
-      }
+      const listaImagenes = await Archivo.getUrlAll(userId, 'avatar')
+      // Construimos lista de imagenes
+
+      let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-2">Mis imagenes de perfil</h5>'
+      listaImagenes.forEach(url => {
+        const keys = url.split('/')
+        const ultimo = keys.length - 1
+        const key = keys[ultimo]
+        divImagenes += `
+        <div class="border bordered m-1">
+          <div class="bg-dark border position-absolute"  style="width:35px">
+            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}">
+          </div>
+          <img data-key = '${key}' src="${url}" alt="" style="width:100px" class="imagenListaPerfil m-1">
+        </div>`
+      })
       divImagenes += '</div>'
-      console.log(divImagenes)
-      //document.querySelector('#imagenesPerfil').innerHTML = divImagenes
+
+      document.querySelector('#imagenesPerfil').innerHTML = divImagenes
     }
 
+    // Evento de click en imagen de lista de imagenes
+    document.querySelector('#imagenesPerfil').addEventListener('click', async (e) => {
+      // Si hacemos click sobre la imagen
+      if (e.target.classList.contains('imagenListaPerfil')) {
+        const url = e.target.getAttribute('src')
+        document.querySelector('#imagenAvatar').src = url
+      }
+      // si hacemos click sobre la basura de borrar imagen
+      if (e.target.classList.contains('borrarImagen')) {
+        console.log(e.target.dataset.url)
+        const urlImagen = e.target.dataset.url
+        const keys = urlImagen.split('/')
+        const key = keys[(keys.length) - 1]
+        try {
+          const imagenBorrada = await Archivo.deleteFile(usuarioLogueado.id, 'avatar', urlImagen)
+        } catch (error) {
+          console.log('Error al borrar imagen', error)
+        }
+      }
+    })
     // Evento de click en el botón guardar
     document.querySelector('#guardarCambios').addEventListener('click', async (e) => {
       try {
@@ -118,10 +142,12 @@ export const formEditarPerfil = {
         const datosUsuario = await Perfil.getByUserId(usuarioLogueado.id)
         if (file) {
           const data = await Archivo.uploadFile(usuarioLogueado.id, 'avatar', file)
-          console.log('data', data)
+          // console.log('data', data.name)
           // Obtenemos la url
           url = await Archivo.getUrl(usuarioLogueado.id, 'avatar', data)
-          console.log('url de la imagen subida', url)
+          // console.log('url de la imagen subida', url)
+        } else {
+          datosUsuario.avatar = document.querySelector('#imagenAvatar').src
         }
 
         // Modificamos los campos del usuario
@@ -130,6 +156,7 @@ export const formEditarPerfil = {
         datosUsuario.apellidos = formulario.apellidos.value
         // Guardamos los cambios en la bd
         await datosUsuario.update(datosUsuario)
+        header.script()
         alert('Usuario actualizado')
       } catch (error) {
         alert('No se pudo guardar los cambios ' + error)

@@ -41,8 +41,11 @@ export default {
       const enunciados = await Enunciado.getAll()
       console.log('numero enunciados ', enunciados.length)
       // Generamos la tabla tablaEnunciados
-      let tabla = ''
 
+      const spinner = '<img src="/assets/iconos/icons8-spinner.gif" alt="" width="400">'
+      document.querySelector('#tablaEnunciados tbody').innerHTML = spinner
+
+      let tabla = ''
       for (const enunciado of enunciados) {
         // Si enunciado.nota es null no pintamos nada
         if (!enunciado.nota) enunciado.nota = '-'
@@ -108,15 +111,17 @@ export default {
     document.querySelector('#tablaEnunciados').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
-      //BLOQUEAR PROYECTO
+      // BLOQUEAR PROYECTO
       if (e.target.classList.contains('bloquear')) {
+        console.log('bloquear')
         try {
           const enunciadoABloquear = await Enunciado.getById(id)
-          if (enunciadoABloquear.activo) {
-            enunciadoABloquear.activo = false
+          console.log(enunciadoABloquear)
+          if (enunciadoABloquear.estado) {
+            enunciadoABloquear.estado = false
             e.target.classList.remove('bloqueado')
           } else {
-            enunciadoABloquear.activo = true
+            enunciadoABloquear.estado = true
             e.target.classList.add('bloqueado')
           }
 

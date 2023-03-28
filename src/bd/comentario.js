@@ -62,6 +62,24 @@ export class Comentario {
     })
   }
 
+  // leer todos por usuario
+  static async getAllById (proyectoId) {
+    const { data: comentarios, error } = await supabase
+      .from('comentarios')
+      .select('*')
+      .eq('proyecto_id', proyectoId)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    // devuelve array de objetos
+    return comentarios.map(({ id, create_at, comentario, proyecto_id, user_id }) => {
+      return new Comentario(id, create_at, comentario, proyecto_id, user_id)
+    })
+  }
+
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById (id) {
     const { data: comentario, error } = await supabase

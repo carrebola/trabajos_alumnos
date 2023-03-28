@@ -65,10 +65,10 @@ export const observadorRutas = () => {
     router()
   })
 
-  // window.addEventListener('popstate', () => {
-  //   router()
-  // })
-  window.addEventListener('load', () => {
+  window.addEventListener('popstate', () => {
     router()
   })
+  // window.addEventListener('load', () => {
+  //   router()
+  // })
 }

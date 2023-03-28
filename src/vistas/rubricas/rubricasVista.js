@@ -4,13 +4,13 @@ export default {
   template: `
   <main style="padding-top: 100px">
   <div class="container">
-      <h1>Rubricas</h1>
+      <h1>Rúbricas</h1>
       <a href="/#/nuevoRubrica" id="nuevoRubrica" class="btn btn-success mt-3">Nuevo Rubrica</a>
       <a href="/#/misRubricas" id="misRubricas" class="btn btn-warning mt-3 ms-2">Mis Rubricas</a>
       <table id="tablaRubricas" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
-                  <th></th>
+                  
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
@@ -44,9 +44,7 @@ export default {
         const autor = perfil.nombre + ' ' + perfil.apellidos
         tabla += `
       <tr>
-        <td>
-          <img src="/assets/imagenes/rubricas/rubrica.png" width="100" alt="" data-id="${rubrica.id}" class="detalle"/>
-        </td>
+        
         <td>${autor}</td>
         <td>${rubrica.nombre}</td>
         <td class="w-100">${rubrica.descripcion}</td>

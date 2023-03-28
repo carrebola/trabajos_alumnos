@@ -88,27 +88,7 @@ export const formEditarPerfil = {
       formulario.apellidos.value = datosUsuario.apellidos
       // Cargamos la imagen actual del perfil
       document.querySelector('#imagenAvatar').src = datosUsuario.avatar
-
-      // Capturamos una lista de las imagenes que ha subido el usuario
-      const listaImagenes = await Archivo.getUrlAll(userId, 'avatar')
-      // Construimos lista de imagenes
-
-      let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-2">Mis imagenes de perfil</h5>'
-      listaImagenes.forEach(url => {
-        const keys = url.split('/')
-        const ultimo = keys.length - 1
-        const key = keys[ultimo]
-        divImagenes += `
-        <div class="border bordered m-1">
-          <div class="bg-dark border position-absolute"  style="width:35px">
-            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}">
-          </div>
-          <img data-key = '${key}' src="${url}" alt="" style="width:100px" class="imagenListaPerfil m-1">
-        </div>`
-      })
-      divImagenes += '</div>'
-
-      document.querySelector('#imagenesPerfil').innerHTML = divImagenes
+      pintaTablaImagenes()
     }
 
     // Evento de click en imagen de lista de imagenes
@@ -118,7 +98,7 @@ export const formEditarPerfil = {
         const url = e.target.getAttribute('src')
         document.querySelector('#imagenAvatar').src = url
       }
-      // si hacemos click sobre la basura de borrar imagen
+      // si hacemos click sobre la basura de BORRAR imagen
       if (e.target.classList.contains('borrarImagen')) {
         console.log(e.target.dataset.url)
         const urlImagen = e.target.dataset.url
@@ -126,6 +106,7 @@ export const formEditarPerfil = {
         const key = keys[(keys.length) - 1]
         try {
           const imagenBorrada = await Archivo.deleteFile(usuarioLogueado.id, 'avatar', urlImagen)
+          pintaTablaImagenes()
         } catch (error) {
           console.log('Error al borrar imagen', error)
         }
@@ -156,11 +137,34 @@ export const formEditarPerfil = {
         datosUsuario.apellidos = formulario.apellidos.value
         // Guardamos los cambios en la bd
         await datosUsuario.update(datosUsuario)
+        pintaTablaImagenes()
         header.script()
         alert('Usuario actualizado')
       } catch (error) {
         alert('No se pudo guardar los cambios ' + error)
       }
     })
+
+    async function pintaTablaImagenes () {
+      // Capturamos una lista de las imagenes que ha subido el usuario
+      const listaImagenes = await Archivo.getUrlAll(usuarioLogueado.id, 'avatar')
+      // Construimos lista de imagenes
+      let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-2">Mis imagenes de perfil</h5>'
+      listaImagenes.forEach(url => {
+        const keys = url.split('/')
+        const ultimo = keys.length - 1
+        const key = keys[ultimo]
+        divImagenes += `
+        <div class="border bordered m-1">
+          <div class="bg-dark border position-absolute"  style="width:35px">
+            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}">
+          </div>
+          <img data-key = '${key}' src="${url}" alt="" style="width:100px" class="imagenListaPerfil m-1">
+        </div>`
+      })
+      divImagenes += '</div>'
+
+      document.querySelector('#imagenesPerfil').innerHTML = divImagenes
+    }
   }
 }

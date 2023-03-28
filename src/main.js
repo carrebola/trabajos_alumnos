@@ -17,4 +17,4 @@ document.querySelector('#footer').innerHTML = footer.template
 observadorRutas()
 
 // Cargamos la página home
-window.location = '#/registro'
+window.location = '#/home'

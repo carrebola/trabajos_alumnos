@@ -53,7 +53,6 @@ export class Archivo {
     const file = usuarioLogueado + '/' + key
     console.log('archivo a borrar', file)
     const { error } = await supabase.storage.from(bucket).remove([file])
-
     if (error) {
       throw new Error(`Error al eliminar el archivo: ${error.message}`)
     }

@@ -112,16 +112,19 @@ ${formEditarPerfil.template}
   script: async () => {
     try {
       // Capturamos los datos del usuario logueado
-      const usuarioLogeado = await User.getUser()
-      const perfilLogueado = await Perfil.getByUserId(usuarioLogeado.id)
+      const usuarioLogueado = await User.getUser()
+      const perfilLogueado = await Perfil.getByUserId(usuarioLogueado.id)
+
+      //Guardamose le perfil en el localstorage
+      localStorage.setItem('perfilLogueado', JSON.stringify(perfilLogueado))
       // Leemos la url de la imagen que está en la carpeta user_id
       const imgAvatar = perfilLogueado.avatar
 
       // Si hay un usuario logueado pintamos el email en el header y en el menú del usuario
       const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
-      if (usuarioLogeado) {
-        divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
-        divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
+      if (usuarioLogueado) {
+        divUsuarioLogeado[0].innerHTML = usuarioLogueado.email
+        divUsuarioLogeado[1].innerHTML = usuarioLogueado.email
         // Insertamos la foto del avatar
         document.querySelector('#imgAvatar').src = imgAvatar
         // y ocultamos la opción login del menu del usuario y la de registro

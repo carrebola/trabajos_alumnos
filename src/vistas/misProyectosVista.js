@@ -52,7 +52,7 @@ export default {
         tabla += `
       <tr>
         <td>
-            <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" />
+            <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" data-id="${proyecto.id}" class="detalle"/>
         </td>
         <td>${autor}</td>
         <td>${proyecto.nombre}</td>

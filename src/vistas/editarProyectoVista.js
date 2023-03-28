@@ -58,6 +58,9 @@ export default {
           <button type="submit" class="mt-5 btn btn-success">
               Actualizar proyecto
           </button>
+          <button type="button" onclick="history.back()" class="mt-5 btn btn-primary">
+              Cancelar
+          </button>
       </form>
   </div>
 </div>

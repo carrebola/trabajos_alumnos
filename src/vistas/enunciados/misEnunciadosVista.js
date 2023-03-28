@@ -1,23 +1,27 @@
 import { Perfil } from '../../bd/perfil'
-import { Proyecto } from '../../bd/proyecto'
+import { Enunciado } from '../../bd/enunciado'
 import { User } from '../../bd/user'
 export default {
   template: `
   <main style="padding-top: 100px">
   <div class="container">
-      <h1>Mis Proyectos</h1>
-      <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success mt-3">Nuevo Proyecto</a>
-      <a href="/#/misProyectos" id="misProyectos" class="btn btn-warning mt-3 ms-2">Mis Proyectos</a>
-      <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
+      <h1>Mis Enunciados</h1>
+      <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success mt-3">Nuevo Enunciado</a>
+      <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-warning mt-3 ms-2">Mis Enunciados</a>
+      <table id="tablaEnunciados" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
                   <th></th>
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
-                  <th>ENLACE</th>
-                  <th>NOTA</th>
-                  <th>ACTIVO</th>
+                  <th>MÓDULO</th>
+                  <th>UF</th>
+                  <th>RA</th>
+                  <th>FECHA_INICIO</th>
+                  <th>FECHA_FINAL</th>
+                  <th>ESTADO</th>
+
                   <th class="w-100"></th>
               </tr>
           </thead>
@@ -36,116 +40,122 @@ export default {
     try {
       const user = await User.getUser()
       // Capturamos todos los usuarios de la tabla perfiles
-      const proyectos = await Proyecto.getAllByUserId(user.id)
-      console.log('user_id', user)
-      console.log('numero proyectos ', proyectos.length)
-      // Generamos la tabla tablaProyectos
+      const enunciados = await Enunciado.getAllByUserId(user.id)
+      // Generamos la tabla tablaEnunciados
+
+      const spinner = '<div class="d-flex justify-content-center align-items-center p-5 w-100"><img src=\'/assets/iconos/icons8-spinner-100.png\' width=\'100\'/></div>'
+      document.querySelector('#tablaEnunciados tbody').innerHTML = spinner
+
       let tabla = ''
+      for (const enunciado of enunciados) {
+        console.log(enunciado);
+        
 
-      for (const proyecto of proyectos) {
-        // Si proyecto.nota es null no pintamos nada
-        if (!proyecto.nota) proyecto.nota = '-'
-
-        // Capturamos el nombre del autor de cada proyecto
-        const perfil = await Perfil.getByUserId(proyecto.user_id)
+        // Capturamos el nombre del autor de cada enunciado
+        const perfil = await Perfil.getByUserId(enunciado.user_id)
         const autor = perfil.nombre + ' ' + perfil.apellidos
         tabla += `
       <tr>
         <td>
-            <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" data-id="${proyecto.id}" class="detalle"/>
+          <img src="/assets/imagenes/enunciados/enunciado.png" width="100" alt="" data-id="${enunciado.id}" class="detalle"/>
         </td>
         <td>${autor}</td>
-        <td>${proyecto.nombre}</td>
-        <td class="w-100">${proyecto.descripcion}</td>
-        <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
-        <td class="text-center">${proyecto.nota}</td>
-        <td class="text-center">${proyecto.activo}</td>
+        <td>${enunciado.nombre}</td>
+        <td class="w-100">${enunciado.definicion}</td>
+        <td class="w-100">${enunciado.modulo}</td>
+        <td class="w-100">${enunciado.uf}</td>
+        <td class="w-100">${enunciado.ra}</td>
+        <td class="w-100">${enunciado.fecha_inicio}</td>
+        <td class="w-100">${enunciado.fecha_final}</td>
+        <td class="w-100">${enunciado.estado}</td>
         <td class="text-end">
           <button
-            data-id="${proyecto.id}"
+            data-id="${enunciado.id}"
             type="button"
             class="btn text-danger detalle"
           >
-          <img  data-id="${proyecto.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+          <img  data-id="${enunciado.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
           </button>
           <button
-            data-id="${proyecto.id}"
+            data-id="${enunciado.id}"
             type="button"
             class="btn text-info editar"
           >
-            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${proyecto.id}"/>
+            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${enunciado.id}"/>
           </button>
         
           <button
-              data-id="${proyecto.id}"
+              data-id="${enunciado.id}"
               type="button"
               class="btn text-danger bloquear"
           >
-            <img  data-id="${proyecto.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            <img  data-id="${enunciado.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
           </button>
         
           <button
-              data-id="${proyecto.id}"
+              data-id="${enunciado.id}"
               type="button"
               class="btn text-danger borrar"
           >
-            <img  data-id="${proyecto.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            <img  data-id="${enunciado.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
         </td>
       </tr>
       `
       }
-      document.querySelector('#tablaProyectos tbody').innerHTML = tabla
+      document.querySelector('#tablaEnunciados tbody').innerHTML = tabla
     } catch (error) {
       alert('No se han podido cargar la tabla de usuarios ' + error)
     }
 
     // Borrar y Editar usuario
-    document.querySelector('#tablaProyectos').addEventListener('click', async (e) => {
+    document.querySelector('#tablaEnunciados').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
       // BLOQUEAR PROYECTO
       if (e.target.classList.contains('bloquear')) {
+        console.log('bloquear')
         try {
-          const proyectoABloquear = await Proyecto.getById(id)
-          if (proyectoABloquear.activo) {
-            proyectoABloquear.activo = false
+          const enunciadoABloquear = await Enunciado.getById(id)
+          console.log(enunciadoABloquear)
+          if (enunciadoABloquear.estado) {
+            enunciadoABloquear.estado = false
             e.target.classList.remove('bloqueado')
           } else {
-            proyectoABloquear.activo = true
+            enunciadoABloquear.estado = true
             e.target.classList.add('bloqueado')
           }
 
-          await proyectoABloquear.block()
-          window.location.href = '/#/proyectos'
+          await enunciadoABloquear.block()
+          window.location.href = '/#/enunciados'
         } catch (error) {
-          alert('No se han podido desactivar el proyecto' + error)
+          alert('No se han podido desactivar el enunciado' + error)
         }
       }
 
       // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
       if (e.target.classList.contains('borrar')) {
         try {
-          const proyectoABorrar = await Proyecto.getById(id)
+          const enunciadoABorrar = await Enunciado.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
+          const seguro = confirm('¿Está seguro que desea borrar el enunciado? Se eliminarán todos sus comentarios y notas ' + enunciadoABorrar.nombre + ', ' + enunciadoABorrar.nombre)
 
           if (seguro) {
-            await Proyecto.delete(id)
+            await Enunciado.delete(id)
           }
-          window.location.href = '/#/proyectos'
+          window.location.href = '/#/enunciados'
         } catch (error) {
-          alert('No se han podido borrar el proyecto' + error)
+          alert('No se han podido borrar el enunciado' + error)
         }
       }
       // EDITAR PROYECTO  USUARIO
       if (e.target.classList.contains('editar')) {
-        window.location.href = '/#/editarProyecto/' + id
+        window.location.href = '/#/editarEnunciado/' + id
       }
 
       // VER DETALLE PROYECTO  USUARIO
       if (e.target.classList.contains('detalle')) {
-        window.location.href = '/#/detalleProyecto/' + id
+        window.location.href = '/#/detalleEnunciado/' + id
       }
     })
   }

@@ -20,6 +20,7 @@ export default {
                   <th>FECHA_INICIO</th>
                   <th>FECHA_FINAL</th>
                   <th>ESTADO</th>
+                  <th>ENLACE</th>
 
                   <th class="w-100"></th>
               </tr>
@@ -39,17 +40,13 @@ export default {
     try {
       // Capturamos todos los usuarios de la tabla perfiles
       const enunciados = await Enunciado.getAll()
-      console.log('numero enunciados ', enunciados.length)
       // Generamos la tabla tablaEnunciados
 
-      const spinner = '<img src="/assets/iconos/icons8-spinner.gif" alt="" width="400">'
+      const spinner = '<div class="d-flex justify-content-center align-items-center p-5 w-100"><img src=\'/assets/iconos/icons8-spinner-100.png\' width=\'100\'/></div>'
       document.querySelector('#tablaEnunciados tbody').innerHTML = spinner
 
       let tabla = ''
       for (const enunciado of enunciados) {
-        // Si enunciado.nota es null no pintamos nada
-        if (!enunciado.nota) enunciado.nota = '-'
-
         // Capturamos el nombre del autor de cada enunciado
         const perfil = await Perfil.getByUserId(enunciado.user_id)
         const autor = perfil.nombre + ' ' + perfil.apellidos
@@ -67,6 +64,7 @@ export default {
         <td class="w-100">${enunciado.fecha_inicio}</td>
         <td class="w-100">${enunciado.fecha_final}</td>
         <td class="w-100">${enunciado.estado}</td>
+        <td class="w-100"><a href="${enunciado.enlace}" target="blank">documento</a></td>
         <td class="text-end">
           <button
             data-id="${enunciado.id}"
@@ -113,10 +111,8 @@ export default {
       const id = e.target.dataset.id
       // BLOQUEAR PROYECTO
       if (e.target.classList.contains('bloquear')) {
-        console.log('bloquear')
         try {
           const enunciadoABloquear = await Enunciado.getById(id)
-          console.log(enunciadoABloquear)
           if (enunciadoABloquear.estado) {
             enunciadoABloquear.estado = false
             e.target.classList.remove('bloqueado')

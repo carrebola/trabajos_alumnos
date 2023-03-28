@@ -145,6 +145,7 @@ ${formEditarPerfil.template}
       // Cerramos sesión utilizando el método de logout de nuestra clase User
       await User.logout()
       // Borramos de header el email del usuario logueado
+      const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
       divUsuarioLogeado[0].innerHTML = ''
       divUsuarioLogeado[1].innerHTML = ''
       // y ocultamos la opción login del menu del usuario y mostramos la opción de registro
@@ -152,6 +153,9 @@ ${formEditarPerfil.template}
       document.querySelector('.liLogin').classList.remove('d-none')
       document.querySelector('.liRegistro').classList.remove('d-none')
       document.querySelector('.liMisProyectos').classList.add('d-none')
+      console.log('logout');
+      // Cargamos la página home
+      window.location = '#/home'
     })
 
     // Gestionamos click en editar perfil

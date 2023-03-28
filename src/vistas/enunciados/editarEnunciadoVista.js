@@ -1,43 +1,28 @@
 import { User } from '../../bd/user'
-import { Proyecto } from '../../bd/proyecto'
+import { Enunciado } from '../../bd/enunciado'
 export default {
   template: `
   <div
   class="container d-flex mt-5 justify-content-center">
   <div class="col-12">
-      <h1 class="text-center p-2">Editar Proyecto</h1>
-      <form id="formProyecto" class="p-3" novalidate>
-        <label class="mt-3 form-label" for="user_id">User_id: </label>    
-        <input
-            id="user_id" 
-            type="text" 
-            class="form-control text-black-50 " 
-            value="" 
-            disabled
-            
-          /> 
-          <label class="mt-3 form-label" for="id">Id proyecto: </label>
-          <input
-            id="id" 
-            type="text" 
-            class="form-control text-black-50" 
-            value="" 
-            disabled
-          />  
+      <h1 class="text-center p-2">Editar Enunciado</h1>
+      <form id="formEnunciado" class="p-3" novalidate>
           <label class="mt-3 form-label" for="nombre">Nombre: </label>
           <input
             id="nombre" 
+            name="nombre" 
             type="text" 
             class="form-control" 
             value="" 
-            placeholder ="Nombre del proyecto" 
+            placeholder ="Nombre del enunciado" 
             required 
           />
           <div class="invalid-feedback">El nombre no es correcto</div>
 
-          <label class="mt-3 form-label" for="descripcion">Descripción: </label>
+          <label class="mt-3 form-label" for="definicion">Definición: </label>
           <textarea 
-            id="descripcion"
+            id="definicion"
+            name="definicion"
             class="form-control" 
             value="" 
             required 
@@ -45,60 +30,153 @@ export default {
           </textarea>
           <div class="invalid-feedback">Este campo no es correcto</div>
 
-          <label class="mt-3 form-label" for="enlace">Enlace a producción</label>
+          <label class="mt-3 form-label" for="modulo">Módulo: </label>
           <input
-              id="enlace"
-              type="enlace"
-              class="form-control"
-              value=""
-              placeholder = "http://miproyecto.com"
-              required
+            id="modulo" 
+            name="modulo"
+            type="number"  
+            min="1"
+            class="form-control" 
+            value="" 
+            placeholder ="Módulo del enunciado" 
+            required 
           />
-          <div class="invalid-feedback">El link no es correcto</div>
+          <div class="invalid-feedback">El módulo no es correcto</div>
+
+          <label class="mt-3 form-label" for="uf">UF: </label>
+          <input
+            id="uf" 
+            name="uf" 
+            type="number" 
+            min="1"
+            class="form-control" 
+            value="" 
+            placeholder ="uf del enunciado" 
+            required 
+          />
+          <div class="invalid-feedback">El RA no es correcto</div>
+
+          <label class="mt-3 form-label" for="ra">RA: </label>
+          <input
+            id="ra" 
+            name="ra" 
+            type="number" 
+            min="1"
+            class="form-control" 
+            value="" 
+            placeholder ="ra del enunciado" 
+            required 
+          />
+          <div class="invalid-feedback">El RA no es correcto</div>
+
+          <label class="mt-3 form-label" for="fecha_inicio">Fecha inicio: </label>
+          <input
+            id="fecha_inicio"  
+            name="fecha_inicio" 
+            type="date" 
+            class="form-control" 
+            value="" 
+            placeholder ="" 
+            required 
+          />
+          <div class="invalid-feedback">La fecha no es correcto</div>
+
+          <label class="mt-3 form-label" for="fecha_final">Fecha de finalización: </label>
+          <input
+            id="fecha_final" 
+            name="fecha_final"
+            type="date" 
+            class="form-control" 
+            value="" 
+            placeholder ="" 
+            required 
+          />
+          <div class="invalid-feedback">La fecha no es correcto</div>
+
+          <label class="mt-3 form-label" for="estado">Estado: </label>
+          <input
+            id="estado" 
+            name="estado" 
+            type="boolean"  
+            class="form-control" 
+            value="" 
+            placeholder ="" 
+            required 
+          />
+          <div class="invalid-feedback">El estado no es correcto</div>
+
+          <label class="mt-3 form-label" for="enlace">Estado: </label>
+          <input
+            id="enlace" 
+            name="enlace" 
+            type="boolean"  
+            class="form-control" 
+            value="" 
+            placeholder ="" 
+            required 
+          />
+          <div class="invalid-feedback">El enlace no es correcto</div>
+         
+
           <button type="submit" class="mt-5 btn btn-success">
-              Actualizar proyecto
-          </button>
-          <button type="button" onclick="history.back()" class="mt-5 btn btn-primary">
-              Cancelar
+              Actualizar enunciado
           </button>
       </form>
   </div>
 </div>
     `,
   script: async (id) => {
-    const formProyecto = document.querySelector('#formProyecto')
+    const formEnunciado = document.querySelector('#formEnunciado')
     try {
       const user = await User.getUser()
-      const proyecto = await Proyecto.getById(id)
+      const enunciado = await Enunciado.getById(id)
+      console.log(enunciado)
 
-      formProyecto.nombre.value = proyecto.nombre
-      formProyecto.descripcion.value = proyecto.descripcion
-      formProyecto.enlace.value = proyecto.enlace
-      formProyecto.user_id.value = user.id
-      formProyecto.id.value = proyecto.id
+      formEnunciado.nombre.value = enunciado.nombre
+      formEnunciado.definicion.value = enunciado.definicion
+      formEnunciado.enlace.value = enunciado.enlace
+      formEnunciado.modulo.value = enunciado.modulo
+      formEnunciado.uf.value = enunciado.uf
+      formEnunciado.ra.value = enunciado.ra
+      formEnunciado.fecha_inicio.value = enunciado.fecha_inicio
+      formEnunciado.fecha_final.value = enunciado.fecha_final
+      formEnunciado.estado.value = enunciado.estado
+
+
+      // formEnunciado.user_id.value = user.id
+      // formEnunciado.id.value = enunciado.id
     } catch (error) {
-      console.log(error)
-      alert('Error al editar proyecto' + error)
+      alert('Error al editar enunciado' + error)
     }
 
-    formProyecto.addEventListener('submit', async function (e) {
+    formEnunciado.addEventListener('submit', async function (e) {
       e.preventDefault()
 
       try {
-        // Objeto con datos para proyecto
-        const proyectoEditado = await Proyecto.getById(id)
-        // Actualizamos los datos del proyecto a editar
-        proyectoEditado.nombre = document.querySelector('#nombre').value
-        proyectoEditado.descripcion = document.querySelector('#descripcion').value
-        // proyectoEditado.enlace = document.querySelector('#enlace').value,
+        // Objeto con datos para enunciado
+        const enunciadoEditado = await Enunciado.getById(id)
+        // Actualizamos los datos del enunciado a editar
+        enunciadoEditado.nombre = document.querySelector('#nombre').value
+        enunciadoEditado.definicion = document.querySelector('#definicion').value
+        enunciadoEditado.enlace = document.querySelector('#enlace').value
+        enunciadoEditado.modulo = document.querySelector('#modulo').value
+        enunciadoEditado.uf = document.querySelector('#uf').value
+        enunciadoEditado.ra = document.querySelector('#ra').value
+        enunciadoEditado.fecha_inicio = document.querySelector('#fecha_inicio').value
+        enunciadoEditado.fecha_final = document.querySelector('#fecha_final').value
+        enunciadoEditado.estado = document.querySelector('#estado').value
+        // enunciadoEditado.user_id = document.querySelector('#user_id').value
+        // enunciadoEditado.id = document.querySelector('#id').value
 
-        await proyectoEditado.update()
-        alert('Proyecto editado con éxito')
+
+        // enunciadoEditado.enlace = document.querySelector('#enlace').value,
+
+        await enunciadoEditado.update()
+        alert('Enunciado editado con éxito')
         // Cargamos la página login
-        window.location.href = '/#/proyectos'
+        window.location.href = '/#/enunciados'
       } catch (error) {
-        console.log(error)
-        alert('Error al editar proyecto ' + error)
+        alert('Error al editar enunciado ' + error)
       }
     })
   }

@@ -3,7 +3,7 @@ import { supabase } from './supabase.js'
 
 export class Enunciado {
   // Mapping de propiedades de la tabla enunciados
-  constructor (id = null, created_at = null, nombre = null, definicion = null, uf = null, ra = null, fecha_inicio = null, fecha_final = null, modulo = null, user_id = null, estado = null) {
+  constructor (id = null, created_at = null, nombre = null, definicion = null, uf = null, ra = null, fecha_inicio = null, fecha_final = null, modulo = null, user_id = null, estado = null, enlace = null) {
     this.id = id
     this.created_at = created_at
     this.nombre = nombre
@@ -15,6 +15,7 @@ export class Enunciado {
     this.modulo = modulo
     this.user_id = user_id
     this.estado = estado
+    this.enlace = enlace
   }
 
   // leer todos en orden descendiente a como se han creado
@@ -28,8 +29,8 @@ export class Enunciado {
     }
 
     // devuelve array de objetos
-    return enunciados.map(({ id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado }) => {
-      return new Enunciado(id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado)
+    return enunciados.map(({ id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace }) => {
+      return new Enunciado(id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace)
     })
   }
 
@@ -46,8 +47,8 @@ export class Enunciado {
     }
 
     // devuelve array de objetos
-    return enunciados.map(({ id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado }) => {
-      return new Enunciado(id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado)
+    return enunciados.map(({ id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace }) => {
+      return new Enunciado(id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace)
     })
   }
 
@@ -63,7 +64,7 @@ export class Enunciado {
       throw new Error(error.message)
     }
 
-    return new Enunciado(enunciado.id, enunciado.created_at, enunciado.nombre, enunciado.definicion, enunciado.uf, enunciado.ra, enunciado.fecha_inicio, enunciado.fecha_final, enunciado.modulo, enunciado.user_id, enunciado.estado)
+    return new Enunciado(enunciado.id, enunciado.created_at, enunciado.nombre, enunciado.definicion, enunciado.uf, enunciado.ra, enunciado.fecha_inicio, enunciado.fecha_final, enunciado.modulo, enunciado.user_id, enunciado.estado, enunciado.enlace)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -94,7 +95,8 @@ export class Enunciado {
         fecha_final: this.fecha_final,
         modulo: this.modulo,
         user_id: this.user_id,
-        estado: this.estado
+        estado: this.estado,
+        enlace: this.enlace
       })
       .eq('id', this.id)
       .single()

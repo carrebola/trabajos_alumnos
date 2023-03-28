@@ -1,5 +1,5 @@
-import { User } from '../bd/user'
-import { Proyecto } from '../bd/proyecto'
+import { User } from '../../bd/user'
+import { Proyecto } from '../../bd/proyecto'
 export default {
   template: `
   <div

@@ -98,6 +98,9 @@ export const header = {
           <li>
             <a class="dropdown-item" href="#/adminUsuarios">Admin Usuarios</a>
           </li>
+          <li>
+            <a class="dropdown-item" href="#/enunciados">Enunciados</a>
+          </li>
           <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
         </ul>
     </ul>

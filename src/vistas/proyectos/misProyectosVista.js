@@ -1,6 +1,6 @@
-import { Perfil } from '../bd/perfil'
-import { Proyecto } from '../bd/proyecto'
-import { User } from '../bd/user'
+import { Perfil } from '../../bd/perfil'
+import { Proyecto } from '../../bd/proyecto'
+import { User } from '../../bd/user'
 export default {
   template: `
   <main style="padding-top: 100px">

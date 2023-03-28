@@ -1,15 +1,24 @@
+import enunciadoDetalleVista from '../vistas/enunciados/detalleEnunciadoVista.js'
 
 // Objeto con todas las rutas y su vista asociada
 const rutas = {
   home: import('../vistas/homeVista.js'),
-  adminUsuarios: import('../vistas/adminVista.js'),
+  // Usuarios
+  adminUsuarios: import('../vistas/admin/adminVista.js'),
   registro: import('../vistas/registroVista.js'),
   login: import('../vistas/loginVista.js'),
-  proyectos: import('../vistas/proyectosVista.js'),
-  nuevoProyecto: import('../vistas/nuevoProyectoVista.js'),
-  editarProyecto: import('../vistas/editarProyectoVista.js'),
-  detalleProyecto: import('../vistas/detalleProyectoVista.js'),
-  misProyectos: import('../vistas/misProyectosVista.js')
+  // Proyectos
+  proyectos: import('../vistas/proyectos/proyectosVista.js'),
+  nuevoProyecto: import('../vistas/proyectos/nuevoProyectoVista.js'),
+  editarProyecto: import('../vistas/proyectos/editarProyectoVista.js'),
+  detalleProyecto: import('../vistas/proyectos/detalleProyectoVista.js'),
+  misProyectos: import('../vistas/proyectos/misProyectosVista.js'),
+  // Enunciados
+  enunciados: import('../vistas/enunciados/enunciadosVista.js'),
+  nuevoEnunciado: import('../vistas/enunciados/nuevoEnunciadoVista.js'),
+  editarEnunciado: import('../vistas/enunciados/editarEnunciadoVista.js'),
+  detalleEnunciado: import('../vistas/enunciados/detalleEnunciadoVista.js'),
+  misEnunciados: import('../vistas/enunciados/misEnunciadosVista.js')
 }
 
 // Función que obtiene la ruta del navegador

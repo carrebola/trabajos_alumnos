@@ -1,7 +1,7 @@
-import { User } from '../bd/user'
-import { Perfil } from '../bd/perfil'
-import { Proyecto } from '../bd/proyecto'
-import { Comentario } from '../bd/comentario'
+import { User } from '../../bd/user'
+import { Perfil } from '../../bd/perfil'
+import { Proyecto } from '../../bd/proyecto'
+import { Comentario } from '../../bd/comentario'
 
 export default {
   template: `

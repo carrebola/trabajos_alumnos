@@ -80,6 +80,7 @@ export const header = {
           
           <li>
             <a class="liMisProyectos dropdown-item d-none" href="#/misProyectos">Mis Proyectos</a>
+            <a class="liMisProyectos dropdown-item d-none" href="#/misProyectos">Mis Proyectos</a>
           </li>
           <li>
             <a class="liRegistro dropdown-item" href="#/registro">Registrate</a>
@@ -101,6 +102,9 @@ export const header = {
           <li>
             <a class="dropdown-item" href="#/enunciados">Enunciados</a>
           </li>
+          <li>
+            <a class="dropdown-item" href="#/rubricas">Rubricas</a>
+          </li>
           <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
         </ul>
     </ul>
@@ -118,7 +122,7 @@ ${formEditarPerfil.template}
       const usuarioLogueado = await User.getUser()
       const perfilLogueado = await Perfil.getByUserId(usuarioLogueado.id)
 
-      //Guardamose le perfil en el localstorage
+      // Guardamose le perfil en el localstorage
       localStorage.setItem('perfilLogueado', JSON.stringify(perfilLogueado))
       // Leemos la url de la imagen que está en la carpeta user_id
       const imgAvatar = perfilLogueado.avatar
@@ -153,7 +157,7 @@ ${formEditarPerfil.template}
       document.querySelector('.liLogin').classList.remove('d-none')
       document.querySelector('.liRegistro').classList.remove('d-none')
       document.querySelector('.liMisProyectos').classList.add('d-none')
-      console.log('logout');
+      console.log('logout')
       // Cargamos la página home
       window.location = '#/home'
     })

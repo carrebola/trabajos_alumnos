@@ -18,7 +18,15 @@ const rutas = {
   nuevoEnunciado: import('../vistas/enunciados/nuevoEnunciadoVista.js'),
   editarEnunciado: import('../vistas/enunciados/editarEnunciadoVista.js'),
   detalleEnunciado: import('../vistas/enunciados/detalleEnunciadoVista.js'),
-  misEnunciados: import('../vistas/enunciados/misEnunciadosVista.js')
+  misEnunciados: import('../vistas/enunciados/misEnunciadosVista.js'),
+  // Rubricas
+  rubricas: import('../vistas/rubricas/rubricasVista.js'),
+  nuevoRubrica: import('../vistas/rubricas/nuevoRubricaVista.js'),
+  editarRubrica: import('../vistas/rubricas/editarRubricaVista.js'),
+  detalleRubrica: import('../vistas/rubricas/detalleRubricaVista.js'),
+  misRubricas: import('../vistas/rubricas/misRubricasVista.js')
+
+
 }
 
 // Función que obtiene la ruta del navegador

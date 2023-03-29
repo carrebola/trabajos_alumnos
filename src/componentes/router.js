@@ -26,7 +26,6 @@ const rutas = {
   detalleRubrica: import('../vistas/rubricas/detalleRubricaVista.js'),
   misRubricas: import('../vistas/rubricas/misRubricasVista.js')
 
-
 }
 
 // Función que obtiene la ruta del navegador
@@ -40,15 +39,17 @@ const router = async () => {
   // capturamos el componente con ese nombre de la vista
   const componenteVista = await rutas[path]
   // Si existe la vista la podremos cargar
-  try {
-    // Obtenemos el objeto del componente
-    const vista = await componenteVista.default
-    // inyectamos vista y ejecutamos su script
-    document.querySelector('main').innerHTML = vista.template
-    vista.script(parametro)
-  } catch (error) {
-    // Si se produce un error cargamos la vista 404
-    console.log(error)
+  if (componenteVista) {
+    try {
+      // Obtenemos el objeto del componente
+      const vista = await componenteVista.default
+      // inyectamos vista y ejecutamos su script
+      document.querySelector('main').innerHTML = vista.template
+      vista.script(parametro)
+    } catch (error) {
+      // Si se produce un error cargamos la vista 404
+      console.log(error)
+    }
   }
 }
 

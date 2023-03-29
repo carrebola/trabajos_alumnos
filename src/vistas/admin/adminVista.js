@@ -131,16 +131,18 @@ ${formEditarUsuario.template}
     // // Script para la validación del formulario
     // const form = document.querySelector('#form_editar')
     const btnEditar = document.querySelector('#btn_editar')
-    btnEditar.addEventListener('click', (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-      form.classList.add('was-validated')
-      console.log(form.checkValidity())
-      if (!form.checkValidity()) {
-        console.log('formulario no valido')
-      } else {
-        console.log('formulario valido, debe hacerse el submit')
-      }
-    })
+    if (btnEditar) {
+      btnEditar.addEventListener('click', (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        form.classList.add('was-validated')
+        console.log(form.checkValidity())
+        if (!form.checkValidity()) {
+          console.log('formulario no valido')
+        } else {
+          console.log('formulario valido, debe hacerse el submit')
+        }
+      })
+    }
   }
 }

@@ -42,7 +42,7 @@ export default {
 
 
   `,
-  script: () => {
+  script: (parametro) => {
     // script para validación de formulario
     const form = document.querySelector('#login')
     form.addEventListener('submit', async (event) => {

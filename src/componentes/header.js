@@ -141,7 +141,7 @@ ${formEditarPerfil.template}
         document.querySelector('.liMisProyectos').classList.remove('d-none')
       }
     } catch (error) {
-      alert('No he podido cargar el usuario logueado')
+      //alert('No he podido cargar el usuario logueado')
     }
 
     // Capturamos click en logout

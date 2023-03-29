@@ -54,8 +54,7 @@ export const header = {
     <ul class="navbar nav me-5">
       <li class="nav-item dropdown">
         <a
-          class="nav-link dropdown-toggle"
-          href="#"
+          class="nav-link dropdown-toggle"        
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"

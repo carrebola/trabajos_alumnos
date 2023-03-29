@@ -64,20 +64,17 @@ export const observadorRutas = () => {
       // Obtenemos la ruta del enlace sin el .html
       const href = link.getAttribute('href')
       // Añadimos la nueva ruta al historial
+
+      // El método pushState() permite agregar un nuevo estado a la pila del historial del navegador. Esto significa que una nueva entrada de historial se agrega a la pila y la URL del navegador se actualiza sin recargar la página.
       history.pushState({ path: href }, '', href)
+      // y ejecutamos el router de nuevo para que detecte los cambios con el evento popstate
       router()
     })
   })
 
-  // Detectamos los cambios en barra de navegación
-  // window.addEventListener('hashchange', () => {
-  //   router()
-  // })
-
-  window.addEventListener('popstate', () => {
+  // Detectamos cuando alguien navega por el historial con los botones avanzar y retroceder del navegador.
+  window.addEventListener('popstate', (e) => {
+    console.log('evento popstate - Te estás moviendo por el historial');
     router()
   })
-  // window.addEventListener('load', () => {
-  //   router()
-  // })
 }

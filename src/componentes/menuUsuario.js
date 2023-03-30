@@ -157,8 +157,12 @@ export const menuUsuario = {
       <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `
     }
-    const rol = perfilLogueado.rol || 'anonimo'
-    console.log('cargando menu', rol);
+    console.log(perfilLogueado)
+    let rol = 'anonimo'
+    if (perfilLogueado.rol) {
+      rol = perfilLogueado.rol
+    }
+    console.log('cargando menu', rol)
 
     // Insertamos los items del menú según el rol
     document.querySelector('#menuUsuario').innerHTML = items[rol]

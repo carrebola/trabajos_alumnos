@@ -49,6 +49,7 @@ ${formEditarPerfil.template}
       console.log('refrescando header')
       // Capturamos los datos del usuario logueado
       const usuarioLogueado = await User.getUser()
+      console.log(usuarioLogueado)
       if (usuarioLogueado) {
         const perfilLogueado = await Perfil.getByUserId(usuarioLogueado.id)
         console.log('cargando header', perfilLogueado)
@@ -56,8 +57,9 @@ ${formEditarPerfil.template}
         menuSuperior.script(perfilLogueado)
         menuUsuario.script(perfilLogueado)
       } else {
-        menuSuperior.script()
-        menuUsuario.script()
+        console.log('no hay usuario logueado')
+        menuSuperior.script('anonimo')
+        menuUsuario.script('anonimo')
       }
     } catch (error) {
       // alert('No he podido cargar el usuario logueado')

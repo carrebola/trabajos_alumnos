@@ -92,58 +92,62 @@ export default {
       </tr>
       `
       }
-      document.querySelector('#tablaProyectos tbody').innerHTML = tabla
+      const tablaProyectosBody = document.querySelector('#tablaProyectos tbody')
+      if (tablaProyectosBody) tablaProyectosBody.innerHTML = tabla
     } catch (error) {
       alert('No se han podido cargar la tabla de usuarios ' + error)
     }
 
     // Borrar y Editar usuario
-    document.querySelector('#tablaProyectos').addEventListener('click', async (e) => {
+    const tablaProyectos = document.querySelector('#tablaProyectos')
+    if (tablaProyectos) {
+      tablaProyectos.addEventListener('click', async (e) => {
       // capturamos el id del usuarios
-      const id = e.target.dataset.id
-      //BLOQUEAR PROYECTO
-      if (e.target.classList.contains('bloquear')) {
-        try {
-          const proyectoABloquear = await Proyecto.getById(id)
-          if (proyectoABloquear.activo) {
-            proyectoABloquear.activo = false
-            e.target.classList.remove('bloqueado')
-          } else {
-            proyectoABloquear.activo = true
-            e.target.classList.add('bloqueado')
+        const id = e.target.dataset.id
+        // BLOQUEAR PROYECTO
+        if (e.target.classList.contains('bloquear')) {
+          try {
+            const proyectoABloquear = await Proyecto.getById(id)
+            if (proyectoABloquear.activo) {
+              proyectoABloquear.activo = false
+              e.target.classList.remove('bloqueado')
+            } else {
+              proyectoABloquear.activo = true
+              e.target.classList.add('bloqueado')
+            }
+
+            await proyectoABloquear.block()
+            window.location.href = '/#/proyectos'
+          } catch (error) {
+            alert('No se han podido desactivar el proyecto' + error)
           }
-
-          await proyectoABloquear.block()
-          window.location.href = '/#/proyectos'
-        } catch (error) {
-          alert('No se han podido desactivar el proyecto' + error)
         }
-      }
 
-      // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
-      if (e.target.classList.contains('borrar')) {
-        try {
-          const proyectoABorrar = await Proyecto.getById(id)
+        // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
+        if (e.target.classList.contains('borrar')) {
+          try {
+            const proyectoABorrar = await Proyecto.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
+            const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
 
-          if (seguro) {
-            await Proyecto.delete(id)
+            if (seguro) {
+              await Proyecto.delete(id)
+            }
+            window.location.href = '/#/proyectos'
+          } catch (error) {
+            alert('No se han podido borrar el proyecto' + error)
           }
-          window.location.href = '/#/proyectos'
-        } catch (error) {
-          alert('No se han podido borrar el proyecto' + error)
         }
-      }
-      // EDITAR PROYECTO  USUARIO
-      if (e.target.classList.contains('editar')) {
-        window.location.href = '/#/editarProyecto/' + id
-      }
+        // EDITAR PROYECTO  USUARIO
+        if (e.target.classList.contains('editar')) {
+          window.location.href = '/#/editarProyecto/' + id
+        }
 
-      // VER DETALLE PROYECTO  USUARIO
-      if (e.target.classList.contains('detalle')) {
-        window.location.href = '/#/detalleProyecto/' + id
-      }
-    })
+        // VER DETALLE PROYECTO  USUARIO
+        if (e.target.classList.contains('detalle')) {
+          window.location.href = '/#/detalleProyecto/' + id
+        }
+      })
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { User } from '../bd/user'
+import { header } from '../componentes/header'
 
 export default {
   template: `
@@ -61,15 +62,9 @@ export default {
             password: document.querySelector('#password').value
           }
           // Intentamos loguearnos utilizando el método login de nuestra clase User
-          const usuarioLogeado = await User.login(userData)
-          // Si nos logueamos con exito pintamos el email en header y menú de usuario
-          const divUsuarioLogeado = document.querySelectorAll('.emailUsuarioLogueado')
-          divUsuarioLogeado[0].innerHTML = usuarioLogeado.email
-          divUsuarioLogeado[1].innerHTML = usuarioLogeado.email
-          // y ocultamos item 'login' para mostrar item 'logout'
-          document.querySelector('.liLogout').classList.remove('d-none')
-          document.querySelector('.liLogin').classList.add('d-none')
-          document.querySelector('.liRegistro').classList.add('d-none')
+          await User.login(userData)
+          // Refrescamos el header
+          header.script()
           // Cagamos la página home
           window.location.href = '/#/home'
         } catch (error) {

@@ -8,13 +8,13 @@ import { header } from './componentes/header'
 import { footer } from './componentes/footer'
 
 // Importamos la Función para detectar eventos al cargar las vistas
-import { observadorRutas } from './componentes/router'
+import { enrutador } from './componentes/enrutador'
 
 document.querySelector('#header').innerHTML = header.template
 header.script()
 document.querySelector('#footer').innerHTML = footer.template
 
-observadorRutas()
+enrutador.observadorRutas()
 
 // Cargamos la página home
 window.location = '#/home'

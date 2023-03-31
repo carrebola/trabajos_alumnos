@@ -52,6 +52,24 @@ export class Enunciado {
     })
   }
 
+  // leer todos en orden descendiente a como se han creado
+  static async getAllByProjectId (user_id) {
+    const { data: enunciados, error } = await supabase
+      .from('enunciados')
+      .select('*')
+      .eq('user_id', user_id)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    // devuelve array de objetos
+    return enunciados.map(({ id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace }) => {
+      return new Enunciado(id, created_at, nombre, definicion, uf, ra, fecha_inicio, fecha_final, modulo, user_id, estado, enlace)
+    })
+  }
+
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById (id) {
     const { data: enunciado, error } = await supabase

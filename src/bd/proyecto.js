@@ -3,7 +3,7 @@ import { supabase } from './supabase.js'
 
 export class Proyecto {
   // Mapping de propiedades de la tabla proyectos
-  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null) {
+  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null, enunciado_id = null) {
     this.id = id
     this.nombre = nombre
     this.descripcion = descripcion
@@ -11,6 +11,7 @@ export class Proyecto {
     this.nota = nota
     this.enlace = enlace
     this.activo = activo
+    this.enunciado_id = enunciado_id
   }
 
   // leer todos en orden descendiente a como se han creado
@@ -24,8 +25,8 @@ export class Proyecto {
     }
 
     // devuelve array de objetos
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo }) => {
-      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo)
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id }) => {
+      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
     })
   }
 
@@ -42,8 +43,8 @@ export class Proyecto {
     }
 
     // devuelve array de objetos
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo }) => {
-      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo)
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id }) => {
+      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
     })
   }
 
@@ -59,7 +60,7 @@ export class Proyecto {
       throw new Error(error.message)
     }
 
-    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo)
+    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo, proyecto.enunciado_id)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -85,7 +86,8 @@ export class Proyecto {
         user_id: this.user_id,
         nota: this.nota,
         enlace: this.enlace,
-        activo: this.activo
+        activo: this.activo,
+        enunciado_id: this.enunciado_id
       })
       .eq('id', this.id)
       .single()

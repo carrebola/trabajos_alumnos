@@ -2,6 +2,7 @@ import { User } from '../bd/user'
 import { Perfil } from '../bd/perfil'
 import { Archivo } from '../bd/archivo'
 import { header } from '../componentes/header'
+import { pintaTablaImagenes } from './pintaTablaImagenes'
 
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
@@ -41,7 +42,7 @@ export const formEditarPerfil = {
         />
         </form>
         <div class="d-flex justify-content-center mt-2" >
-          <img src="/assets/iconos/icons8-spinner.gif" id="imagenAvatar" class="img img-fluid w-50">
+          <img src="" alt="" id="imagenAvatar" class="img img-fluid w-50">
         </div>
         <div id="imagenesPerfil" class="d-flex justify-content-center">LISTA DE IMAGENES</div>
     </div>
@@ -62,7 +63,7 @@ export const formEditarPerfil = {
 </div>
   
   `,
-  script: async () => {
+  script: async (perfilLogueado) => {
     // Seleccionamos el input de avatar para detectar cuando cambia porque se ha seleccionado una imagen
     document.querySelector('#inputAvatar').addEventListener('change', (e) => {
       // Capturamos la imagen del input
@@ -71,47 +72,24 @@ export const formEditarPerfil = {
       document.querySelector('#imagenAvatar').src = window.URL.createObjectURL(file)
     })
 
-    // Código de validación
     // Seleccionamos el formulario de editar usuario
     const formulario = document.querySelector('#formEditarPerfil')
 
     // Capturamos los datos del usuario logueado
-    const usuarioLogueado = await User.getUser()
+    // const usuarioLogueado = await User.getUser()
+    console.log('datos usuario', perfilLogueado)
 
     // Si el usuario logeado existe
-    if (usuarioLogueado) {
-      const userId = usuarioLogueado.id
-      // Capturamos los datos del perfil del usuario logueado
-      const datosUsuario = await Perfil.getByUserId(userId)
+    if (perfilLogueado) {
       // Insertamos los datos en el formulario para editar el usuario
-      formulario.nombre.value = datosUsuario.nombre
-      formulario.apellidos.value = datosUsuario.apellidos
+      formulario.nombre.value = perfilLogueado.nombre
+      formulario.apellidos.value = perfilLogueado.apellidos
+      formulario.inputAvatar.value = ''
       // Cargamos la imagen actual del perfil
-      document.querySelector('#imagenAvatar').src = datosUsuario.avatar
-      pintaTablaImagenes()
+      document.querySelector('#imagenAvatar').src = perfilLogueado.avatar
+      pintaTablaImagenes(perfilLogueado.user_id)
     }
 
-    // Evento de click en imagen de lista de imagenes
-    document.querySelector('#imagenesPerfil').addEventListener('click', async (e) => {
-      // Si hacemos click sobre la imagen
-      if (e.target.classList.contains('imagenListaPerfil')) {
-        const url = e.target.getAttribute('src')
-        document.querySelector('#imagenAvatar').src = url
-      }
-      // si hacemos click sobre la basura de BORRAR imagen
-      if (e.target.classList.contains('borrarImagen')) {
-        console.log(e.target.dataset.url)
-        const urlImagen = e.target.dataset.url
-        const keys = urlImagen.split('/')
-        const key = keys[(keys.length) - 1]
-        try {
-          const imagenBorrada = await Archivo.deleteFile(usuarioLogueado.id, 'avatar', urlImagen)
-          pintaTablaImagenes()
-        } catch (error) {
-          console.log('Error al borrar imagen', error)
-        }
-      }
-    })
     // Evento de click en el botón guardar
     document.querySelector('#guardarCambios').addEventListener('click', async (e) => {
       try {
@@ -144,27 +122,5 @@ export const formEditarPerfil = {
         alert('No se pudo guardar los cambios ' + error)
       }
     })
-
-    async function pintaTablaImagenes () {
-      // Capturamos una lista de las imagenes que ha subido el usuario
-      const listaImagenes = await Archivo.getUrlAll(usuarioLogueado.id, 'avatar')
-      // Construimos lista de imagenes
-      let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-2">Mis imagenes de perfil</h5>'
-      listaImagenes.forEach(url => {
-        const keys = url.split('/')
-        const ultimo = keys.length - 1
-        const key = keys[ultimo]
-        divImagenes += `
-        <div class="border bordered m-1">
-          <div class="bg-dark border position-absolute"  style="width:35px">
-            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}">
-          </div>
-          <img data-key = '${key}' src="${url}" alt="" style="width:100px" class="imagenListaPerfil m-1">
-        </div>`
-      })
-      divImagenes += '</div>'
-
-      document.querySelector('#imagenesPerfil').innerHTML = divImagenes
-    }
   }
 }

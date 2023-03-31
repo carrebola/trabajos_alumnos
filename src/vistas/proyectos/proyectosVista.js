@@ -17,6 +17,7 @@ export default {
                   <th>ENLACE</th>
                   <th>NOTA</th>
                   <th>ACTIVO</th>
+                  <th>ENUNCIADO</th>
                   <th class="w-100"></th>
               </tr>
           </thead>
@@ -57,6 +58,7 @@ export default {
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
         <td class="text-center">${proyecto.nota}</td>
         <td class="text-center">${proyecto.activo}</td>
+        <td class="text-center">${proyecto.enunciado_id}</td>
         <td class="text-end">
           <button
             data-id="${proyecto.id}"

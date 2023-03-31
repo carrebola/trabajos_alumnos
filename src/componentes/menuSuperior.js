@@ -2,9 +2,7 @@ export const menuSuperior = {
   template: `
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul id="menuSuperior" class="navbar-nav">
-        <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
-        </li>
+        
         
       </ul>
     </div>

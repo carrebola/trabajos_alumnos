@@ -53,6 +53,9 @@ ${formEditarPerfil.template}
         // cargamos el menú superior y usuario para su rol
         menuSuperior.script(perfilLogueado)
         menuUsuario.script(perfilLogueado)
+
+        // Ejecutamos la lógica del componente formEditarPerifio
+        formEditarPerfil.script(perfilLogueado)
       } else {
         menuSuperior.script('anonimo')
         menuUsuario.script('anonimo')

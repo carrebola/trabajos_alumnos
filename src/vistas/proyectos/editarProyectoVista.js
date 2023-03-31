@@ -1,5 +1,6 @@
 import { User } from '../../bd/user'
 import { Proyecto } from '../../bd/proyecto'
+import { Enunciado } from '../../bd/enunciado'
 export default {
   template: `
   <div
@@ -18,12 +19,17 @@ export default {
           /> 
           <label class="mt-3 form-label" for="id">Id proyecto: </label>
           <input
-            id="id" 
+            id="proyecto_id" 
             type="text" 
             class="form-control text-black-50" 
             value="" 
             disabled
           />  
+          <label class="mt-3 form-label" for="id">Enunciado: </label>
+
+          <select id="enunciado" name="enunciado" class="form-control text-black-50">
+            <option value = "0" >Selecciona un enunciado</option>
+          </select> 
           <label class="mt-3 form-label" for="nombre">Nombre: </label>
           <input
             id="nombre" 
@@ -70,12 +76,25 @@ export default {
     try {
       const user = await User.getUser()
       const proyecto = await Proyecto.getById(id)
+      if (proyecto.enunciado_id) {
+        const enunciado = await Enunciado.getById(proyecto.enunciado_id)
+        formProyecto.enunciado.value = enunciado.id
+      }
+      const enunciados = await Enunciado.getAll()
+
+      if (enunciados) {
+        let optionsEnunciados = ''
+        enunciados.forEach(enunciado => {
+          optionsEnunciados += `<option value="${enunciado.id}">${enunciado.nombre}</option>`
+        })
+        formProyecto.enunciado.innerHTML = optionsEnunciados
+      }
 
       formProyecto.nombre.value = proyecto.nombre
       formProyecto.descripcion.value = proyecto.descripcion
       formProyecto.enlace.value = proyecto.enlace
       formProyecto.user_id.value = user.id
-      formProyecto.id.value = proyecto.id
+      formProyecto.proyecto_id.value = proyecto.id
     } catch (error) {
       console.log(error)
       alert('Error al editar proyecto' + error)

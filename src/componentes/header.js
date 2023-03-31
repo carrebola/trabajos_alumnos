@@ -46,18 +46,14 @@ ${formEditarPerfil.template}
   `,
   script: async () => {
     try {
-      console.log('refrescando header')
       // Capturamos los datos del usuario logueado
       const usuarioLogueado = await User.getUser()
-      console.log(usuarioLogueado)
       if (usuarioLogueado) {
         const perfilLogueado = await Perfil.getByUserId(usuarioLogueado.id)
-        console.log('cargando header', perfilLogueado)
         // cargamos el menú superior y usuario para su rol
         menuSuperior.script(perfilLogueado)
         menuUsuario.script(perfilLogueado)
       } else {
-        console.log('no hay usuario logueado')
         menuSuperior.script('anonimo')
         menuUsuario.script('anonimo')
       }

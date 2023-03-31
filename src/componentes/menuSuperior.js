@@ -68,8 +68,12 @@ export const menuSuperior = {
       </li>
       `
     }
-    const rol = perfilLogueado.rol
-    // Insertamos los items del menú según el rol
-    document.querySelector('#menuSuperior').innerHTML = items[rol]
+    if (perfilLogueado !== 'anonimo') {
+      const rol = perfilLogueado.rol
+      // Insertamos los items del menú según el rol
+      document.querySelector('#menuSuperior').innerHTML = items[rol]
+    } else {
+      document.querySelector('#menuSuperior').innerHTML = items['anonimo']
+    }
   }
 }

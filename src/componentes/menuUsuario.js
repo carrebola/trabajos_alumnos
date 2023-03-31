@@ -51,16 +51,7 @@ export const menuUsuario = {
         <li>
           <a class="liRegistro dropdown-item" href="#/registro">Registrate</a>
         </li>
-        <li>
-          <a
-            id="editarPerfil"
-            data-bs-toggle="modal"
-            data-bs-target="#editar"
-            class="dropdown-item"
-            href="#/editarPerfil"
-            >Editar perfil</a
-          >
-        </li>
+        
       `,
       registrado: `
       <li class="text-center" id="rolUsuarioLogueado">
@@ -159,9 +150,7 @@ export const menuUsuario = {
     }
     console.log(perfilLogueado)
     let rol = 'anonimo'
-    if (perfilLogueado.rol) {
-      rol = perfilLogueado.rol
-    }
+    if (perfilLogueado.rol) rol = perfilLogueado.rol
     console.log('cargando menu', rol)
 
     // Insertamos los items del menú según el rol
@@ -185,6 +174,13 @@ export const menuUsuario = {
         // Cargamos la página home
         window.location.href = '/#/home'
       })
+    }
+    else{
+      const imgAvatar = '/assets/avatar.svg'
+      // Insertamos la foto del avatar
+      document.querySelector('#imgAvatar').src = imgAvatar
+      // Insertamos el email del usuario
+      document.querySelector('#emailUsuarioLogueado').innerHTML = ''
     }
 
     // Gestionamos click en editar perfil

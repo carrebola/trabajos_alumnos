@@ -83,7 +83,7 @@ export default {
       const enunciados = await Enunciado.getAll()
 
       if (enunciados) {
-        let optionsEnunciados = ''
+        let optionsEnunciados = '<option value="">Selecciona enunciado</option>`'
         enunciados.forEach(enunciado => {
           optionsEnunciados += `<option value="${enunciado.id}">${enunciado.nombre}</option>`
         })
@@ -95,6 +95,7 @@ export default {
       formProyecto.enlace.value = proyecto.enlace
       formProyecto.user_id.value = user.id
       formProyecto.proyecto_id.value = proyecto.id
+      formProyecto.enunciado.value = proyecto.enunciado_id
     } catch (error) {
       console.log(error)
       alert('Error al editar proyecto' + error)
@@ -109,7 +110,8 @@ export default {
         // Actualizamos los datos del proyecto a editar
         proyectoEditado.nombre = document.querySelector('#nombre').value
         proyectoEditado.descripcion = document.querySelector('#descripcion').value
-        // proyectoEditado.enlace = document.querySelector('#enlace').value,
+        proyectoEditado.enunciado_id = document.querySelector('#enunciado').value
+        // proyectoEditado.enlace = document.querySelector('#enlace').value
 
         await proyectoEditado.update()
         alert('Proyecto editado con éxito')

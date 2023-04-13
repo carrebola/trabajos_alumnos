@@ -1,21 +1,20 @@
 // Importamos la conexión a la base de datos
 import { supabase } from './supabase.js'
 
-export class Nota {
-  // Mapping de propiedades de la tabla notas
-  constructor (id = null, created_at = null, nota = null, proyecto_id = null, user_id = null, rubrica_id = null) {
+export class EnunciadoRubrica {
+  // Mapping de propiedades de la tabla enunciados_rubricas
+  constructor (id = null, created_at = null, enunciado_id = null, rubrica_id = null, peso = null) {
     this.id = id
     this.created_at = created_at
-    this.nota = nota
-    this.proyecto_id = proyecto_id
-    this.user_id = user_id
+    this.enunciado_id = enunciado_id
     this.rubrica_id = rubrica_id
+    this.peso = peso
   }
 
   // leer todos
   static async getAll () {
-    const { data: notas, error } = await supabase
-      .from('notas')
+    const { data: enunciados_rubricas, error } = await supabase
+      .from('enunciados_rubricas')
       .select('*')
       .order('created_at', { ascending: false })
     if (error) {
@@ -23,32 +22,32 @@ export class Nota {
     }
 
     // devuelve array de objetos
-    return notas.map(({ id, created_at, nota, proyecto_id, user_id, rubrica_id }) => {
-      return new Nota(id, created_at, nota, proyecto_id, user_id, rubrica_id)
+    return enunciados_rubricas.map(({ id, created_at, enunciado_id, rubrica_id, peso }) => {
+      return new EnunciadoRubrica(id, created_at, enunciado_id, rubrica_id, peso)
     })
   }
 
   // leer todos
-  static async getAllByProjectId (id) {
-    const { data: notas, error } = await supabase
-      .from('notas')
+  static async getAllByEnunciadoId (id) {
+    const { data: enunciados_rubricas, error } = await supabase
+      .from('enunciados_rubricas')
       .select('*')
-      .eq('proyecto_id', id)
+      .eq('enunciado_id', id)
       .order('created_at', { ascending: false })
     if (error) {
       throw new Error(error.message)
     }
 
     // devuelve array de objetos
-    return notas.map(({ id, created_at, nota, proyecto_id, user_id, rubrica_id }) => {
-      return new Nota(id, created_at, nota, proyecto_id, user_id, rubrica_id)
+    return enunciados_rubricas.map(({ id, created_at, enunciado_id, rubrica_id, peso }) => {
+      return new EnunciadoRubrica(id, created_at, enunciado_id, rubrica_id, peso)
     })
   }
 
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById (id) {
     const { data: nota, error } = await supabase
-      .from('notas')
+      .from('enunciados_rubricas')
       .select('*')
       .eq('id', id)
       .single()
@@ -57,13 +56,13 @@ export class Nota {
       throw new Error(error.message)
     }
 
-    return new Nota(nota.id, nota.nota, nota.proyecto_id, nota.user_id)
+    return new EnunciadoRubrica(nota.id, nota.nota, nota.proyecto_id, nota.user_id)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async create (notaData) {
     const { error } = await supabase
-      .from('notas')
+      .from('enunciados_rubricas')
       .insert(notaData)
       .select()
     console.log('nuevo nota', error)
@@ -76,12 +75,12 @@ export class Nota {
   // actualizar
   async update () {
     const { error } = await supabase
-      .from('notas')
+      .from('enunciados_rubricas')
       .update({
-        nota: this.nota,
-        proyecto_id: this.proyecto_id,
+        enunciado_id: this.enunciado_id,
+        rubrica_id: this.rubrica_id,
         user_id: this.user_id,
-        rubrica_id: this.rubrica_id
+        peso: this.peso
       })
       .eq('id', this.id)
       .single()
@@ -95,7 +94,7 @@ export class Nota {
   // borrar
   static async delete (id) {
     const { error } = await supabase
-      .from('notas')
+      .from('enunciados_rubricas')
       .delete()
       .eq('id', id)
 

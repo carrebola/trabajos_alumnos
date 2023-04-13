@@ -2,6 +2,8 @@ import { User } from '../../bd/user'
 import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
 import { Comentario } from '../../bd/comentario'
+import { Nota } from '../../bd/nota'
+import { estrellas } from '../../componentes/estrellas'
 
 export default {
   template: `
@@ -12,11 +14,25 @@ export default {
       <div class="d-flex justify-content-center m-5">
         <img src="assets/imagenes/proyectos/proyecto.png" class="w-400" alt="imagen proyecto">
       </div>
+    </div>
+    <!-- DAtos proyecto -->
+    <div class="col-6">
       <p>Autor: <span id="autor_proyecto" class="text-center p-2"></span></p>
       <p>Enlace: <a id="enlace_proyecto" class="text-center p-2" target="_black">Link a mi proyecto</a></p>
-      <h3>Descripción:</h3>
+      <h5>Descripción:</h5>
       <p id="descripcion_proyecto"></p>
       <hr class="mt-5">
+    </div>
+    <!-- Valoracion   -->
+    <div class="col-6">
+      <h5>Valoración:</h5>
+      <div id="valoracion">
+        <!-- Aqui van los criterios y las estrellas -->
+      </div>
+      ${estrellas(4)}
+    </div>
+    <!-- Comentarios -->
+    <div class="col-12">
       <h3>Comentarios:</h3>
       
       <form id="formComentario">
@@ -44,11 +60,12 @@ export default {
     try {
       const usuarioLogueado = await User.getUser()
       const perfilLogueado = await Perfil.getByUserId(usuarioLogueado.id)
-      
 
       document.querySelector('#imgPerfilLogueado').src = perfilLogueado.avatar
 
       const proyecto = await Proyecto.getById(id)
+      const notas = await Nota.getAllByProjectId(proyecto.id)
+      console.log(notas)
       const perfilAutor = await Perfil.getByUserId(proyecto.user_id)
       const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
       document.querySelector('#nombre_proyecto').innerHTML = proyecto.nombre
@@ -79,7 +96,7 @@ export default {
             `
         }
         divComentarios += '</div>'
-          document.querySelector('#comentarios').innerHTML = divComentarios
+        document.querySelector('#comentarios').innerHTML = divComentarios
       }
       pintaTablaComentarios()
       // Insertar comentario
@@ -101,9 +118,6 @@ export default {
       console.log(error)
       alert('Error al mostrar el proyecto' + error)
     }
-    
-    
   }
-
 
 }

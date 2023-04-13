@@ -126,4 +126,15 @@ export class Proyecto {
     }
     return true
   }
+
+  // funciones de supabase especificas
+  // proyectosDetalle
+  // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async proyectosDetalle (id) {
+    const { data, error } = await supabase
+      .rpc('proyectosdetalle')
+
+    if (error) console.error(error)
+    else return new Proyecto(data.nombre_usuario, data.nombre_proyecto, data.explicacion)
+  }
 }

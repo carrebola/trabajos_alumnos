@@ -1,6 +1,6 @@
 import { User } from '../../bd/user'
 import { Perfil } from '../../bd/perfil'
-import { Proyecto } from '../../bd/proyecto'
+import { Proyecto, ProyectoDetalle } from '../../bd/proyecto'
 import { Comentario } from '../../bd/comentario'
 import { Nota } from '../../bd/nota'
 import { estrellas } from '../../componentes/estrellas'
@@ -18,6 +18,7 @@ export default {
     <!-- DAtos proyecto -->
     <div class="col-6">
       <p>Autor: <span id="autor_proyecto" class="text-center p-2"></span></p>
+      <p>Enunciado: <span id="enunciado_proyecto" class="text-center p-2"></span></p>
       <p>Enlace: <a id="enlace_proyecto" class="text-center p-2" target="_black">Link a mi proyecto</a></p>
       <h5>Descripción:</h5>
       <p id="descripcion_proyecto"></p>
@@ -63,17 +64,23 @@ export default {
 
       document.querySelector('#imgPerfilLogueado').src = perfilLogueado.avatar
 
-      const proyecto = await Proyecto.getById(id)
-      const notas = await Nota.getAllByProjectId(proyecto.id)
+      const proyectoD = await ProyectoDetalle.getById(id)
+      const notas = await Nota.getAllByProjectId(proyectoD.id)
       console.log(notas)
-      const perfilAutor = await Perfil.getByUserId(proyecto.user_id)
-      const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
-      document.querySelector('#nombre_proyecto').innerHTML = proyecto.nombre
-      document.querySelector('#descripcion_proyecto').innerHTML = proyecto.descripcion
+      console.log(proyectoD)
+      // const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
+      const autor = proyectoD.nombre_usuario + ' ' + proyectoD.apellidos_usuario
+      document.querySelector('#nombre_proyecto').innerHTML = proyectoD.nombre
+      document.querySelector('#descripcion_proyecto').innerHTML = proyectoD.descripcion
       document.querySelector('#autor_proyecto').innerHTML = autor
+      document.querySelector('#enunciado_proyecto').innerHTML = proyectoD.nombre_enunciado
 
-      document.querySelector('#enlace_proyecto').innerHTML = proyecto.enlace
-      document.querySelector('#enlace_proyecto').setAttribute('href', proyecto.enlace)
+      document.querySelector('#enlace_proyecto').innerHTML = proyectoD.enlace
+      document.querySelector('#enlace_proyecto').setAttribute('href', proyectoD.enlace)
+      // pintamos los criterios
+      document.querySelector('#valoracion').innerHTML = 'RUBRICAS'
+
+
       const pintaTablaComentarios = async () => {
         const comentarios = await Comentario.getAllByProjectId(id)
         let divComentarios = `

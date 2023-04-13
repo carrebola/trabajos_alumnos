@@ -1,7 +1,7 @@
 // Importamos la conexión a la base de datos
 import { supabase } from './supabase.js'
 
-export class Proyecto {
+class Proyecto {
   // Mapping de propiedades de la tabla proyectos
   constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null, enunciado_id = null) {
     this.id = id
@@ -126,15 +126,53 @@ export class Proyecto {
     }
     return true
   }
+}
+class ProyectoDetalle extends Proyecto {
+  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null, enunciado_id = null, nombre_usuario = null, apellidos_usuario, nombre_enunciado = null, definicion_enunciado = null) {
+    super(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
+
+    this.id = id
+    this.nombre = nombre
+    this.descripcion = descripcion
+    this.user_id = user_id
+    this.nota = nota
+    this.enlace = enlace
+    this.activo = activo
+    this.enunciado_id = enunciado_id
+    // detalle
+    this.nombre_usuario = nombre_usuario
+    this.apellidos_usuario = apellidos_usuario
+    this.nombre_enunciado = nombre_enunciado
+    this.definicion_enunciado = definicion_enunciado
+  }
 
   // funciones de supabase especificas
   // proyectosDetalle
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async proyectosDetalle (id) {
+  static async getById (id) {
     const { data, error } = await supabase
-      .rpc('proyectosdetalle')
+      .rpc('proyectosdetalle2')
 
     if (error) console.error(error)
-    else return new Proyecto(data.nombre_usuario, data.nombre_proyecto, data.explicacion)
+    else {
+      const proyecto = data[0]
+      console.log('data desde clase proyectosdetalle2-', data[0])
+      return new ProyectoDetalle(
+        proyecto.id,
+        proyecto.nombre,
+        proyecto.descripcion,
+        proyecto.user_id,
+        proyecto.nota,
+        proyecto.enlace,
+        proyecto.activo,
+        proyecto.enunciado_id,
+        // detalle
+        proyecto.nombre_usuario,
+        proyecto.apellidos_usuario,
+        proyecto.nombre_enunciado,
+        proyecto.definicion_enunciado
+      )
+    }
   }
 }
+export { Proyecto, ProyectoDetalle }

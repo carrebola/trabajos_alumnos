@@ -8,6 +8,7 @@ RETURNS TABLE (
   activo BOOLEAN,
   enunciado_id INT,
   nombre_usuario TEXT,
+  apellidos_usuario TEXT,
   nombre_enunciado TEXT,
   definicion_enunciado TEXT
 )
@@ -22,6 +23,7 @@ SELECT DISTINCT
   proyectos.activo,
   proyectos.enunciado_id,
   perfiles.nombre AS nombre_usuario,
+  perfiles.apellidos AS apellidos_usuario,
   enunciados.nombre AS nombre_enunciado,
   enunciados.definicion AS definicion_enunciado
 FROM proyectos

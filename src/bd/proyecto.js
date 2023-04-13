@@ -63,6 +63,21 @@ class Proyecto {
     return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo, proyecto.enunciado_id)
   }
 
+  // leer registro por proyecto_id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async getByProjectId (id) {
+    const { data: proyecto, error } = await supabase
+      .from('proyectos')
+      .select('*')
+      .eq('proyecto_id', id)
+      .single()
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo, proyecto.enunciado_id)
+  }
+
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async create (proyectoData) {
     const { error } = await supabase
@@ -149,6 +164,9 @@ class ProyectoDetalle extends Proyecto {
   // funciones de supabase especificas
   // proyectosDetalle
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  
+  //**************** esto debe ser getAll con detalle */
+  
   static async getById (id) {
     const { data, error } = await supabase
       .rpc('proyectosdetalle2')

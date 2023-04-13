@@ -66,8 +66,8 @@ export default {
 
       const proyectoD = await ProyectoDetalle.getById(id)
       const notas = await Nota.getAllByProjectId(proyectoD.id)
-      console.log(notas)
-      console.log(proyectoD)
+      console.log('notas ' ,notas)
+      
       // const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
       const autor = proyectoD.nombre_usuario + ' ' + proyectoD.apellidos_usuario
       document.querySelector('#nombre_proyecto').innerHTML = proyectoD.nombre

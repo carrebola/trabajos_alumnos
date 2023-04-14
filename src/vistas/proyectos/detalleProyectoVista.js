@@ -16,7 +16,7 @@ export default {
       </div>
     </div>
     <!-- DAtos proyecto -->
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <p>Autor: <span id="autor_proyecto" class="text-center p-2"></span></p>
       <p>Enunciado: <span id="enunciado_proyecto" class="text-center p-2"></span></p>
       <p>Enlace: <a id="enlace_proyecto" class="text-center p-2" target="_black">Link a mi proyecto</a></p>
@@ -25,12 +25,19 @@ export default {
       <hr class="mt-5">
     </div>
     <!-- Valoracion   -->
-    <div class="col-6">
-      <h5>Valoración:</h5>
+    <div class="col-12 col-md-3  border p-2">
+      <h5>Valoración alumnos:</h5>
       <div id="valoracion">
         <!-- Aqui van los criterios y las estrellas -->
       </div>
-      ${estrellas(4)}
+      ${estrellas(2)}
+    </div>
+    <div class="col-12 col-md-3 border  p-2">
+      <h5>Tu valoración:</h5>
+      <div id="valoracionPersonal">
+        <!-- Aqui van los criterios y las estrellas -->
+        ${estrellas(4)}
+      </div> 
     </div>
     <!-- Comentarios -->
     <div class="col-12">

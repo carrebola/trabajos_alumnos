@@ -2,6 +2,8 @@ import { User } from '../../bd/user'
 import { Perfil } from '../../bd/perfil'
 import { Proyecto, ProyectoDetalle } from '../../bd/proyecto'
 import { Comentario } from '../../bd/comentario'
+import { EnunciadoRubrica, EnunciadoRubricaDetalle } from '../../bd/enunciadoRubrica'
+
 import { Nota } from '../../bd/nota'
 import { estrellas } from '../../componentes/estrellas'
 
@@ -16,28 +18,32 @@ export default {
       </div>
     </div>
     <!-- DAtos proyecto -->
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 mt-2">
+      <h5> Información general: </h5>
       <p>Autor: <span id="autor_proyecto" class="text-center p-2"></span></p>
       <p>Enunciado: <span id="enunciado_proyecto" class="text-center p-2"></span></p>
       <p>Enlace: <a id="enlace_proyecto" class="text-center p-2" target="_black">Link a mi proyecto</a></p>
       <h5>Descripción:</h5>
       <p id="descripcion_proyecto"></p>
-      <hr class="mt-5">
     </div>
     <!-- Valoracion   -->
-    <div class="col-12 col-md-3  border p-2">
-      <h5>Valoración alumnos:</h5>
-      <div id="valoracion">
-        <!-- Aqui van los criterios y las estrellas -->
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12 col-xl-6 mt-2">
+          <h5>Valoración alumnos:</h5>
+          <div id="valoracion">
+            <!-- Aqui van los criterios y las estrellas -->
+          </div>
+          
+        </div>
+        <div class="col-12 col-xl-6 mt-2 ">
+          <h5>Tu valoración:</h5>
+          <div id="valoracionPersonal">
+            <!-- Aqui van los criterios y las estrellas -->
+            
+          </div> 
+        </div>
       </div>
-      ${estrellas(2)}
-    </div>
-    <div class="col-12 col-md-3 border  p-2">
-      <h5>Tu valoración:</h5>
-      <div id="valoracionPersonal">
-        <!-- Aqui van los criterios y las estrellas -->
-        ${estrellas(4)}
-      </div> 
     </div>
     <!-- Comentarios -->
     <div class="col-12">
@@ -71,10 +77,25 @@ export default {
 
       document.querySelector('#imgPerfilLogueado').src = perfilLogueado.avatar
 
-      const proyectoD = await ProyectoDetalle.getById(id)
+      const proyectoD = await ProyectoDetalle.proyectoDetalleId(id)
+      console.log(proyectoD.id)
       const notas = await Nota.getAllByProjectId(proyectoD.id)
-      console.log('notas ' ,notas)
-      
+      console.log('notas ', notas)
+
+      // funcion que calcula la media para una rubrica en concreto
+      const calculaNota = (rubrica_id) => {
+        notas.filter(nota => nota.rubrica_id === rubrica_id)
+        let notaMedia = 0
+        notas.forEach(nota => {
+          notaMedia += nota.nota
+        })
+        return (notaMedia / notas.length)
+      }
+      console.log('nota media para rubrica 1 ', calculaNota(1))
+
+      const rubricas = await EnunciadoRubrica.getAllByEnunciadoId(proyectoD.id)
+      console.log(rubricas)
+
       // const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
       const autor = proyectoD.nombre_usuario + ' ' + proyectoD.apellidos_usuario
       document.querySelector('#nombre_proyecto').innerHTML = proyectoD.nombre
@@ -84,9 +105,20 @@ export default {
 
       document.querySelector('#enlace_proyecto').innerHTML = proyectoD.enlace
       document.querySelector('#enlace_proyecto').setAttribute('href', proyectoD.enlace)
-      // pintamos los criterios
-      document.querySelector('#valoracion').innerHTML = 'RUBRICAS'
 
+      // pintamos las rubricas
+      const pintaRubricas = async (usuario = null) => {
+        const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
+        console.log('enunciadoID ' + proyectoD.enunciado_id + ' rubricas ', rubricasDetalle)
+        let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
+        rubricasDetalle.forEach(element => {
+          HTMLlistaRubricas += `<li class="list-group-item d-flex justify-content-between">   ${element.rubrica_nombre} <span>${estrellas(4)}</span> </li>`
+        })
+        HTMLlistaRubricas += '</ul>'
+        return HTMLlistaRubricas
+      }
+      document.querySelector('#valoracion').innerHTML = await pintaRubricas()
+      document.querySelector('#valoracionPersonal').innerHTML = await pintaRubricas(usuarioLogueado.id)
 
       const pintaTablaComentarios = async () => {
         const comentarios = await Comentario.getAllByProjectId(id)

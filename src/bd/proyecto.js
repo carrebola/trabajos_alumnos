@@ -164,12 +164,14 @@ class ProyectoDetalle extends Proyecto {
   // funciones de supabase especificas
   // proyectosDetalle
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  
-  //**************** esto debe ser getAll con detalle */
-  
-  static async getById (id) {
+
+  //* *************** esto debe ser getAll con detalle */
+
+  static async proyectoDetalleId (proyectoid) {
     const { data, error } = await supabase
-      .rpc('proyectosdetalle2')
+      .rpc('proyectodetalleid', {
+        proyectoid
+      })
 
     if (error) console.error(error)
     else {

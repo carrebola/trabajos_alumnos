@@ -61,6 +61,21 @@ export class Rubrica {
     return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.activo)
   }
 
+  // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
+  static async getAllByEnunciadoId (id) {
+    const { data: rubrica, error } = await supabase
+      .from('rubricas')
+      .select('*')
+      .eq('enunciado_id', id)
+      .single()
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.activo)
+  }
+
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async create (rubricaData) {
     const { error } = await supabase

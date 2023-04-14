@@ -5,6 +5,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~bootswatch/dist/superhero/bootswatch";
 
+.estrellas{
+  display: inline-block;
+}
 .estrella{
   display: inline-block;
   background-size: cover;

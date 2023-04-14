@@ -1,7 +1,7 @@
 // Importamos la conexión a la base de datos
 import { supabase } from './supabase.js'
 
-export class EnunciadoRubrica {
+class EnunciadoRubrica {
   // Mapping de propiedades de la tabla enunciados_rubricas
   constructor (id = null, created_at = null, enunciado_id = null, rubrica_id = null, peso = null) {
     this.id = id
@@ -104,3 +104,39 @@ export class EnunciadoRubrica {
     return true
   }
 }
+
+class EnunciadoRubricaDetalle extends EnunciadoRubrica {
+  constructor (
+
+    id = null,
+    created_at = null,
+    enunciado_id = null,
+    rubrica_id = null,
+    peso = null,
+    enunciado_nombre = null,
+    enunciado_descripcion = null,
+    enunciado_autor = null,
+    rubrica_nombre = null,
+    rubrica_descripcion = null
+
+  ) {
+    super(id = null, created_at = null, enunciado_id = null, rubrica_id = null, peso = null)
+    this.id = id
+    this.created_at = created_at
+    this.enunciado_id = enunciado_id
+    this.rubrica_id = rubrica_id
+    this.peso = peso
+  }
+
+  static async rubricasTodosDetalleDeProyectoId (id_enunciado) {
+    const { data, error } = await supabase
+      .rpc('rubricastodosdetalledeenunciadoid', {
+        id_enunciado
+      })
+
+    if (error) console.error(error)
+    else return data
+  }
+}
+
+export { EnunciadoRubrica, EnunciadoRubricaDetalle }

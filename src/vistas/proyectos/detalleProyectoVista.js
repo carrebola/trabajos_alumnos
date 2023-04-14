@@ -78,23 +78,24 @@ export default {
       document.querySelector('#imgPerfilLogueado').src = perfilLogueado.avatar
 
       const proyectoD = await ProyectoDetalle.proyectoDetalleId(id)
-      console.log(proyectoD.id)
       const notas = await Nota.getAllByProjectId(proyectoD.id)
       console.log('notas ', notas)
 
       // funcion que calcula la media para una rubrica en concreto
       const calculaNota = (rubrica_id) => {
-        notas.filter(nota => nota.rubrica_id === rubrica_id)
-        let notaMedia = 0
-        notas.forEach(nota => {
-          notaMedia += nota.nota
-        })
-        return (notaMedia / notas.length)
-      }
-      console.log('nota media para rubrica 1 ', calculaNota(1))
+        let notasRubrica = []
+        if (rubrica_id) {
+          notasRubrica = notas.filter(element => element.rubrica_id === rubrica_id && element.user_id === proyectoD.user_id)
+        } else {
+          notasRubrica = notas.filter(element => element.rubrica_id === rubrica_id)
+        }
 
-      const rubricas = await EnunciadoRubrica.getAllByEnunciadoId(proyectoD.id)
-      console.log(rubricas)
+        let sumaNotas = 0
+        notasRubrica.forEach(element => {
+          sumaNotas += element.nota
+        })
+        return (sumaNotas / notasRubrica.length)
+      }
 
       // const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
       const autor = proyectoD.nombre_usuario + ' ' + proyectoD.apellidos_usuario
@@ -107,12 +108,24 @@ export default {
       document.querySelector('#enlace_proyecto').setAttribute('href', proyectoD.enlace)
 
       // pintamos las rubricas
-      const pintaRubricas = async (usuario = null) => {
+      const pintaRubricas = async (user_id = null) => {
         const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
-        console.log('enunciadoID ' + proyectoD.enunciado_id + ' rubricas ', rubricasDetalle)
+        console.log('rubricas detalle ', rubricasDetalle)
         let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
         rubricasDetalle.forEach(element => {
-          HTMLlistaRubricas += `<li class="list-group-item d-flex justify-content-between">   ${element.rubrica_nombre} <span>${estrellas(4)}</span> </li>`
+          let nota = 0
+          if (user_id) {
+            nota = notas.filter(element => element.rubrica_id === rubrica_id && element.user_id === proyectoD.user_id)
+          } else {
+            nota = (calculaNota(element.rubrica_id)).toFixed(1) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
+          }
+          HTMLlistaRubricas += `
+          <li class="list-group-item d-flex justify-content-between">   
+            ${element.rubrica_nombre} 
+            <span>
+            ${nota} ${estrellas(Math.round(nota))}
+            </span>
+          </li>`
         })
         HTMLlistaRubricas += '</ul>'
         return HTMLlistaRubricas

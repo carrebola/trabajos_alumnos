@@ -62,14 +62,15 @@ export class Nota {
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async create (notaData) {
-    console.log(notaData);
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('notas')
       .insert(notaData)
+      .select()
     if (error) {
       throw new Error(error.message)
     }
-    return true
+    // console.log('data', data[0].id);
+    return data[0]
   }
 
   // actualizar
@@ -102,5 +103,17 @@ export class Nota {
       throw new Error(error.message)
     }
     return true
+  }
+
+  static async eventos () {
+    const notas = supabase.channel('custom-all-channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'notas' },
+        (payload) => {
+          console.log('Change received!', payload)
+        }
+      )
+      .subscribe()
   }
 }

@@ -70,10 +70,86 @@ export default {
 </div>
     `,
   script: async (id) => {
+    const eventos = await Nota.eventos()
     // Cargamos datos generales
     let usuarioLogueado = ''
     let perfilLogueado = ''
     let proyectoD = ''
+
+    const pintaRubricas = async () => {
+      const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
+
+      let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
+
+      rubricasDetalle.forEach(element => {
+        const calculaNota = (rubrica_id) => {
+          let notasRubrica = []
+          notasRubrica = notas.filter(ele => ele.rubrica_id === rubrica_id)
+          let sumaNotas = 0
+          notasRubrica.forEach(notas => {
+            sumaNotas += notas.nota
+          })
+          const notaMedia = notasRubrica.length > 0 ? (sumaNotas / notasRubrica.length).toFixed(2) : ''
+          return (notaMedia)
+        }
+        let info = ''
+        info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
+        HTMLlistaRubricas += `
+          <li class="list-group-item d-flex justify-content-between ">   
+            ${element.rubrica_nombre} (${element.peso}/100) 
+            <span class="d-flex">
+            ${info} 
+            </span>
+          </li>`
+      })
+      HTMLlistaRubricas += '</ul>'
+      document.querySelector('#valoracion').innerHTML = HTMLlistaRubricas
+    }
+    // PINTARUBRICASUSUARIO()
+    const pintaRubricasUsuario = async () => {
+      // Si recibe user_id pinta la nota que el usuario a puesto y las estrellas, sino, pinta la media de alumnos y las estrellas
+      const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
+      console.log('rubricas detalle ', rubricasDetalle)
+
+      let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
+      rubricasDetalle.forEach(element => {
+        let nota
+        let id
+        console.log('notas', notas)
+        if (notas.length > 0) {
+          const miNotaFiltrada = notas.filter(nota => nota.rubrica_id === element.rubrica_id && nota.user_id === proyectoD.user_id)
+          if (miNotaFiltrada.length > 0) {
+            nota = miNotaFiltrada[0].nota
+            id = miNotaFiltrada[0].id
+          }
+        }
+        const inputMiNota = `
+          <input 
+            id = "inputMiNota" 
+            class = "nota" 
+            type = "number" 
+            min = "0" max = "5" 
+            value = "${nota}"
+            data-id = "${id}"
+            data-userId = "${proyectoD.user_id}"
+            data-rubricaId = "${element.rubrica_id}"
+            data-proyectoId = "${proyectoD.id}" 
+            data-nota = "${nota}"
+          />`
+        const info = inputMiNota + ' ' + estrellas(Math.round(nota))
+
+        HTMLlistaRubricas += `
+        <li class="list-group-item d-flex justify-content-between ">   
+          ${element.rubrica_nombre} (${element.peso}/100) 
+          <span class="d-flex">
+          ${info} 
+          </span>
+        </li>`
+      })
+      HTMLlistaRubricas += '</ul>'
+      const vp = document.querySelector('#valoracionPersonal')
+      vp.innerHTML = HTMLlistaRubricas
+    }
 
     try {
       // capturamos datos del proyecto
@@ -98,91 +174,12 @@ export default {
     let notas = []
     try {
       notas = await Nota.getAllByProjectId(proyectoD.id)
-      // funcion que calcula la media para una rubrica en concreto
+      await pintaRubricas()
+      // pintamos las rubricas y nota que ha puesto el usuario
+
+      await pintaRubricasUsuario()
     } catch (error) {
       console.log('no hay notas para este proyecto', error)
-    }
-    // Intentamos pintar rubricas
-    try {
-      const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
-      // pintamos las rubricas y nota media
-      const pintaRubricas = async (user_id = null) => {
-        let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
-        const calculaNota = (rubrica_id) => {
-          let notasRubrica = []
-          notasRubrica = notas.filter(ele => ele.rubrica_id === rubrica_id)
-          let sumaNotas = 0
-          notasRubrica.forEach(notas => {
-            sumaNotas += notas.nota
-          })
-          const notaMedia = notasRubrica.length > 0 ? (sumaNotas / notasRubrica.length).toFixed(2) : ''
-          return (notaMedia)
-        }
-        rubricasDetalle.forEach(element => {
-          let info = ''
-          info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
-          HTMLlistaRubricas += `
-          <li class="list-group-item d-flex justify-content-between ">   
-            ${element.rubrica_nombre} (${element.peso}/100) 
-            <span class="d-flex">
-            ${info} 
-            </span>
-          </li>`
-        })
-        HTMLlistaRubricas += '</ul>'
-        return HTMLlistaRubricas
-      }
-
-      // pintamos las rubricas y nota que ha puesto el usuario
-      const pintaRubricasUsuario = async (user_id = null) => {
-        // Si recibe user_id pinta la nota que el usuario a puesto y las estrellas, sino, pinta la media de alumnos y las estrellas
-        const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
-        console.log('rubricas detalle ', rubricasDetalle)
-
-        let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
-        rubricasDetalle.forEach(element => {
-          let nota
-          let id
-          console.log('notas', notas)
-          if (notas.length > 0) {
-            const miNotaFiltrada = notas.filter(nota => nota.rubrica_id === element.rubrica_id && nota.user_id === proyectoD.user_id)
-            if (miNotaFiltrada.length > 0) {
-              nota = miNotaFiltrada[0].nota
-              id = miNotaFiltrada[0].id
-            }
-          }
-          const inputMiNota = `
-            <input 
-              id = "inputMiNota" 
-              class = "nota" 
-              type = "number" 
-              min = "0" max = "5" 
-              value = "${nota}"
-              data-id = "${id}"
-              data-userId = "${proyectoD.user_id}"
-              data-rubricaId = "${element.rubrica_id}"
-              data-proyectoId = "${proyectoD.id}" 
-              data-nota = "${nota}"
-            />`
-          const info = inputMiNota + ' ' + estrellas(Math.round(nota))
-
-          HTMLlistaRubricas += `
-          <li class="list-group-item d-flex justify-content-between ">   
-            ${element.rubrica_nombre} (${element.peso}/100) 
-            <span class="d-flex">
-            ${info} 
-            </span>
-          </li>`
-        })
-        HTMLlistaRubricas += '</ul>'
-        return HTMLlistaRubricas
-      }
-
-      document.querySelector('#valoracion').innerHTML = await pintaRubricas()
-      document.querySelector('#valoracionPersonal').innerHTML = await pintaRubricasUsuario(proyectoD.user_id)
-    } catch (error) {
-      console.log(error)
-      window.alert('Error al mostrar las rubricas' + error)
     }
 
     // Intentamos PINTAR COMENTARIOS
@@ -235,29 +232,37 @@ export default {
 
     // Evento cambio sobre inputMiNota
     document.addEventListener('change', async (e) => {
-      console.log(e.target.dataset)
       if (e.target.classList.contains('nota')) {
         const datosNota = {
+
           nota: e.target.value,
           proyecto_id: e.target.dataset.proyectoid,
           user_id: e.target.dataset.userid,
           rubrica_id: e.target.dataset.rubricaid
+
         }
 
         try {
           // Si no tiene nota la insertamos. Si ya hay nota la actualizamos
           const notaData = e.target.dataset.nota
-          console.log('nota usuario ', notaData)
           if (notaData === 'undefined') {
-            await Nota.create(datosNota)
-            e.target.setAttribute('data-nota', datosNota.nota)
+            const notaInsertada = await Nota.create(datosNota)
+            e.target.setAttribute('data-nota', notaInsertada.nota)
+            e.target.setAttribute('data-id', notaInsertada.id)
           } else {
-            const notaUsuario = new Nota(datosNota)
+            const notaUsuario = new Nota(
+              datosNota.id = e.target.dataset.id,
+              datosNota.created_at = null,
+              datosNota.nota,
+              datosNota.proyecto_id,
+              datosNota.user_id,
+              datosNota.rubrica_id)
             notaUsuario.id = e.target.dataset.id
             const notaUsuarioActualizada = await notaUsuario.update()
           }
+          await pintaRubricas()
         } catch (error) {
-          window.alert('Error al actualizar nota: ' + error)
+          window.alert('Error al crear/actualizar nota: ' + error)
         }
 
         // const notaCreada = await Nota.create(datosNota)

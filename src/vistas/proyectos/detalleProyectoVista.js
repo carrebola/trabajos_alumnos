@@ -70,13 +70,26 @@ export default {
 </div>
     `,
   script: async (id) => {
-    const eventos = await Nota.eventos()
+    // Detectamos eventos si hay cambio en tabla notas
+    // const eventos = supabase.channel('custom-all-channel')
+    //   .on(
+    //     'postgres_changes',
+    //     { event: '*', schema: 'public', table: 'notas' },
+    //     async (payload) => {
+    //       console.log('Change received!', payload)
+    //       await pintaRubricas()
+    //     }
+    //   )
+    //   .subscribe()
+
     // Cargamos datos generales
     let usuarioLogueado = ''
     let perfilLogueado = ''
     let proyectoD = ''
 
     const pintaRubricas = async () => {
+      notas = await Nota.getAllByProjectId(proyectoD.id)
+
       const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
 
       let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
@@ -94,6 +107,7 @@ export default {
         }
         let info = ''
         info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
+        console.log('info', info)
         HTMLlistaRubricas += `
           <li class="list-group-item d-flex justify-content-between ">   
             ${element.rubrica_nombre} (${element.peso}/100) 
@@ -107,6 +121,8 @@ export default {
     }
     // PINTARUBRICASUSUARIO()
     const pintaRubricasUsuario = async () => {
+      notas = await Nota.getAllByProjectId(proyectoD.id)
+
       // Si recibe user_id pinta la nota que el usuario a puesto y las estrellas, sino, pinta la media de alumnos y las estrellas
       const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
       console.log('rubricas detalle ', rubricasDetalle)
@@ -173,7 +189,6 @@ export default {
     // Intentamos leer las notas de este proyecto
     let notas = []
     try {
-      notas = await Nota.getAllByProjectId(proyectoD.id)
       await pintaRubricas()
       // pintamos las rubricas y nota que ha puesto el usuario
 
@@ -234,12 +249,10 @@ export default {
     document.addEventListener('change', async (e) => {
       if (e.target.classList.contains('nota')) {
         const datosNota = {
-
           nota: e.target.value,
           proyecto_id: e.target.dataset.proyectoid,
           user_id: e.target.dataset.userid,
           rubrica_id: e.target.dataset.rubricaid
-
         }
 
         try {
@@ -261,6 +274,7 @@ export default {
             const notaUsuarioActualizada = await notaUsuario.update()
           }
           await pintaRubricas()
+          await pintaRubricasUsuario(datosNota.proyecto_id)
         } catch (error) {
           window.alert('Error al crear/actualizar nota: ' + error)
         }

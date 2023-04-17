@@ -7,6 +7,8 @@ import { EnunciadoRubrica, EnunciadoRubricaDetalle } from '../../bd/enunciadoRub
 import { Nota } from '../../bd/nota'
 import { estrellas } from '../../componentes/estrellas'
 
+import { pintaRubricas, pintaRubricasUsuario } from '../../componentes/pintaRubricas'
+
 export default {
   template: `
 <div class="container mt-5">
@@ -87,86 +89,6 @@ export default {
     let perfilLogueado = ''
     let proyectoD = ''
 
-    const pintaRubricas = async () => {
-      notas = await Nota.getAllByProjectId(proyectoD.id)
-
-      const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
-
-      let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
-
-      rubricasDetalle.forEach(element => {
-        const calculaNota = (rubrica_id) => {
-          let notasRubrica = []
-          notasRubrica = notas.filter(ele => ele.rubrica_id === rubrica_id)
-          let sumaNotas = 0
-          notasRubrica.forEach(notas => {
-            sumaNotas += notas.nota
-          })
-          const notaMedia = notasRubrica.length > 0 ? (sumaNotas / notasRubrica.length).toFixed(2) : ''
-          return (notaMedia)
-        }
-        let info = ''
-        info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
-        console.log('info', info)
-        HTMLlistaRubricas += `
-          <li class="list-group-item d-flex justify-content-between ">   
-            ${element.rubrica_nombre} (${element.peso}/100) 
-            <span class="d-flex">
-            ${info} 
-            </span>
-          </li>`
-      })
-      HTMLlistaRubricas += '</ul>'
-      document.querySelector('#valoracion').innerHTML = HTMLlistaRubricas
-    }
-    // PINTARUBRICASUSUARIO()
-    const pintaRubricasUsuario = async () => {
-      notas = await Nota.getAllByProjectId(proyectoD.id)
-
-      // Si recibe user_id pinta la nota que el usuario a puesto y las estrellas, sino, pinta la media de alumnos y las estrellas
-      const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
-      console.log('rubricas detalle ', rubricasDetalle)
-
-      let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
-      rubricasDetalle.forEach(element => {
-        let nota
-        let id
-        console.log('notas', notas)
-        if (notas.length > 0) {
-          const miNotaFiltrada = notas.filter(nota => nota.rubrica_id === element.rubrica_id && nota.user_id === proyectoD.user_id)
-          if (miNotaFiltrada.length > 0) {
-            nota = miNotaFiltrada[0].nota
-            id = miNotaFiltrada[0].id
-          }
-        }
-        const inputMiNota = `
-          <input 
-            id = "inputMiNota" 
-            class = "nota" 
-            type = "number" 
-            min = "0" max = "5" 
-            value = "${nota}"
-            data-id = "${id}"
-            data-userId = "${proyectoD.user_id}"
-            data-rubricaId = "${element.rubrica_id}"
-            data-proyectoId = "${proyectoD.id}" 
-            data-nota = "${nota}"
-          />`
-        const info = inputMiNota + ' ' + estrellas(Math.round(nota))
-
-        HTMLlistaRubricas += `
-        <li class="list-group-item d-flex justify-content-between ">   
-          ${element.rubrica_nombre} (${element.peso}/100) 
-          <span class="d-flex">
-          ${info} 
-          </span>
-        </li>`
-      })
-      HTMLlistaRubricas += '</ul>'
-      const vp = document.querySelector('#valoracionPersonal')
-      vp.innerHTML = HTMLlistaRubricas
-    }
-
     try {
       // capturamos datos del proyecto
       usuarioLogueado = await User.getUser()
@@ -187,12 +109,12 @@ export default {
     }
 
     // Intentamos leer las notas de este proyecto
-    let notas = []
+    const notas = []
     try {
-      await pintaRubricas()
+      await pintaRubricas(proyectoD)
       // pintamos las rubricas y nota que ha puesto el usuario
 
-      await pintaRubricasUsuario()
+      await pintaRubricasUsuario(proyectoD)
     } catch (error) {
       console.log('no hay notas para este proyecto', error)
     }
@@ -273,8 +195,8 @@ export default {
             notaUsuario.id = e.target.dataset.id
             const notaUsuarioActualizada = await notaUsuario.update()
           }
-          await pintaRubricas()
-          await pintaRubricasUsuario(datosNota.proyecto_id)
+          await pintaRubricas(proyectoD)
+          await pintaRubricasUsuario(proyectoD)
         } catch (error) {
           window.alert('Error al crear/actualizar nota: ' + error)
         }

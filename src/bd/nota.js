@@ -112,6 +112,7 @@ export class Nota {
         { event: '*', schema: 'public', table: 'notas' },
         (payload) => {
           console.log('Change received!', payload)
+          return 'change'
         }
       )
       .subscribe()

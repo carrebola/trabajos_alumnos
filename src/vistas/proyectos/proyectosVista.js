@@ -10,7 +10,8 @@ export default {
       <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
-                  <th></th>
+                  <th>IMAGEN</th>
+                  <th>ID</th>
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
@@ -52,6 +53,7 @@ export default {
         <td>
           <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" data-id="${proyecto.id}" class="detalle"/>
         </td>
+        <td>${proyecto.id}</td>
         <td>${autor}</td>
         <td>${proyecto.nombre}</td>
         <td class="w-100">${proyecto.descripcion}</td>

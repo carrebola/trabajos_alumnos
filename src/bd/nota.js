@@ -62,11 +62,10 @@ export class Nota {
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async create (notaData) {
+    console.log(notaData);
     const { error } = await supabase
       .from('notas')
       .insert(notaData)
-      .select()
-    console.log('nuevo nota', error)
     if (error) {
       throw new Error(error.message)
     }

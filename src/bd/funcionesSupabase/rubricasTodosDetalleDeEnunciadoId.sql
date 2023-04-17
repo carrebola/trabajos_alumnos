@@ -14,9 +14,10 @@ SELECT DISTINCT
   enunciados_rubricas.peso AS rubrica_peso,
   rubricas.nombre AS rubrica_nombre,
   rubricas.descripcion AS rubrica_descripcion
-FROM rubricas, enunciados_rubricas
+FROM rubricas
+INNER JOIN enunciados_rubricas ON rubricas.id = enunciados_rubricas.rubrica_id
 INNER JOIN enunciados ON enunciados.id = enunciados_rubricas.enunciado_id
-WHERE enunciados_rubricas.enunciado_id = id_enunciado;
+WHERE enunciados.id = id_enunciado;
 $$;
 
 

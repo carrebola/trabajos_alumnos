@@ -55,12 +55,18 @@ export const menuSuperior = {
       `,
       admin: `
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="#/recursos">Recursos</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/proyectos">Proyectos</a>
+      </li>
       <li><hr /></li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/enunciados">Enunciados</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/rubricas">Rubricas</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="#/adminUsuarios">Admin</a>
       </li>

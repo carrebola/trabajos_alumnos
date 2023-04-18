@@ -3,11 +3,15 @@ import { Enunciado } from '../../bd/enunciado'
 import { User } from '../../bd/user'
 export default {
   template: `
-  <main style="padding-top: 100px">
-  <div class="container">
-      <h1>Mis Enunciados</h1>
-      <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success mt-3">Nuevo Enunciado</a>
-      <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-warning mt-3 ms-2">Mis Enunciados</a>
+  <main style="padding-top: 50px">
+  <div class="container-fluid">  
+      <div class="d-flex justify-content-between border-bottom">
+        <h1>Enunciados</h1>
+        <div>
+          <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-link mt-3 ms-2">Ver mis enunciados</a>
+          <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success m-3 ms-auto">Nuevo Enunciado</a>
+        </div>  
+      </div>
       <table id="tablaEnunciados" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
@@ -48,8 +52,7 @@ export default {
 
       let tabla = ''
       for (const enunciado of enunciados) {
-        console.log(enunciado);
-        
+        console.log(enunciado)
 
         // Capturamos el nombre del autor de cada enunciado
         const perfil = await Perfil.getByUserId(enunciado.user_id)
@@ -57,7 +60,7 @@ export default {
         tabla += `
       <tr>
         <td>
-          <img src="/assets/imagenes/enunciados/enunciado.png" width="100" alt="" data-id="${enunciado.id}" class="detalle"/>
+          <img src="${enunciado.imagen ? enunciado.imagen : '/assets/imagenes/proyectos/proyecto.png'}" width="50" alt="" data-id="${enunciado.id}" class="detalle border"/>
         </td>
         <td>${autor}</td>
         <td>${enunciado.nombre}</td>

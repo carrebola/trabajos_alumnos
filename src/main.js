@@ -2,6 +2,8 @@
 import './scss/styles.scss'
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
+// Import sweetalert2 para crear alertas
+import Swal from 'sweetalert2'
 
 // Importamos componentes header y footer
 import { header } from './componentes/header'
@@ -17,4 +19,4 @@ document.querySelector('#footer').innerHTML = footer.template
 enrutador.observadorRutas()
 
 // Cargamos la página home
-window.location = '/#/detalleProyecto/6'
+window.location = '/#/home'

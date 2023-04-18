@@ -23,7 +23,8 @@
     "@popperjs/core": "^2.11.6",
     "@supabase/supabase-js": "^2.8.0",
     "bootstrap": "^5.2.3",
-    "bootswatch": "^5.2.3"
+    "bootswatch": "^5.2.3",
+    "sweetalert2": "^11.7.3"
   },
   "eslintConfig": {
     "extends": [

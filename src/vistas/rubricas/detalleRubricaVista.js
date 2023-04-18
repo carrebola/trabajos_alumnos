@@ -7,7 +7,8 @@ export default {
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
-      <h1 id="nombre_rubrica" class="w-100 text-center p-2"></h1>
+    <a href="#/rubricas" class="btn btn-outline-secondary btn-sm">< Rúbricas</a>
+    <h1 id="nombre_rubrica" class="w-100 mt-5"></h1>
       <p>Autor: <span id="autor_rubrica" class="text-center p-2"></span></p>
       <h3>Descripción:</h3>
       <div id="descripcion_rubrica"></div>

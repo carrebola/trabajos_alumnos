@@ -3,7 +3,7 @@ import { Rubrica } from '../../bd/rubrica'
 export default {
   template: `
   <main style="padding-top: 100px">
-  <div class="container">
+  <div class="container-fluid">
       <h1>Rúbricas</h1>
       <a href="/#/nuevoRubrica" id="nuevoRubrica" class="btn btn-success mt-3">Nuevo Rubrica</a>
       <a href="/#/misRubricas" id="misRubricas" class="btn btn-warning mt-3 ms-2">Mis Rubricas</a>

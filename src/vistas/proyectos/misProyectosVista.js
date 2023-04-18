@@ -3,11 +3,15 @@ import { Proyecto } from '../../bd/proyecto'
 import { User } from '../../bd/user'
 export default {
   template: `
-  <main style="padding-top: 100px">
-  <div class="container">
+  <main style="padding-top: 50px">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between border-bottom">
       <h1>Mis Proyectos</h1>
-      <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success mt-3">Nuevo Proyecto</a>
-      <a href="/#/misProyectos" id="misProyectos" class="btn btn-warning mt-3 ms-2">Mis Proyectos</a>
+      <div>
+        <a href="/#/proyectos" id="proyectos" class="btn btn-link mt-3 ms-2">< Volver a proyectos</a>
+        <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success m-3 ms-auto">Nuevo Proyecto</a>
+      </div>  
+    </div>
       <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>

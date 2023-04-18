@@ -8,6 +8,7 @@ export default {
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
+      <a href="#/enunciados" class="btn btn-outline-secondary btn-sm">< Enunciados</a>
       <h1 id="nombre_enunciado" class="w-100 text-center p-2"></h1>
       <div class="d-flex justify-content-center m-5">
         <img src="" class="w-400" alt="">

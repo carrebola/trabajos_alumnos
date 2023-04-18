@@ -5,6 +5,7 @@ export default {
   <div
   class="container d-flex mt-5 justify-content-center">
   <div class="col-12">
+      <a href="#/proyectos" class="btn btn-outline-secondary btn-sm">< Proyectos</a>
       <h1 class="text-center p-2">Nuevo Proyecto</h1>
       <form id="form_proyecto" class="p-3" novalidate>
           <label class="mt-3 form-label" for="nombre">Nombre: </label>

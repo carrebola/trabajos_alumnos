@@ -3,7 +3,7 @@ import { Proyecto } from '../../bd/proyecto'
 export default {
   template: `
   <div
-  class="container d-flex mt-5 justify-content-center">
+  class="container-fluid d-flex mt-5 justify-content-center">
   <div class="col-12">
       <h1 class="text-center p-2">Editar Proyecto</h1>
       <form id="formProyecto" class="p-3" novalidate>

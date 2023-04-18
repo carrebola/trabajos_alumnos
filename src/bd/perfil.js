@@ -79,6 +79,7 @@ export class Perfil {
       .update({
         nombre: this.nombre,
         apellidos: this.apellidos,
+        rol: this.rol,
         avatar: this.avatar
       })
       .eq('id', this.id)

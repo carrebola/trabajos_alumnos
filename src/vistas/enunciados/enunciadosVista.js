@@ -1,12 +1,18 @@
 import { Perfil } from '../../bd/perfil'
 import { Enunciado } from '../../bd/enunciado'
+import { User } from '../../bd/user'
 export default {
   template: `
-  <main style="padding-top: 100px">
-  <div class="container">
-      <h1>Enunciados</h1>
-      <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success mt-3">Nuevo Enunciado</a>
-      <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-warning mt-3 ms-2">Mis Enunciados</a>
+  <main style="padding-top: 50px">
+  <div class="container-fluid">  
+      <div class="d-flex justify-content-between border-bottom">
+        <h1>Enunciados</h1>
+        <div>
+          <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-link mt-3 ms-2">Ver mis enunciados</a>
+          <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success m-3 ms-auto">Nuevo Enunciado</a>
+        </div>  
+      </div>
+      
       <table id="tablaEnunciados" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
@@ -38,6 +44,9 @@ export default {
   script: async () => {
   // Generación de tabla
     try {
+      // Capturamos el rol del usuario registrado
+      const user = await User.getUser()
+      const rol = (await Perfil.getByUserId(user.id)).rol
       // Capturamos todos los usuarios de la tabla perfiles
       const enunciados = await Enunciado.getAll()
       // Generamos la tabla tablaEnunciados
@@ -50,33 +59,23 @@ export default {
         // Capturamos el nombre del autor de cada enunciado
         const perfil = await Perfil.getByUserId(enunciado.user_id)
         const autor = perfil.nombre + ' ' + perfil.apellidos
-        tabla += `
-      <tr>
-        <td>
-          <img src="/assets/imagenes/enunciados/enunciado.png" width="100" alt="" data-id="${enunciado.id}" class="detalle"/>
-        </td>
-        <td>${autor}</td>
-        <td>${enunciado.nombre}</td>
-        <td class="w-100">${enunciado.definicion}</td>
-        <td class="w-100">${enunciado.modulo}</td>
-        <td class="w-100">${enunciado.uf}</td>
-        <td class="w-100">${enunciado.ra}</td>
-        <td class="w-100">${enunciado.fecha_inicio}</td>
-        <td class="w-100">${enunciado.fecha_final}</td>
-        <td class="w-100">${enunciado.estado}</td>
-        <td class="w-100"><a href="${enunciado.enlace}" target="blank">documento</a></td>
-        <td class="text-end">
+
+        const tienePermisos = (rol === 'admin' || rol === 'profesor')
+        console.log('tiene permisos', tienePermisos)
+        const imagen = enunciado.imagen ? enunciado.imagen : '/assets/imagenes/proyectos/proyecto.png'
+        const botones =
+        `
           <button
             data-id="${enunciado.id}"
             type="button"
-            class="btn text-danger detalle"
+            class="btn text-danger detalle p-0"
           >
-          <img  data-id="${enunciado.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+          <img  data-id="${enunciado.id}" class="detalle" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
           </button>
           <button
             data-id="${enunciado.id}"
             type="button"
-            class="btn text-info editar"
+            class="btn text-info editar p-0"
           >
             <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${enunciado.id}"/>
           </button>
@@ -84,25 +83,45 @@ export default {
           <button
               data-id="${enunciado.id}"
               type="button"
-              class="btn text-danger bloquear"
+              class="btn text-danger bloquear p-0"
           >
-            <img  data-id="${enunciado.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            <img  data-id="${enunciado.id}" class="bloquear" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
           </button>
         
           <button
               data-id="${enunciado.id}"
               type="button"
-              class="btn text-danger borrar"
+              class="btn text-danger borrar p-0"
           >
-            <img  data-id="${enunciado.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            <img  data-id="${enunciado.id}" class="borrar" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
+        `
+        tabla += `
+      <tr>
+        <td>
+          <img src='${imagen}' width='50' alt='' data-id='${enunciado.id}' class='detalle border' />
+        </td>
+        <td>${autor}</td>
+        <td>${enunciado.nombre}</td>
+        <td class="w-75">${enunciado.definicion}</td>
+        <td class="">${enunciado.modulo}</td>
+        <td class="">${enunciado.uf}</td>
+        <td class="">${enunciado.ra}</td>
+        <td class="">${enunciado.fecha_inicio}</td>
+        <td class="">${enunciado.fecha_final}</td>
+        <td class="">${enunciado.estado}</td>
+        <td class=""><a href="${enunciado.enlace}" target="blank">documento</a></td>
+
+        <td class="text-end">
+          <!-- Botones para edición -->
+          <div> ${tienePermisos ? botones : ''}  </div>
         </td>
       </tr>
       `
       }
       document.querySelector('#tablaEnunciados tbody').innerHTML = tabla
     } catch (error) {
-      alert('No se han podido cargar la tabla de usuarios ' + error)
+      alert('No se han podido cargar la tabla de enunciados ' + error)
     }
 
     // Borrar y Editar usuario

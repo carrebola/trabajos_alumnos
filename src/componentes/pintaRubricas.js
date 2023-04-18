@@ -9,7 +9,7 @@ const pintaRubricas = async (proyectoD) => {
   const rubricasDetalle = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(proyectoD.enunciado_id)
 
   let HTMLlistaRubricas = '<ul class="list-group list-group-flush">'
-
+  let notaMediaProyecto = 0
   rubricasDetalle.forEach(element => {
     const calculaNota = (rubrica_id) => {
       let notasRubrica = []
@@ -18,9 +18,11 @@ const pintaRubricas = async (proyectoD) => {
       notasRubrica.forEach(notas => {
         sumaNotas += notas.nota
       })
-      const notaMedia = notasRubrica.length > 0 ? (sumaNotas / notasRubrica.length).toFixed(2) : ''
-      return (notaMedia)
+      const notaMediaRubrica = notasRubrica.length > 0 ? (sumaNotas / notasRubrica.length).toFixed(2) : ''
+      notaMediaProyecto += (notaMediaRubrica * (element.peso / 100))
+      return (notaMediaRubrica)
     }
+
     let info = ''
     info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
     console.log('info', info)
@@ -34,11 +36,12 @@ const pintaRubricas = async (proyectoD) => {
   })
   HTMLlistaRubricas += '</ul>'
   document.querySelector('#valoracion').innerHTML = HTMLlistaRubricas
+  document.querySelector('#notaMedia').value = notaMediaProyecto.toFixed(1)
 }
 
 // PINTARUBRICASUSUARIO()
 const pintaRubricasUsuario = async (proyectoD) => {
-  console.log('proyectoD', proyectoD);
+  console.log('proyectoD', proyectoD)
   const notas = await Nota.getAllByProjectId(proyectoD.id)
 
   // Si recibe user_id pinta la nota que el usuario a puesto y las estrellas, sino, pinta la media de alumnos y las estrellas

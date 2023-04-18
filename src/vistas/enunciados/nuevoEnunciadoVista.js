@@ -5,6 +5,7 @@ export default {
   <div
   class="container d-flex mt-5 justify-content-center">
   <div class="col-12">
+      <a href="#/enunciados" class="btn btn-outline-secondary btn-sm"> < Volver a Enunciados</a>
       <h1 class="text-center p-2">Nuevo Enunciado</h1>
       <form id="form_enunciado" class="p-3" novalidate>
           <label class="mt-3 form-label" for="nombre">Nombre: </label>

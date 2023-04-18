@@ -4,6 +4,10 @@ import { Archivo } from '../bd/archivo'
 import { header } from '../componentes/header'
 import { pintaTablaImagenes } from './pintaTablaImagenes'
 
+
+// Import sweetalert2 para crear alertas
+import Swal from 'sweetalert2'
+
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
 
@@ -117,9 +121,23 @@ export const formEditarPerfil = {
         await datosUsuario.update(datosUsuario)
         pintaTablaImagenes()
         header.script()
-        alert('Usuario actualizado')
+        //alert('Usuario actualizado')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Usuario actualizado',
+          showConfirmButton: false,
+          timer: 1500
+        })
       } catch (error) {
-        alert('No se pudo guardar los cambios ' + error)
+        //alert('No se pudo guardar los cambios ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'No se pudo guardar los cambios ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     })
   }

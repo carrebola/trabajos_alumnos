@@ -14,7 +14,7 @@ export const menuUsuario = {
           <span id="emailUsuarioLogueado" class="pe-3 text-dark"></span>
             <img
               id="imgAvatar"
-              src="/assets/avatar.svg"
+              src=""
               alt="Logo"
               width="30"
               height="30"
@@ -84,10 +84,13 @@ export const menuUsuario = {
         >
       </li>
       <li>
-        <a class="liMisProyectos dropdown-item d-none" href="#/misProyectos">Mis Proyectos</a>
+        <a class="liMisProyectos dropdown-item" href="#/misProyectos">Mis Proyectos</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="#/enunciados">Mis Enunciados</a>
       </li>
       <div class="dropdown-divider"></div>
-      <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
+      <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `,
       profesor: `
       <li class="text-center" id="rolUsuarioLogueado">
@@ -119,7 +122,7 @@ export const menuUsuario = {
       <li>
         <a class="dropdown-item" href="#/rubricas">Rubricas</a>
       </li>
-      <li><a class="liLogout d-none dropdown-item" href="">Logout</a></li>
+      <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `,
       admin: `
       <li class="text-center" id="rolUsuarioLogueado">
@@ -158,7 +161,7 @@ export const menuUsuario = {
 
     if (rol !== 'anonimo') {
       // Leemos la url de la imagen que está en la carpeta user_id del storage de supabase
-      const imgAvatar = perfilLogueado.avatar
+      const imgAvatar = perfilLogueado.avatar || '/assets/avatar.svg'
       // Insertamos la foto del avatar
       document.querySelector('#imgAvatar').src = imgAvatar
       // Insertamos el email del usuario

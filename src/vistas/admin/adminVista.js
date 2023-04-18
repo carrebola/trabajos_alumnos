@@ -3,7 +3,7 @@ import { formEditarUsuario } from '../../componentes/formEditarUsuario'
 export default {
   template: `
   <main style="padding-top: 100px">
-  <div class="container mt-5">
+  <div class="container-fluid mt-5">
       <h1>Administración de usuarios</h1>
       <table id="tablaPerfiles" class="table table-striped table-hover mt-5 align-middle">
           <thead>
@@ -12,14 +12,12 @@ export default {
                   <th>NOMBRE</th>
                   <th>APELLIDOS</th>
                   <th>EMAIL</th>
+                  <th>ROL</th>
                   <th>BLOQUEADO</th>
                   <th class="w-100"></th>
               </tr>
           </thead>
           <tbody>
-                     
-              
-              
           </tbody>
       </table>
   </div>
@@ -40,11 +38,12 @@ ${formEditarUsuario.template}
           tablaPerfiles += `
             <tr>
               <td>
-                  <img src="/assets/avatar.svg" width="50" alt="" />
+                  <img src="${perfil.avatar ? perfil.avatar : 'assets/avatar.svg'}" width="50" alt="" />
               </td>
               <td>${perfil.nombre}</td>
               <td>${perfil.apellidos}</td>
               <td>${perfil.email}</td>
+              <td>${perfil.rol}</td>
               <td>${perfil.bloqueado}</td>
               <td class="text-end">
                 <button

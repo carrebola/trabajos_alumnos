@@ -1,12 +1,19 @@
 import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
+
 export default {
   template: `
-  <main style="padding-top: 100px">
-  <div class="container">
-      <h1>Proyectos</h1>
-      <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success mt-3">Nuevo Proyecto</a>
-      <a href="/#/misProyectos" id="misProyectos" class="btn btn-warning mt-3 ms-2">Mis Proyectos</a>
+  <main style="padding-top: 50px">
+  <div class="container-fluid">  
+      <div class="d-flex justify-content-between border-bottom">
+        <h1>Proyectos</h1>
+        <div>
+          <a href="/#/misProyectos" id="misProyectos" class="btn btn-link mt-3 ms-2">Ver mis proyectos</a>
+          <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success m-3 ms-auto">Nuevo Proyecto</a>
+        </div>  
+      </div>
+      
+      
       <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
@@ -19,7 +26,7 @@ export default {
                   <th>NOTA</th>
                   <th>ACTIVO</th>
                   <th>ENUNCIADO</th>
-                  <th class="w-100"></th>
+                  <th class=""></th>
               </tr>
           </thead>
           <tbody>
@@ -51,47 +58,50 @@ export default {
         tabla += `
       <tr>
         <td>
-          <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" data-id="${proyecto.id}" class="detalle"/>
+          <img src="/assets/imagenes/proyectos/proyecto.png" width="50" alt="" data-id="${proyecto.id}" class="detalle"/>
         </td>
         <td>${proyecto.id}</td>
         <td>${autor}</td>
         <td>${proyecto.nombre}</td>
-        <td class="w-100">${proyecto.descripcion}</td>
+        <td class="">${proyecto.descripcion}</td>
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
         <td class="text-center">${proyecto.nota}</td>
         <td class="text-center">${proyecto.activo}</td>
         <td class="text-center">${proyecto.enunciado_id}</td>
         <td class="text-end">
-          <button
-            data-id="${proyecto.id}"
-            type="button"
-            class="btn text-danger detalle"
-          >
-          <img  data-id="${proyecto.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
-          </button>
-          <button
-            data-id="${proyecto.id}"
-            type="button"
-            class="btn text-info editar"
-          >
-            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${proyecto.id}"/>
-          </button>
-        
-          <button
+          <div style="width: 150px">
+            <button
               data-id="${proyecto.id}"
               type="button"
-              class="btn text-danger bloquear"
-          >
-            <img  data-id="${proyecto.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
-          </button>
-        
-          <button
+              class="btn text-danger detalle p-0"
+            >
+              <img  data-id="${proyecto.id}" class="detalle" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+            </button>
+            <button
               data-id="${proyecto.id}"
               type="button"
-              class="btn text-danger borrar"
-          >
-            <img  data-id="${proyecto.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
-          </button>
+              class="btn text-info editar p-0"
+            >
+              <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${proyecto.id}"/>
+            </button>
+          
+            <button
+                data-id="${proyecto.id}"
+                type="button"
+                class="btn text-danger bloquear p-0"
+            >
+              <img  data-id="${proyecto.id}" class="bloquear" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            </button>
+          
+            <button
+                data-id="${proyecto.id}"
+                type="button"
+                class="btn text-danger borrar p-0"
+            >
+              <img  data-id="${proyecto.id}" class="borrar" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            </button>
+          </div>
+          
         </td>
       </tr>
       `

@@ -1,14 +1,18 @@
 import { Perfil } from '../../bd/perfil'
-import { Proyecto } from '../../bd/proyecto'
+import { Rubrica } from '../../bd/rubrica'
 import { User } from '../../bd/user'
 export default {
   template: `
-  <main style="padding-top: 100px">
-  <div class="container">
-      <h1>Mis Proyectos</h1>
-      <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success mt-3">Nuevo Proyecto</a>
-      <a href="/#/misProyectos" id="misProyectos" class="btn btn-warning mt-3 ms-2">Mis Proyectos</a>
-      <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
+  <main style="padding-top: 50px">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between border-bottom">
+      <h1>Mis Rúbricas</h1>
+      <div>
+        <a href="/#/rubricas" id="rubricas" class="btn btn-link mt-3 ms-2">< Rúbricas</a>
+        <a href="/#/nuevoRubrica" id="nuevoRubrica" class="btn btn-success m-3 ms-auto">Nueva Rúbrica</a>
+      </div>  
+    </div>
+      <table id="tablaRubricas" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
                   <th></th>
@@ -36,116 +40,116 @@ export default {
     try {
       const user = await User.getUser()
       // Capturamos todos los usuarios de la tabla perfiles
-      const proyectos = await Proyecto.getAllByUserId(user.id)
+      const rubricas = await Rubrica.getAllByUserId(user.id)
       console.log('user_id', user)
-      console.log('numero proyectos ', proyectos.length)
-      // Generamos la tabla tablaProyectos
+      console.log('numero rubricas ', rubricas.length)
+      // Generamos la tabla tablaRubricas
       let tabla = ''
 
-      for (const proyecto of proyectos) {
-        // Si proyecto.nota es null no pintamos nada
-        if (!proyecto.nota) proyecto.nota = '-'
+      for (const rubrica of rubricas) {
+        // Si rubrica.nota es null no pintamos nada
+        if (!rubrica.nota) rubrica.nota = '-'
 
-        // Capturamos el nombre del autor de cada proyecto
-        const perfil = await Perfil.getByUserId(proyecto.user_id)
+        // Capturamos el nombre del autor de cada rubrica
+        const perfil = await Perfil.getByUserId(rubrica.user_id)
         const autor = perfil.nombre + ' ' + perfil.apellidos
         tabla += `
       <tr>
         <td>
-            <img src="/assets/imagenes/proyectos/proyecto.png" width="100" alt="" data-id="${proyecto.id}" class="detalle"/>
+            <img src="/assets/imagenes/rubricas/rubrica.png" width="100" alt="" data-id="${rubrica.id}" class="detalle"/>
         </td>
         <td>${autor}</td>
-        <td>${proyecto.nombre}</td>
-        <td class="w-100">${proyecto.descripcion}</td>
-        <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
-        <td class="text-center">${proyecto.nota}</td>
-        <td class="text-center">${proyecto.activo}</td>
+        <td>${rubrica.nombre}</td>
+        <td class="w-100">${rubrica.descripcion}</td>
+        <td><a href="${rubrica.enlace}" target="_black">${rubrica.enlace}</a></td>
+        <td class="text-center">${rubrica.nota}</td>
+        <td class="text-center">${rubrica.activo}</td>
         <td class="text-end">
           <button
-            data-id="${proyecto.id}"
+            data-id="${rubrica.id}"
             type="button"
             class="btn text-danger detalle"
           >
-          <img  data-id="${proyecto.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+          <img  data-id="${rubrica.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
           </button>
           <button
-            data-id="${proyecto.id}"
+            data-id="${rubrica.id}"
             type="button"
             class="btn text-info editar"
           >
-            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${proyecto.id}"/>
+            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${rubrica.id}"/>
           </button>
         
           <button
-              data-id="${proyecto.id}"
+              data-id="${rubrica.id}"
               type="button"
               class="btn text-danger bloquear"
           >
-            <img  data-id="${proyecto.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
           </button>
         
           <button
-              data-id="${proyecto.id}"
+              data-id="${rubrica.id}"
               type="button"
               class="btn text-danger borrar"
           >
-            <img  data-id="${proyecto.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
         </td>
       </tr>
       `
       }
-      document.querySelector('#tablaProyectos tbody').innerHTML = tabla
+      document.querySelector('#tablaRubricas tbody').innerHTML = tabla
     } catch (error) {
       alert('No se han podido cargar la tabla de usuarios ' + error)
     }
 
     // Borrar y Editar usuario
-    document.querySelector('#tablaProyectos').addEventListener('click', async (e) => {
+    document.querySelector('#tablaRubricas').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
       // BLOQUEAR PROYECTO
       if (e.target.classList.contains('bloquear')) {
         try {
-          const proyectoABloquear = await Proyecto.getById(id)
-          if (proyectoABloquear.activo) {
-            proyectoABloquear.activo = false
+          const rubricaABloquear = await Rubrica.getById(id)
+          if (rubricaABloquear.activo) {
+            rubricaABloquear.activo = false
             e.target.classList.remove('bloqueado')
           } else {
-            proyectoABloquear.activo = true
+            rubricaABloquear.activo = true
             e.target.classList.add('bloqueado')
           }
 
-          await proyectoABloquear.block()
-          window.location.href = '/#/proyectos'
+          await rubricaABloquear.block()
+          window.location.href = '/#/rubricas'
         } catch (error) {
-          alert('No se han podido desactivar el proyecto' + error)
+          alert('No se han podido desactivar el rubrica' + error)
         }
       }
 
       // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
       if (e.target.classList.contains('borrar')) {
         try {
-          const proyectoABorrar = await Proyecto.getById(id)
+          const rubricaABorrar = await Rubrica.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
+          const seguro = confirm('¿Está seguro que desea borrar el rubrica? Se eliminarán todos sus comentarios y notas ' + rubricaABorrar.nombre + ', ' + rubricaABorrar.nombre)
 
           if (seguro) {
-            await Proyecto.delete(id)
+            await Rubrica.delete(id)
           }
-          window.location.href = '/#/proyectos'
+          window.location.href = '/#/rubricas'
         } catch (error) {
-          alert('No se han podido borrar el proyecto' + error)
+          alert('No se han podido borrar el rubrica' + error)
         }
       }
       // EDITAR PROYECTO  USUARIO
       if (e.target.classList.contains('editar')) {
-        window.location.href = '/#/editarProyecto/' + id
+        window.location.href = '/#/editarRubrica/' + id
       }
 
       // VER DETALLE PROYECTO  USUARIO
       if (e.target.classList.contains('detalle')) {
-        window.location.href = '/#/detalleProyecto/' + id
+        window.location.href = '/#/detalleRubrica/' + id
       }
     })
   }

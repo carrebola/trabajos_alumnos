@@ -65,7 +65,7 @@ export const menuSuperior = {
         <a class="nav-link" href="#/enunciados">Enunciados</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#/rubricas">Rubricas</a>
+        <a class="nav-link" href="#/rubricas">Rúbricas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/adminUsuarios">Admin</a>

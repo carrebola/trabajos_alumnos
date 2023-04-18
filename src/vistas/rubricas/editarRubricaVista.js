@@ -1,12 +1,15 @@
 import { User } from '../../bd/user'
-import { Proyecto } from '../../bd/proyecto'
+import { Rubrica } from '../../bd/rubrica'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div
   class="container-fluid d-flex mt-5 justify-content-center">
   <div class="col-12">
-      <h1 class="text-center p-2">Editar Proyecto</h1>
-      <form id="formProyecto" class="p-3" novalidate>
+      <h1 class="text-center p-2">Editar RÚBRICA</h1>
+      <form id="formRubrica" class="p-3" novalidate>
         <label class="mt-3 form-label" for="user_id">User_id: </label>    
         <input
             id="user_id" 
@@ -16,7 +19,7 @@ export default {
             disabled
             
           /> 
-          <label class="mt-3 form-label" for="id">Id proyecto: </label>
+          <label class="mt-3 form-label" for="id">Id rubrica: </label>
           <input
             id="id" 
             type="text" 
@@ -30,7 +33,7 @@ export default {
             type="text" 
             class="form-control" 
             value="" 
-            placeholder ="Nombre del proyecto" 
+            placeholder ="Nombre del rubrica" 
             required 
           />
           <div class="invalid-feedback">El nombre no es correcto</div>
@@ -45,18 +48,10 @@ export default {
           </textarea>
           <div class="invalid-feedback">Este campo no es correcto</div>
 
-          <label class="mt-3 form-label" for="enlace">Enlace a producción</label>
-          <input
-              id="enlace"
-              type="enlace"
-              class="form-control"
-              value=""
-              placeholder = "http://miproyecto.com"
-              required
-          />
+          
           <div class="invalid-feedback">El link no es correcto</div>
           <button type="submit" class="mt-5 btn btn-success">
-              Actualizar proyecto
+              Actualizar rubrica
           </button>
           <button type="button" onclick="history.back()" class="mt-5 btn btn-primary">
               Cancelar
@@ -66,39 +61,52 @@ export default {
 </div>
     `,
   script: async (id) => {
-    const formProyecto = document.querySelector('#formProyecto')
+    const formRubrica = document.querySelector('#formRubrica')
     try {
       const user = await User.getUser()
-      const proyecto = await Proyecto.getById(id)
+      const rubrica = await Rubrica.getById(id)
 
-      formProyecto.nombre.value = proyecto.nombre
-      formProyecto.descripcion.value = proyecto.descripcion
-      formProyecto.enlace.value = proyecto.enlace
-      formProyecto.user_id.value = user.id
-      formProyecto.id.value = proyecto.id
+      formRubrica.nombre.value = rubrica.nombre
+      formRubrica.descripcion.value = rubrica.descripcion
+      formRubrica.user_id.value = user.id
+      formRubrica.id.value = rubrica.id
     } catch (error) {
       console.log(error)
-      alert('Error al editar proyecto' + error)
+      //alert('Error al editar rubrica' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Error al editar la rúbrica',
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
-    formProyecto.addEventListener('submit', async function (e) {
+    formRubrica.addEventListener('submit', async function (e) {
       e.preventDefault()
 
       try {
-        // Objeto con datos para proyecto
-        const proyectoEditado = await Proyecto.getById(id)
-        // Actualizamos los datos del proyecto a editar
-        proyectoEditado.nombre = document.querySelector('#nombre').value
-        proyectoEditado.descripcion = document.querySelector('#descripcion').value
-        // proyectoEditado.enlace = document.querySelector('#enlace').value,
+        // Objeto con datos para rubrica
+        const rubricaEditado = await Rubrica.getById(id)
+        // Actualizamos los datos del rubrica a editar
+        rubricaEditado.nombre = document.querySelector('#nombre').value
+        rubricaEditado.descripcion = document.querySelector('#descripcion').value
+        // rubricaEditado.enlace = document.querySelector('#enlace').value,
 
-        await proyectoEditado.update()
-        alert('Proyecto editado con éxito')
+        await rubricaEditado.update()
+        //alert('Rubrica editado con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Rúbrica editada con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        })
         // Cargamos la página login
-        window.location.href = '/#/proyectos'
+        window.location.href = '/#/rubricas'
       } catch (error) {
         console.log(error)
-        alert('Error al editar proyecto ' + error)
+        alert('Error al editar rubrica ' + error)
       }
     })
   }

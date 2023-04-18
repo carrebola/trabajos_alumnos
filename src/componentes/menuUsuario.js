@@ -97,7 +97,7 @@ export const menuUsuario = {
         anónimo
       </li>
       <li>
-        <a class="liRegistro dropdown-item" href="#/registro">Registrate</a>
+        <a class="liRegistro dropdown-item" href="#/registro">Regístrate</a>
       </li>
       <li>
         <a
@@ -120,12 +120,12 @@ export const menuUsuario = {
         <a class="dropdown-item" href="#/enunciados">Enunciados</a>
       </li>
       <li>
-        <a class="dropdown-item" href="#/rubricas">Rubricas</a>
+        <a class="dropdown-item" href="#/rubricas">Rúbricas</a>
       </li>
       <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `,
       admin: `
-      <li class="text-center" id="rolUsuarioLogueado">
+      <li class="text-end p-2 fw-bold border m-2" id="rolUsuarioLogueado">
         anónimo
       </li>
       <li>
@@ -146,7 +146,7 @@ export const menuUsuario = {
         <a class="dropdown-item" href="#/enunciados">Enunciados</a>
       </li>
       <li>
-        <a class="dropdown-item" href="#/rubricas">Rubricas</a>
+        <a class="dropdown-item" href="#/rubricas">Rúbricas</a>
       </li>
       <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `
@@ -171,11 +171,12 @@ export const menuUsuario = {
 
       document.querySelector('.liLogout').addEventListener('click', async (e) => {
         e.preventDefault()
+        // Cargamos la página home
+        window.location.href = '/#/home'
         // Cerramos sesión utilizando el método de logout de nuestra clase User
         await User.logout()
         header.script()
-        // Cargamos la página home
-        window.location.href = '/#/home'
+        
       })
     }
     else{

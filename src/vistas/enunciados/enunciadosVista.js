@@ -20,7 +20,7 @@ export default {
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
-                  <th>MÓDULO</th>
+                  <th>MD</th>
                   <th>UF</th>
                   <th>RA</th>
                   <th>FECHA_INICIO</th>

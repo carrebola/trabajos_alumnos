@@ -1,5 +1,7 @@
 import { User } from '../../bd/user'
 import { Proyecto } from '../../bd/proyecto'
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div
@@ -59,12 +61,26 @@ export default {
           user_id: user.id // Tomamos el id del usuario logueado
         }
         await Proyecto.create(proyecto)
-        alert('Proyecto creado con éxito')
+        alert('Rúbrica creada con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Rúbrica creada con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        })
         // Cargamos la página login
-        window.location.href = '/#/proyectos'
+        window.location.href = '/#/rubricas'
       } catch (error) {
         console.log(error)
-        alert('Error al crear proyecto ' + error)
+        //alert('Error al crear rúbrica ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Error al crear la rúbrica ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     })
   }

@@ -2,26 +2,27 @@ import { Perfil } from '../../bd/perfil'
 import { Rubrica } from '../../bd/rubrica'
 export default {
   template: `
-  <main style="padding-top: 100px">
+  <main style="padding-top: 50px">
   <div class="container-fluid">
+    <div class="d-flex justify-content-between border-bottom">
       <h1>Rúbricas</h1>
-      <a href="/#/nuevoRubrica" id="nuevoRubrica" class="btn btn-success mt-3">Nuevo Rubrica</a>
-      <a href="/#/misRubricas" id="misRubricas" class="btn btn-warning mt-3 ms-2">Mis Rubricas</a>
+      <div>
+        <a href="/#/misRubricas" id="rubricas" class="btn btn-link mt-3 ms-2">Mis Rúbricas</a>
+        <a href="/#/nuevoRubrica" id="nuevoRubrica" class="btn btn-success m-3 ms-auto">Nueva Rúbrica</a>
+      </div>  
+    </div>
       <table id="tablaRubricas" class="table table-striped table-hover mt-5 align-middle">
           <thead>
               <tr>
-                  
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
                   <th>ESTADO</th>
-                  <th class="w-100"></th>
+                  <th class=""></th>
               </tr>
           </thead>
           <tbody>
-                     
-              
-              
+  
           </tbody>
       </table>
   </div>
@@ -38,7 +39,6 @@ export default {
       let tabla = ''
 
       for (const rubrica of rubricas) {
-        console.log('rubrica ', rubrica)
         // Capturamos el nombre del autor de cada rubrica
         const perfil = await Perfil.getByUserId(rubrica.user_id)
         const autor = perfil.nombre + ' ' + perfil.apellidos
@@ -47,15 +47,15 @@ export default {
         
         <td>${autor}</td>
         <td>${rubrica.nombre}</td>
-        <td class="w-100">${rubrica.descripcion}</td>
-        <td class="w-100">${rubrica.activo}</td>
+        <td class="">${rubrica.descripcion}</td>
+        <td class="">${rubrica.activo}</td>
         <td class="text-end">
           <button
             data-id="${rubrica.id}"
             type="button"
             class="btn text-danger detalle"
           >
-          <img  data-id="${rubrica.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+          <img  data-id="${rubrica.id}" class="detalle " src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
           </button>
           <button
             data-id="${rubrica.id}"
@@ -70,7 +70,7 @@ export default {
               type="button"
               class="btn text-danger bloquear"
           >
-            <img  data-id="${rubrica.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="bloquear " src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
           </button>
         
           <button
@@ -78,7 +78,7 @@ export default {
               type="button"
               class="btn text-danger borrar"
           >
-            <img  data-id="${rubrica.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="borrar " src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
         </td>
       </tr>
@@ -93,7 +93,7 @@ export default {
     document.querySelector('#tablaRubricas').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
-      //BLOQUEAR PROYECTO
+      //BLOQUEAR RUBRICA
       if (e.target.classList.contains('bloquear')) {
         try {
           const rubricaABloquear = await Rubrica.getById(id)
@@ -112,7 +112,7 @@ export default {
         }
       }
 
-      // BORRAR PROYECTO USUARIO (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
+      // BORRAR RUBRICA (CUIDADO!!! HABRÍA QUE ELIMINAR EL USER Y TODAS LAS REFERENCIAS)
       if (e.target.classList.contains('borrar')) {
         try {
           const rubricaABorrar = await Rubrica.getById(id)
@@ -127,7 +127,7 @@ export default {
           alert('No se han podido borrar el rubrica' + error)
         }
       }
-      // EDITAR PROYECTO  USUARIO
+      // EDITAR RUBRICA
       if (e.target.classList.contains('editar')) {
         window.location.href = '/#/editarRubrica/' + id
       }

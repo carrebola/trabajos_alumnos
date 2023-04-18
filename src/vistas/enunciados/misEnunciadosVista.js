@@ -1,6 +1,9 @@
 import { Perfil } from '../../bd/perfil'
 import { Enunciado } from '../../bd/enunciado'
 import { User } from '../../bd/user'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">
@@ -108,7 +111,14 @@ export default {
       }
       document.querySelector('#tablaEnunciados tbody').innerHTML = tabla
     } catch (error) {
-      alert('No se han podido cargar la tabla de usuarios ' + error)
+      //alert('No se han podido cargar la tabla de usuarios ' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se han podido cargar la tabla de enunciados ' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     // Borrar y Editar usuario
@@ -132,7 +142,14 @@ export default {
           await enunciadoABloquear.block()
           window.location.href = '/#/enunciados'
         } catch (error) {
-          alert('No se han podido desactivar el enunciado' + error)
+          //alert('No se han podido desactivar el enunciado' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido desactivar el enunciado ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       }
 
@@ -148,7 +165,14 @@ export default {
           }
           window.location.href = '/#/enunciados'
         } catch (error) {
-          alert('No se han podido borrar el enunciado' + error)
+          //alert('No se han podido borrar el enunciado' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se ha podido borrar el enunciado ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       }
       // EDITAR PROYECTO  USUARIO

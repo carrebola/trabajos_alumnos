@@ -1,6 +1,9 @@
 import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
 import { User } from '../../bd/user'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">
@@ -101,7 +104,14 @@ export default {
       }
       document.querySelector('#tablaProyectos tbody').innerHTML = tabla
     } catch (error) {
-      alert('No se han podido cargar la tabla de usuarios ' + error)
+      //alert('No se han podido cargar la tabla de usuarios ' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se han podido cargar la tabla de proyectos ' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     // Borrar y Editar usuario
@@ -123,7 +133,15 @@ export default {
           await proyectoABloquear.block()
           window.location.href = '/#/proyectos'
         } catch (error) {
-          alert('No se han podido desactivar el proyecto' + error)
+          //alert('No se han podido desactivar el proyecto' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido desactivar el proyecto ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          
         }
       }
 
@@ -139,7 +157,14 @@ export default {
           }
           window.location.href = '/#/proyectos'
         } catch (error) {
-          alert('No se han podido borrar el proyecto' + error)
+          //alert('No se han podido borrar el proyecto' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido borrar el proyecto' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       }
       // EDITAR PROYECTO  USUARIO

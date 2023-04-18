@@ -1,5 +1,8 @@
 import { Perfil } from '../../bd/perfil'
 import { Rubrica } from '../../bd/rubrica'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">
@@ -30,70 +33,73 @@ export default {
 
 `,
   script: async () => {
-  // Generación de tabla
-    try {
-      // Capturamos todos los usuarios de la tabla perfiles
-      const rubricas = await Rubrica.getAll()
-      console.log('numero rubricas ', rubricas.length)
-      // Generamos la tabla tablaRubricas
-      let tabla = ''
+    const pintaTablaRubricas = async () => {
+      // Generación de tabla
+      try {
+        // Capturamos todos los usuarios de la tabla perfiles
+        const rubricas = await Rubrica.getAll()
+        console.log('numero rubricas ', rubricas.length)
+        // Generamos la tabla tablaRubricas
+        let tabla = ''
 
-      for (const rubrica of rubricas) {
-        // Capturamos el nombre del autor de cada rubrica
-        const perfil = await Perfil.getByUserId(rubrica.user_id)
-        const autor = perfil.nombre + ' ' + perfil.apellidos
-        tabla += `
-      <tr>
-        
-        <td>${autor}</td>
-        <td>${rubrica.nombre}</td>
-        <td class="">${rubrica.descripcion}</td>
-        <td class="">${rubrica.activo}</td>
-        <td class="text-end">
-          <button
-            data-id="${rubrica.id}"
-            type="button"
-            class="btn text-danger detalle"
-          >
-          <img  data-id="${rubrica.id}" class="detalle " src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
-          </button>
-          <button
-            data-id="${rubrica.id}"
-            type="button"
-            class="btn text-info editar"
-          >
-            <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${rubrica.id}"/>
-          </button>
-        
-          <button
-              data-id="${rubrica.id}"
-              type="button"
-              class="btn text-danger bloquear"
-          >
-            <img  data-id="${rubrica.id}" class="bloquear " src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
-          </button>
-        
-          <button
-              data-id="${rubrica.id}"
-              type="button"
-              class="btn text-danger borrar"
-          >
-            <img  data-id="${rubrica.id}" class="borrar " src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
-          </button>
-        </td>
-      </tr>
-      `
+        for (const rubrica of rubricas) {
+          // Capturamos el nombre del autor de cada rubrica
+          const perfil = await Perfil.getByUserId(rubrica.user_id)
+          const autor = perfil.nombre + ' ' + perfil.apellidos
+          tabla += `
+  <tr>
+    
+    <td>${autor}</td>
+    <td>${rubrica.nombre}</td>
+    <td class="">${rubrica.descripcion}</td>
+    <td class="">${rubrica.activo}</td>
+    <td class="text-end">
+      <button
+        data-id="${rubrica.id}"
+        type="button"
+        class="btn text-danger detalle"
+      >
+      <img  data-id="${rubrica.id}" class="detalle " src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+      </button>
+      <button
+        data-id="${rubrica.id}"
+        type="button"
+        class="btn text-info editar"
+      >
+        <img src="/assets/iconos/icons8-editar.svg" width="20" alt="" class="editar" data-id="${rubrica.id}"/>
+      </button>
+    
+      <button
+          data-id="${rubrica.id}"
+          type="button"
+          class="btn text-danger bloquear"
+      >
+        <img  data-id="${rubrica.id}" class="bloquear " src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+      </button>
+    
+      <button
+          data-id="${rubrica.id}"
+          type="button"
+          class="btn text-danger borrar"
+      >
+        <img  data-id="${rubrica.id}" class="borrar " src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+      </button>
+    </td>
+  </tr>
+  `
+        }
+        document.querySelector('#tablaRubricas tbody').innerHTML = tabla
+      } catch (error) {
+        alert('No se han podido cargar la tabla de usuarios ' + error)
       }
-      document.querySelector('#tablaRubricas tbody').innerHTML = tabla
-    } catch (error) {
-      alert('No se han podido cargar la tabla de usuarios ' + error)
     }
+    pintaTablaRubricas()
 
     // Borrar y Editar usuario
     document.querySelector('#tablaRubricas').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
       const id = e.target.dataset.id
-      //BLOQUEAR RUBRICA
+      // BLOQUEAR RUBRICA
       if (e.target.classList.contains('bloquear')) {
         try {
           const rubricaABloquear = await Rubrica.getById(id)
@@ -117,12 +123,26 @@ export default {
         try {
           const rubricaABorrar = await Rubrica.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el rubrica? Se eliminarán todos sus comentarios y notas ' + rubricaABorrar.nombre + ', ' + rubricaABorrar.nombre)
-
-          if (seguro) {
-            await Rubrica.delete(id)
-          }
-          window.location.href = '/#/rubricas'
+          // const seguro = confirm('¿Está seguro que desea borrar el rubrica? Se eliminarán todos sus comentarios y notas ' + rubricaABorrar.nombre + ', ' + rubricaABorrar.nombre)
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: `'¿Está seguro que desea borrar el enunciado: ${rubricaABorrar.nombre}? Se eliminarán todos sus comentarios y notas '`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!'
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              await Rubrica.delete(id)
+              pintaTablaRubricas()
+              Swal.fire(
+                '¡Borrado!',
+                'Tu enunciado ha sido borrado.',
+                'success'
+              )
+            }
+          })
         } catch (error) {
           alert('No se han podido borrar el rubrica' + error)
         }

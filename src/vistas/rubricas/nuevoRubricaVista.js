@@ -1,5 +1,8 @@
 import { User } from '../../bd/user'
 import { Rubrica } from '../../bd/rubrica'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div

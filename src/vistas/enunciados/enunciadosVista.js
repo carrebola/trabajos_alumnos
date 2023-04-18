@@ -1,6 +1,9 @@
 import { Perfil } from '../../bd/perfil'
 import { Enunciado } from '../../bd/enunciado'
 import { User } from '../../bd/user'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">
@@ -42,28 +45,29 @@ export default {
 
 `,
   script: async () => {
-  // Generación de tabla
-    try {
+    const pintaTablaEnunciados = async () => {
+      // Generación de tabla
+      try {
       // Capturamos el rol del usuario registrado
-      const user = await User.getUser()
-      const rol = (await Perfil.getByUserId(user.id)).rol
-      // Capturamos todos los usuarios de la tabla perfiles
-      const enunciados = await Enunciado.getAll()
-      // Generamos la tabla tablaEnunciados
+        const user = await User.getUser()
+        const rol = (await Perfil.getByUserId(user.id)).rol
+        // Capturamos todos los usuarios de la tabla perfiles
+        const enunciados = await Enunciado.getAll()
+        // Generamos la tabla tablaEnunciados
 
-      const spinner = '<div class="d-flex justify-content-center align-items-center p-5 w-100"><img src=\'/assets/iconos/icons8-spinner-100.png\' width=\'100\'/></div>'
-      document.querySelector('#tablaEnunciados tbody').innerHTML = spinner
+        const spinner = '<div class="d-flex justify-content-center align-items-center p-5 w-100"><img src=\'/assets/iconos/icons8-spinner-100.png\' width=\'100\'/></div>'
+        document.querySelector('#tablaEnunciados tbody').innerHTML = spinner
 
-      let tabla = ''
-      for (const enunciado of enunciados) {
+        let tabla = ''
+        for (const enunciado of enunciados) {
         // Capturamos el nombre del autor de cada enunciado
-        const perfil = await Perfil.getByUserId(enunciado.user_id)
-        const autor = perfil.nombre + ' ' + perfil.apellidos
+          const perfil = await Perfil.getByUserId(enunciado.user_id)
+          const autor = perfil.nombre + ' ' + perfil.apellidos
 
-        const tienePermisos = (rol === 'admin' || rol === 'profesor')
-        console.log('tiene permisos', tienePermisos)
-        const imagen = enunciado.imagen ? enunciado.imagen : '/assets/imagenes/proyectos/proyecto.png'
-        const botones =
+          const tienePermisos = (rol === 'admin' || rol === 'profesor')
+          console.log('tiene permisos', tienePermisos)
+          const imagen = enunciado.imagen ? enunciado.imagen : '/assets/imagenes/proyectos/proyecto.png'
+          const botones =
         `
           <button
             data-id="${enunciado.id}"
@@ -96,7 +100,7 @@ export default {
             <img  data-id="${enunciado.id}" class="borrar" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
         `
-        tabla += `
+          tabla += `
       <tr>
         <td>
           <img src='${imagen}' width='50' alt='' data-id='${enunciado.id}' class='detalle border' />
@@ -118,12 +122,20 @@ export default {
         </td>
       </tr>
       `
+        }
+        document.querySelector('#tablaEnunciados tbody').innerHTML = tabla
+      } catch (error) {
+      // alert('No se han podido cargar la tabla de enunciados ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'No se han podido cargar la tabla de enunciados ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-      document.querySelector('#tablaEnunciados tbody').innerHTML = tabla
-    } catch (error) {
-      alert('No se han podido cargar la tabla de enunciados ' + error)
     }
-
+    pintaTablaEnunciados()
     // Borrar y Editar usuario
     document.querySelector('#tablaEnunciados').addEventListener('click', async (e) => {
       // capturamos el id del usuarios
@@ -143,7 +155,14 @@ export default {
           await enunciadoABloquear.block()
           window.location.href = '/#/enunciados'
         } catch (error) {
-          alert('No se han podido desactivar el enunciado' + error)
+          // alert('No se han podido desactivar el enunciado' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido desactivar el enunciado ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       }
 
@@ -152,22 +171,42 @@ export default {
         try {
           const enunciadoABorrar = await Enunciado.getById(id)
 
-          const seguro = confirm('¿Está seguro que desea borrar el enunciado? Se eliminarán todos sus comentarios y notas ' + enunciadoABorrar.nombre + ', ' + enunciadoABorrar.nombre)
-
-          if (seguro) {
-            await Enunciado.delete(id)
-          }
-          window.location.href = '/#/enunciados'
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: `'¿Está seguro que desea borrar el enunciado: ${enunciadoABorrar.nombre}? Se eliminarán todos sus comentarios y notas '`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, bórralo!'
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              await Enunciado.delete(id)
+              pintaTablaEnunciados()
+              Swal.fire(
+                '¡Borrado!',
+                'Tu enunciado ha sido borrado.',
+                'success'
+              )
+            }
+          })
         } catch (error) {
-          alert('No se han podido borrar el enunciado' + error)
+          // alert('No se han podido borrar el enunciado' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido borrar el enunciado ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       }
-      // EDITAR PROYECTO  USUARIO
+      // EDITAR Enunciado  USUARIO
       if (e.target.classList.contains('editar')) {
         window.location.href = '/#/editarEnunciado/' + id
       }
 
-      // VER DETALLE PROYECTO  USUARIO
+      // VER DETALLE enunciado  USUARIO
       if (e.target.classList.contains('detalle')) {
         window.location.href = '/#/detalleEnunciado/' + id
       }

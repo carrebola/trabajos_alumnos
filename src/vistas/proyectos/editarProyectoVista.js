@@ -1,6 +1,9 @@
 import { User } from '../../bd/user'
 import { Proyecto } from '../../bd/proyecto'
 import { Enunciado } from '../../bd/enunciado'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div
@@ -99,7 +102,14 @@ export default {
       formProyecto.enunciado.value = proyecto.enunciado_id
     } catch (error) {
       console.log(error)
-      alert('Error al editar proyecto' + error)
+      //alert('Error al editar proyecto' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se han podido editar el proyecto ' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     formProyecto.addEventListener('submit', async function (e) {
@@ -115,12 +125,26 @@ export default {
         // proyectoEditado.enlace = document.querySelector('#enlace').value
 
         await proyectoEditado.update()
-        alert('Proyecto editado con éxito')
+        //alert('Proyecto editado con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Proyecto editado con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        })
         // Cargamos la página login
         window.location.href = '/#/proyectos'
       } catch (error) {
         console.log(error)
-        alert('Error al editar proyecto ' + error)
+        //alert('Error al editar proyecto ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'No se ha podido editar el proyecto ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     })
   }

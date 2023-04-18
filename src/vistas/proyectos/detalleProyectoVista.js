@@ -8,6 +8,7 @@ import { Nota } from '../../bd/nota'
 import { estrellas } from '../../componentes/estrellas'
 
 import { pintaRubricas, pintaRubricasUsuario } from '../../componentes/pintaRubricas'
+import Swal from 'sweetalert2'
 
 export default {
   template: `
@@ -110,7 +111,14 @@ export default {
       document.querySelector('#enlace_proyecto').setAttribute('href', proyectoD.enlace)
     } catch (error) {
       console.log(error)
-      window.alert('Error al mostrar el proyecto' + error)
+      //window.alert('Error al mostrar el proyecto' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Se ha producido un error al abrir el proyecto' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     // Intentamos leer las notas de este proyecto
@@ -169,7 +177,14 @@ export default {
       })
     } catch (error) {
       console.log(error)
-      alert('Error al mostrar las COMENTARIOS' + error)
+      //alert('Error al mostrar las COMENTARIOS' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se han podido cargar los comentarios ' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     // Evento cambio sobre inputMiNota
@@ -201,9 +216,17 @@ export default {
             const notaUsuarioActualizada = await notaUsuario.update()
           }
           await pintaRubricas(proyectoD)
-          await pintaRubricasUsuario(proyectoD)
+          console.log('input', e.target.nextSibling)
+          // Capturamos el elemento hermano al input y actualizamos las estrellas a partir de su valor
+          e.target.nextElementSibling.innerHTML = estrellas(e.target.value)
         } catch (error) {
-          window.alert('Error al crear/actualizar nota: ' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'No se han podido modificar la nota del proyectos ' + error,
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
 
         // const notaCreada = await Nota.create(datosNota)

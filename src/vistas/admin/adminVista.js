@@ -1,5 +1,8 @@
 import { Perfil } from '../../bd/perfil'
 import { formEditarUsuario } from '../../componentes/formEditarUsuario'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 100px">

@@ -1,5 +1,8 @@
 import { User } from '../../bd/user'
 import { Enunciado } from '../../bd/enunciado'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div
@@ -125,12 +128,26 @@ export default {
           estado: document.querySelector('#estado').value
         }
         await Enunciado.create(enunciado)
-        alert('Enunciado creado con éxito')
+        //alert('Enunciado creado con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Enunciado creado con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        })
         // Cargamos la página login
         window.location.href = '/#/enunciados'
       } catch (error) {
         console.log(error)
-        alert('Error al crear enunciado ' + error)
+        //alert('Error al crear enunciado ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Se ha producido un error al crear el enunciado ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     })
   }

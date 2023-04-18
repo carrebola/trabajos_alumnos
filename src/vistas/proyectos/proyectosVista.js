@@ -1,6 +1,8 @@
 import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
 
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">
@@ -41,21 +43,22 @@ export default {
 `,
   script: async () => {
   // Generación de tabla
-    try {
+    const pintaTablaProyectos = async () => {
+      try {
       // Capturamos todos los usuarios de la tabla perfiles
-      const proyectos = await Proyecto.getAll()
-      console.log('numero proyectos ', proyectos.length)
-      // Generamos la tabla tablaProyectos
-      let tabla = ''
+        const proyectos = await Proyecto.getAll()
+        console.log('numero proyectos ', proyectos.length)
+        // Generamos la tabla tablaProyectos
+        let tabla = ''
 
-      for (const proyecto of proyectos) {
+        for (const proyecto of proyectos) {
         // Si proyecto.nota es null no pintamos nada
-        if (!proyecto.nota) proyecto.nota = '-'
+          if (!proyecto.nota) proyecto.nota = '-'
 
-        // Capturamos el nombre del autor de cada proyecto
-        const perfil = await Perfil.getByUserId(proyecto.user_id)
-        const autor = perfil.nombre + ' ' + perfil.apellidos
-        tabla += `
+          // Capturamos el nombre del autor de cada proyecto
+          const perfil = await Perfil.getByUserId(proyecto.user_id)
+          const autor = perfil.nombre + ' ' + perfil.apellidos
+          tabla += `
       <tr>
         <td>
           <img src="/assets/imagenes/proyectos/proyecto.png" width="50" alt="" data-id="${proyecto.id}" class="detalle"/>
@@ -105,13 +108,21 @@ export default {
         </td>
       </tr>
       `
+        }
+        const tablaProyectosBody = document.querySelector('#tablaProyectos tbody')
+        if (tablaProyectosBody) tablaProyectosBody.innerHTML = tabla
+      } catch (error) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'No se han podido cargar la tabla de usuarios ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
-      const tablaProyectosBody = document.querySelector('#tablaProyectos tbody')
-      if (tablaProyectosBody) tablaProyectosBody.innerHTML = tabla
-    } catch (error) {
-      alert('No se han podido cargar la tabla de usuarios ' + error)
     }
 
+    pintaTablaProyectos()
     // Borrar y Editar usuario
     const tablaProyectos = document.querySelector('#tablaProyectos')
     if (tablaProyectos) {
@@ -133,7 +144,13 @@ export default {
             await proyectoABloquear.block()
             window.location.href = '/#/proyectos'
           } catch (error) {
-            alert('No se han podido desactivar el proyecto' + error)
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: 'No se han podido desactivar el proyecto' + error,
+              showConfirmButton: false,
+              timer: 1500
+            })
           }
         }
 
@@ -142,14 +159,34 @@ export default {
           try {
             const proyectoABorrar = await Proyecto.getById(id)
 
-            const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
-
-            if (seguro) {
-              await Proyecto.delete(id)
-            }
-            window.location.href = '/#/proyectos'
+            // const seguro = confirm('¿Está seguro que desea borrar el proyecto? Se eliminarán todos sus comentarios y notas ' + proyectoABorrar.nombre + ', ' + proyectoABorrar.nombre)
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: `Se borrará el proyecto: ${proyectoABorrar.nombre} y todos las notas y comentarios asociados a este proyecto!`,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: '¡Sí, borralo!'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                await Proyecto.delete(id)
+                pintaTablaProyectos()
+                Swal.fire(
+                  'Borrado!',
+                  'El archivo ha sido borrado.',
+                  'success'
+                )
+              }
+            })
           } catch (error) {
-            alert('No se han podido borrar el proyecto' + error)
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: 'No se han podido borrar el proyecto' + error,
+              showConfirmButton: false,
+              timer: 1500
+            })
           }
         }
         // EDITAR PROYECTO  USUARIO

@@ -43,14 +43,17 @@ export const menuSuperior = {
       `,
       profesor: `
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
+        <a class="nav-link" href="#/recursos">Recursos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
+        <a class="nav-link" href="#/proyectos">Proyectos</a>
       </li>
       <li><hr /></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/adminUsuarios">Admin</a>
+        <a class="nav-link" href="#/enunciados">Enunciados</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/rubricas">Rúbricas</a>
       </li>
       `,
       admin: `

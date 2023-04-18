@@ -1,6 +1,9 @@
 import { Perfil } from '../../bd/perfil'
 import { Rubrica } from '../../bd/rubrica'
 import { User } from '../../bd/user'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <main style="padding-top: 50px">

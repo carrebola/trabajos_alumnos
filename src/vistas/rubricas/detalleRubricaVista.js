@@ -2,6 +2,8 @@ import { User } from '../../bd/user'
 import { Perfil } from '../../bd/perfil'
 import { Rubrica } from '../../bd/rubrica'
 
+import Swal from 'sweetalert2'
+
 export default {
   template: `
 <div class="container mt-5">

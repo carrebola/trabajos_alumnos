@@ -1,5 +1,8 @@
 import { User } from '../../bd/user'
 import { Enunciado } from '../../bd/enunciado'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   <div
@@ -146,7 +149,14 @@ export default {
       // formEnunciado.user_id.value = user.id
       // formEnunciado.id.value = enunciado.id
     } catch (error) {
-      alert('Error al editar enunciado' + error)
+      //alert('Error al editar enunciado' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se han podido editar el enunciado ' + error,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
 
     formEnunciado.addEventListener('submit', async function (e) {
@@ -172,11 +182,25 @@ export default {
         // enunciadoEditado.enlace = document.querySelector('#enlace').value,
 
         await enunciadoEditado.update()
-        alert('Enunciado editado con éxito')
+        //alert('Enunciado editado con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Enunciado modificado con éxito',
+          showConfirmButton: false,
+          timer: 1500
+        })
         // Cargamos la página login
         window.location.href = '/#/enunciados'
       } catch (error) {
-        alert('Error al editar enunciado ' + error)
+        //alert('Error al editar enunciado ' + error)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Error al editar el enunciado ' + error,
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
     })
   }

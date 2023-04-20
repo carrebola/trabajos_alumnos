@@ -46,7 +46,7 @@ class EnunciadoRubrica {
 
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
   static async getById (id) {
-    const { data: nota, error } = await supabase
+    const { data: er, error } = await supabase
       .from('enunciados_rubricas')
       .select('*')
       .eq('id', id)
@@ -56,7 +56,7 @@ class EnunciadoRubrica {
       throw new Error(error.message)
     }
 
-    return new EnunciadoRubrica(nota.id, nota.nota, nota.proyecto_id, nota.user_id)
+    return new EnunciadoRubrica(er.id, er.created_at, er.enunciado_id, er.rubrica_id, er.peso)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -65,7 +65,6 @@ class EnunciadoRubrica {
       .from('enunciados_rubricas')
       .insert(notaData)
       .select()
-    console.log('nuevo nota', error)
     if (error) {
       throw new Error(error.message)
     }
@@ -135,7 +134,16 @@ class EnunciadoRubricaDetalle extends EnunciadoRubrica {
       })
 
     if (error) console.error(error)
-    else return data
+    else {
+      return data
+      // return new EnunciadoRubricaDetalle(
+      //   data.id,
+      //   data.rubrica_id,
+      //   data.peso,
+      //   data.rubrica_nombre,
+      //   data.rubrica_descripcion
+      // )
+    }
   }
 }
 

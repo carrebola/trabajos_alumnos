@@ -33,10 +33,11 @@ export default {
       <h3 class="mt-4">Enunciado:</h3>
       <div class="bg-dark p-2 mt-2 mb-4" id="definicion_enunciado"></div>
       <div class="d-flex justify-content-between">
-        <h3 class="">Rúbricas asociadas:</h3>
-        <div>
-          <button class="btn btn-success btn-sm mb-2">Añadir rúbrica</button>
+        <h3 class="">Rúbricas asociadas: </h3>
+        <div class="btn btn-outline-secondary mb-1">
+          Seleccionar rúbricas
         </div>
+
       </div>
       <div id="rubricas">
         Aquí van las rubricas asociadas a este enunciado...
@@ -54,7 +55,7 @@ export default {
       const perfilAutor = await Perfil.getByUserId(enunciado.user_id)
       const autor = perfilAutor.nombre + ' ' + perfilAutor.apellidos
 
-      document.querySelector('#nombre_enunciado').innerHTML = enunciado.nombre
+      document.querySelector('#nombre_enunciado').innerHTML = enunciado.id + ' - ' + enunciado.nombre
       document.querySelector('#definicion_enunciado').innerHTML = enunciado.definicion
       document.querySelector('#autor_enunciado').innerHTML = autor
       document.querySelector('#modulo_enunciado').innerHTML = enunciado.modulo
@@ -86,13 +87,12 @@ export default {
       const enunciado = await Enunciado.getById(id)
 
       // Leermos todas las rubricas y las del enunciado
-      const rubricas = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(enunciado.id)
+      const enunciadoRubricas = await EnunciadoRubricaDetalle.rubricasTodosDetalleDeProyectoId(enunciado.id)
       const rubricasTodas = await Rubrica.getAll()
 
       let tabla = `
       <table class="table">
         <thead class="">
-          
           <th>NOMBRE</th>
           <th>DESCRIPCIÓN</th>
           <th>PESO PONDERACIÓN.</th>
@@ -104,21 +104,53 @@ export default {
       rubricasTodas.sort(element => element.peso).reverse()
 
       rubricasTodas.forEach(rubrica => {
-        console.log('rubricas', rubricas)
-        console.log('rubricasTodas', rubricasTodas)
-        console.log('rubricaid', rubrica.id)
-        const rubricaBuscada = rubricas.findIndex(element => rubrica.id === element.rubrica_id)
-        const peso = rubricaBuscada >= 0 ? rubricas[rubricaBuscada].peso : 0
-        console.log('peso', peso)
-        const boton = rubricaBuscada >= 0 ? `<button data-enunciado_id = '${enunciado.id}' data-rubrica_id = '${rubrica.id}' data-id = '${rubricas[rubricaBuscada].id}' class='btn btn-primary borrar'>Quitar</button>` : `<button data-enunciado_id = '${enunciado.rubrica_id}' data-rubrica_id = '${rubrica.id}' data-id = '${rubricas[rubricaBuscada].id}' class='btn btn-success insertar'>Añadir</button>`
+        const indexRubricaBuscada = enunciadoRubricas.findIndex(element => rubrica.id === element.rubrica_id)
+
+        const existeRubricaBuscada = indexRubricaBuscada >= 0
+        const enunciadoRubricaId = existeRubricaBuscada ? enunciadoRubricas[indexRubricaBuscada].id : null
+        const peso = existeRubricaBuscada ? enunciadoRubricas[indexRubricaBuscada].peso : 0
+
+        console.log('id de enunciadosrubricas ')
+        // selector de rubrica
+        const inputSelector = existeRubricaBuscada
+          ? `
+          <input 
+            type='checkbox' 
+            checked 
+            value=''
+            data-enunciado_id = '${enunciado.id}' 
+            data-rubrica_id = '${rubrica.id}' 
+            data-id = '${enunciadoRubricaId}' 
+            class='selector borrar'
+          />
+          `
+          : `
+          <input 
+            type='checkbox' value='' 
+            data-enunciado_id = '${enunciado.id}' 
+            data-rubrica_id = '${rubrica.id}' 
+            data-id = 'null' 
+            class='selector insertar'
+          />          
+          `
 
         tabla += `
         <tr>
           <td>${rubrica.nombre}</td>
           <td>${rubrica.descripcion}</td>
-          <td><input type='number' min = '0' max = '100' value = '${peso}'></input></td>
           <td>
-            ${boton}
+          <input 
+            type='number' 
+            data-id = ${enunciadoRubricaId}
+            data-enunciado_id = '${enunciado.id}' 
+            data-rubrica_id = '${rubrica.id}' 
+            min = '0' max = '100' 
+            value = '${peso}'
+            class="inputPeso" 
+          />
+          </td>
+          <td>
+            ${inputSelector}
           </td>
         </tr>
         `
@@ -126,26 +158,50 @@ export default {
       tabla += '</tbody></table>'
       document.querySelector('#rubricas').innerHTML = tabla
     }
-    document.querySelector('body').addEventListener('click', async (e) => {
-      if (e.target.dataset.enunciado_id) {
-        const enunciado_id = e.target.dataset.enunciado_id
-        const rubrica_id = e.target.dataset.rubrica_id
-        
-        console.log(enunciado_id, rubrica_id)
-
-        if (e.target.classList.contains('borrar')) {
-          console.log('borrar')
-          const id = e.target.dataset.id
+    document.querySelector('body').addEventListener('change', async (e) => {
+      // si modifica el checkbox
+      if (e.target.classList.contains('selector')) {
+        const enunciadoRubricaId = e.target.dataset.id
+        if (e.target.checked) {
+          // añadir rubrica a enunciado
           try {
-            console.log('id',id);
-            await EnunciadoRubricaDetalle.delete(id)
+            const enunciadoRubricaData = {
+              enunciado_id: e.target.dataset.enunciado_id,
+              rubrica_id: e.target.dataset.rubrica_id,
+              peso: e.target.parentNode.previousElementSibling.querySelector('input').value
+            }
+            await EnunciadoRubricaDetalle.create(enunciadoRubricaData)
+            pintaTablaRubricasSeleccion()
+          } catch (error) {
+            console.log('Error al insertar la rúbrica del enunciado ', error)
+          }
+        } else {
+          // eliminar rubrica de enunciado
+          try {
+            await EnunciadoRubricaDetalle.delete(enunciadoRubricaId)
             pintaTablaRubricasSeleccion()
           } catch (error) {
             console.log('Error al eliminar la rúbrica del enunciado ', error)
           }
-        } else if (e.target.classList.contains('insertar')) {
-          console.log('insertar')
         }
+      }
+      // Si modifica el valor de un input seleccionado que está chequedado
+      if (e.target.classList.contains('inputPeso') && e.target.parentNode.nextElementSibling.querySelector('input').checked) {
+        const enunciadoRubricaId = e.target.dataset.id
+        // actualizar rubrica de enunciado
+        try {
+          console.log('enunciadoRubricaDetalla ', enunciadoRubricaId);
+          const rubricaAModificar = await EnunciadoRubricaDetalle.getById(enunciadoRubricaId)
+          console.log(rubricaAModificar);
+          rubricaAModificar.peso = e.target.value
+          rubricaAModificar.update()
+
+          pintaTablaRubricasSeleccion()
+        } catch (error) {
+          console.log('Error al insertar la rúbrica del enunciado ', error)
+        }
+      } else if (e.target.classList.contains('insertar')) {
+        console.log('insertar')
       }
     })
   }

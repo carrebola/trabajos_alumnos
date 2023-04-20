@@ -2,6 +2,7 @@
 
 CREATE OR REPLACE FUNCTION rubricasTodosDetalleDeEnunciadoId(id_enunciado INT)
 RETURNS TABLE (
+  id INT,
   rubrica_id INT,  
   peso INT,  
   rubrica_nombre TEXT,
@@ -10,6 +11,7 @@ RETURNS TABLE (
 LANGUAGE SQL
 AS $$ 
 SELECT DISTINCT
+  enunciados_rubricas.id AS id,
   rubricas.id AS rubrica_id,
   enunciados_rubricas.peso AS rubrica_peso,
   rubricas.nombre AS rubrica_nombre,

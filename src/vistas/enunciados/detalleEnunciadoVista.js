@@ -171,7 +171,7 @@ export default {
               peso: e.target.parentNode.previousElementSibling.querySelector('input').value
             }
             await EnunciadoRubricaDetalle.create(enunciadoRubricaData)
-            pintaTablaRubricasSeleccion()
+            //pintaTablaRubricasSeleccion()
           } catch (error) {
             console.log('Error al insertar la rúbrica del enunciado ', error)
           }
@@ -179,7 +179,7 @@ export default {
           // eliminar rubrica de enunciado
           try {
             await EnunciadoRubricaDetalle.delete(enunciadoRubricaId)
-            pintaTablaRubricasSeleccion()
+            //pintaTablaRubricasSeleccion()
           } catch (error) {
             console.log('Error al eliminar la rúbrica del enunciado ', error)
           }
@@ -196,7 +196,7 @@ export default {
           rubricaAModificar.peso = e.target.value
           rubricaAModificar.update()
 
-          pintaTablaRubricasSeleccion()
+          //pintaTablaRubricasSeleccion()
         } catch (error) {
           console.log('Error al insertar la rúbrica del enunciado ', error)
         }

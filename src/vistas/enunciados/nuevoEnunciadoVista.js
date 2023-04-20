@@ -91,14 +91,10 @@ export default {
           <div class="invalid-feedback">La fecha no es correcto</div>
 
           <label class="mt-3 form-label" for="nombre">Estado: </label>
-          <input
-            id="estado" 
-            type="boolean"  
-            class="form-control" 
-            value="" 
-            placeholder ="" 
-            required 
-          />
+          <select id="estado" class="form-control" />
+            <option value="true">Activo</option>
+            <option value="false">No activo</option>
+          </select>
           <div class="invalid-feedback">El estado no es correcto</div>
 
          

@@ -3,11 +3,11 @@ import { Perfil } from '../bd/perfil'
 import { Archivo } from '../bd/archivo'
 export default {
   template: `
-  <div class="container mt-5">
-    <div class="row">
+<div class="d-flex align-items-center justify-content-center">    
+  <div class="" style="width: 300px">
     <h1 class="text-center p-2 w-100">Registro</h1>
-    <div class="col-12 col-md-4 offset-md-4">
-      <form id="form_registro" class="p-3" novalidate>
+    <div class="">
+      <form id="form_registro" class="p-3 border shadow" novalidate>
         <label class="mt-3 form-label" for="nombre">Nombre: </label>
         <input
           id="nombre" 

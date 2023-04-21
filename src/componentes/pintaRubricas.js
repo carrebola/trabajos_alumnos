@@ -24,18 +24,19 @@ const pintaRubricas = async (proyectoD) => {
     }
 
     let info = ''
-    info = (calculaNota(element.rubrica_id)) + ' ' + estrellas(Math.round(calculaNota(element.rubrica_id)))
+    info = `<div class="me-2 d-inline-block">${(calculaNota(element.rubrica_id))}</div> ${estrellas(Math.round(calculaNota(element.rubrica_id)))}`
     console.log('info', info)
     HTMLlistaRubricas += `
       <li class="list-group-item d-flex justify-content-between ">   
         ${element.rubrica_nombre} (${element.peso}/100) 
-        <span class="d-flex">
+        <div class="d-flex">
         ${info} 
-        </span>
+        </div>
       </li>`
   })
   HTMLlistaRubricas += '</ul>'
-  document.querySelector('#valoracion').innerHTML = HTMLlistaRubricas
+  console.log('listaRubricas', HTMLlistaRubricas);
+  document.querySelector('#valoracion').innerHTML = rubricasDetalle.length ? HTMLlistaRubricas : '<p class="">No hay criterios de corrección asociados a este proyecto</p>'
   document.querySelector('#notaMedia').value = notaMediaProyecto.toFixed(1)
 }
 
@@ -63,7 +64,7 @@ const pintaRubricasUsuario = async (proyectoD) => {
     const inputMiNota = `
       <input 
         id = "inputMiNota" 
-        class = "nota" 
+        class = "nota me-2" 
         type = "number" 
         min = "0" max = "5" 
         value = "${nota}"
@@ -73,19 +74,19 @@ const pintaRubricasUsuario = async (proyectoD) => {
         data-proyectoId = "${proyectoD.id}" 
         data-nota = "${nota}"
       />`
-    const info = inputMiNota + ' ' + estrellas(Math.round(nota))
+    const info = inputMiNota + ' ' + estrellas(nota ? Math.round(nota) : 0)
 
     HTMLlistaRubricas += `
-    <li class="list-group-item d-flex justify-content-between ">   
+    <li class="list-group-item d-flex justify-content-between">   
       ${element.rubrica_nombre} (${element.peso}/100) 
-      <span class="d-flex">
-      ${info} 
-      </span>
+      <div class="d-flex">
+      ${info}
+      </div>
     </li>`
   })
   HTMLlistaRubricas += '</ul>'
   const vp = document.querySelector('#valoracionPersonal')
-  vp.innerHTML = HTMLlistaRubricas
+  vp.innerHTML = rubricasDetalle.length ? HTMLlistaRubricas : '<p class="">Todavia no hay notas para estos criterios de corrección asociados a este proyecto</p>'
 }
 
 export { pintaRubricas, pintaRubricasUsuario }

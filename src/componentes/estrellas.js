@@ -1,5 +1,5 @@
-export const estrellas = (valor) => {
-  let estrellas = '<div class="estrellas ms-2">'
+export const estrellas = (valor = 0) => {
+  let estrellas = '<div class="">'
   for (let i = 1; i < 6; i++) {
     if (valor < i) {
       estrellas += '<div class="estrella no-activa"></div>'

@@ -41,8 +41,8 @@ export class Rubrica {
     }
 
     // devuelve array de objetos
-    return rubricas.map(({ id, nombre, descripcion, user_id, activo }) => {
-      return new Rubrica(id, nombre, descripcion, user_id, activo)
+    return rubricas.map(({ id, create_at, nombre, descripcion, user_id, activo }) => {
+      return new Rubrica(id, create_at, nombre, descripcion, user_id, activo)
     })
   }
 

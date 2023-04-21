@@ -22,10 +22,8 @@ export default {
                   <th>AUTOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
-                  <th>ENLACE</th>
-                  <th>NOTA</th>
-                  <th>ACTIVO</th>
-                  <th class="w-100"></th>
+                  <th>ESTADO</th>
+                  <th class=""></th>
               </tr>
           </thead>
           <tbody>
@@ -44,12 +42,13 @@ export default {
       const user = await User.getUser()
       // Capturamos todos los usuarios de la tabla perfiles
       const rubricas = await Rubrica.getAllByUserId(user.id)
-      console.log('user_id', user)
+      console.log('user_id', user.id)
       console.log('numero rubricas ', rubricas.length)
       // Generamos la tabla tablaRubricas
       let tabla = ''
 
       for (const rubrica of rubricas) {
+        console.log('rubrica', rubrica);
         // Si rubrica.nota es null no pintamos nada
         if (!rubrica.nota) rubrica.nota = '-'
 
@@ -63,9 +62,7 @@ export default {
         </td>
         <td>${autor}</td>
         <td>${rubrica.nombre}</td>
-        <td class="w-100">${rubrica.descripcion}</td>
-        <td><a href="${rubrica.enlace}" target="_black">${rubrica.enlace}</a></td>
-        <td class="text-center">${rubrica.nota}</td>
+        <td class="">${rubrica.descripcion}</td>
         <td class="text-center">${rubrica.activo}</td>
         <td class="text-end">
           <button
@@ -73,7 +70,7 @@ export default {
             type="button"
             class="btn text-danger detalle"
           >
-          <img  data-id="${rubrica.id}" class="detalle w-100" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+          <img  data-id="${rubrica.id}" class="detalle" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
           </button>
           <button
             data-id="${rubrica.id}"
@@ -88,7 +85,7 @@ export default {
               type="button"
               class="btn text-danger bloquear"
           >
-            <img  data-id="${rubrica.id}" class="bloquear w-100" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="bloquear" src="/assets/iconos/icons8-bloquear.svg" width="20" alt="" />
           </button>
         
           <button
@@ -96,7 +93,7 @@ export default {
               type="button"
               class="btn text-danger borrar"
           >
-            <img  data-id="${rubrica.id}" class="borrar w-100" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
+            <img  data-id="${rubrica.id}" class="borrar" src="/assets/iconos/icons8-basura-llena.svg" width="20" alt="" />
           </button>
         </td>
       </tr>

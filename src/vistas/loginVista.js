@@ -4,13 +4,11 @@ import { header } from '../componentes/header'
 export default {
   template: `
   
-  <div
-  class="vh-100 d-flex align-items-center justify-content-center"
->
-  <div class="col-12 col-md-4">
-      <h1 class="text-center p-2">Login</h1>
-      <form id="login" class="p-3" novalidate>
-          <label class="mt-3 form-label" for="email">Email</label>
+  <div class="vh-100 d-flex align-items-center justify-content-center">
+  <div class="" style="width: 300px">
+      <h1 class="text-center ">Login</h1>
+      <form id="login" class="p-3 shadow border" novalidate>
+          <label class="mt-1 form-label" for="email">Email</label>
           <input id="email" type="email" class="form-control" value="" required />
           <div class="invalid-feedback">Debes introducir un email valido</div>
 
@@ -28,7 +26,7 @@ export default {
           <p class="mt-3">
               <a href="">No recuerdo mi contraseña</a>
               <br />
-              <a href="registro.html">Quiero Registrarme</a>
+              <a href="#/registro">Quiero Registrarme</a>
           </p>
           <p></p>
           <hr class="mt-5" />

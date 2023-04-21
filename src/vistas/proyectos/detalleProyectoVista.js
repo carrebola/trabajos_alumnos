@@ -35,7 +35,9 @@ export default {
       <div class="row">
         <div class="col-12 col-xl-6 mt-2">
         <div class="d-flex justify-content-between">
-          <h5>Valoración alumnos:</h5><input title="Enviar nota" id="notaMedia" class=" w-25 ms-auto me-2 text-center fw-bold btn-sm mb-2" value="6.0"></input><button title="Enviar nota" id="notaMedia" class="btn btn-warning text-dark fw-bold btn-sm mb-2" >Enviar nota</button>
+          <h5>Valoración alumnos:</h5>
+          <input title="Enviar nota" id="notaMedia" class=" w-25 ms-auto me-2 text-center fw-bold btn-sm mb-2" value="6.0"></input>
+          <button title="Enviar nota" id="notaMedia" class="btn btn-warning text-dark fw-bold btn-sm mb-2" >Enviar nota</button>
         </div>  
         
 
@@ -111,7 +113,6 @@ export default {
       document.querySelector('#enlace_proyecto').setAttribute('href', proyectoD.enlace)
     } catch (error) {
       console.log(error)
-      //window.alert('Error al mostrar el proyecto' + error)
       Swal.fire({
         position: 'top-end',
         icon: 'error',

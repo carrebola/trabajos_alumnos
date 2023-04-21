@@ -31,7 +31,7 @@ export default {
           />  
           <label class="mt-3 form-label" for="id">Enunciado: </label>
 
-          <select id="enunciado" name="enunciado" class="form-control text-black-50">
+          <select id="selectEnunciado" name="enunciado" class="form-control text-black-50">
             <option value = "0" >Selecciona un enunciado</option>
           </select> 
           <label class="mt-3 form-label" for="nombre">Nombre: </label>
@@ -75,8 +75,11 @@ export default {
   </div>
 </div>
     `,
-  script: async (id) => {
+  script: async (id = -1) => {
+    let enunciados = []
+
     const formProyecto = document.querySelector('#formProyecto')
+
     try {
       const user = await User.getUser()
       const proyecto = await Proyecto.getById(id)
@@ -84,10 +87,10 @@ export default {
         const enunciado = await Enunciado.getById(proyecto.enunciado_id)
         formProyecto.enunciado.value = enunciado.id
       }
-      const enunciados = await Enunciado.getAll()
+      enunciados = await Enunciado.getAll()
 
       if (enunciados) {
-        let optionsEnunciados = '<option value="">Selecciona enunciado</option>`'
+        let optionsEnunciados = '<option value="-1">Selecciona enunciado</option>`'
         enunciados.forEach(enunciado => {
           optionsEnunciados += `<option value="${enunciado.id}">${enunciado.nombre}</option>`
         })
@@ -102,7 +105,7 @@ export default {
       formProyecto.enunciado.value = proyecto.enunciado_id
     } catch (error) {
       console.log(error)
-      //alert('Error al editar proyecto' + error)
+      // alert('Error al editar proyecto' + error)
       Swal.fire({
         position: 'top-end',
         icon: 'error',
@@ -111,6 +114,19 @@ export default {
         timer: 1500
       })
     }
+
+    // Si cambiamos el enunciado
+    document.querySelector('#selectEnunciado').addEventListener('change', (e) => {
+      if (e.target.value == -1) {
+        document.querySelector('#nombre').value = ''
+        document.querySelector('#descripcion').value = ''
+      } else {
+        const enunciadoSeleccionado = enunciados.filter(element => element.id == e.target.value)[0]
+        console.log('enunciadoSelecionado', enunciados)
+        document.querySelector('#nombre').value = enunciadoSeleccionado.nombre
+        document.querySelector('#descripcion').value = enunciadoSeleccionado.definicion
+      }
+    })
 
     formProyecto.addEventListener('submit', async function (e) {
       e.preventDefault()
@@ -121,11 +137,11 @@ export default {
         // Actualizamos los datos del proyecto a editar
         proyectoEditado.nombre = document.querySelector('#nombre').value
         proyectoEditado.descripcion = document.querySelector('#descripcion').value
-        proyectoEditado.enunciado_id = document.querySelector('#enunciado').value
+        proyectoEditado.enunciado_id = document.querySelector('#selectEnunciado').value
         // proyectoEditado.enlace = document.querySelector('#enlace').value
 
         await proyectoEditado.update()
-        //alert('Proyecto editado con éxito')
+        // alert('Proyecto editado con éxito')
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -137,7 +153,7 @@ export default {
         window.location.href = '/#/proyectos'
       } catch (error) {
         console.log(error)
-        //alert('Error al editar proyecto ' + error)
+        // alert('Error al editar proyecto ' + error)
         Swal.fire({
           position: 'top-end',
           icon: 'error',

@@ -106,7 +106,7 @@ export default {
           descripcion: document.querySelector('#descripcion').value,
           enlace: document.querySelector('#enlace').value,
           user_id: user.id, // Tomamos el id del usuario logueado
-          enunciado_id: document.querySelector('#enunciado').value
+          enunciado_id: document.querySelector('#selectEnunciado').value
         }
         await Proyecto.create(proyecto)
         // alert('Proyecto creado con éxito')

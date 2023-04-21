@@ -30,8 +30,8 @@ export default {
                   <th>FECHA_FINAL</th>
                   <th>ESTADO</th>
                   <th>ENLACE</th>
-
-                  <th class="w-100"></th>
+                  <th></th>
+                  <th></th>
               </tr>
           </thead>
           <tbody>
@@ -115,7 +115,7 @@ export default {
         <td class="">${enunciado.fecha_final}</td>
         <td class="">${enunciado.estado}</td>
         <td class=""><a href="${enunciado.enlace}" target="blank">documento</a></td>
-
+        <td class=""><a href="#/nuevoProyecto/${enunciado.id}" class="btn btn-success" >Nuevo proyecto</a></td>
         <td class="text-end">
           <!-- Botones para edición -->
           <div> ${tienePermisos ? botones : ''}  </div>

@@ -12,10 +12,11 @@ export default {
       <a href="#/proyectos" class="btn btn-outline-secondary btn-sm">< Proyectos</a>
       <h1 class="text-center p-2">Nuevo Proyecto</h1>
       <form id="form_proyecto" class="p-3" novalidate>
-        <label class="mt-3 form-label" for="nombre">Nombre: </label>
-          <select class="form-control" id="enunciado" required>
+        <label class="mt-3 form-label" for="enunciado">Enunciado: </label>
+          <select id="selectEnunciado" class="form-control" id="enunciado" required>
             <option value="">Selecciona el enunciado</option>
           </select>
+          <div class="text">Si el proyecto se basa en un enunciado seleccionalo aquí</div>
         <div class="invalid-feedback">El nombre no es correcto</div>
           <label class="mt-3 form-label" for="nombre">Nombre: </label>
           <input
@@ -55,18 +56,45 @@ export default {
   </div>
 </div>
     `,
-  script: () => {
+  script: async (id_enunciado = -1) => {
+    let enunciados = []
+    let enunciado = {}
+    try {
+      enunciados = await Enunciado.getAll()
+    } catch (error) {
+      console.log(error)
+    }
+    if (id_enunciado) {
+      enunciado = enunciados.filter(element => element.id == id_enunciado)[0]
+    }
     // Insertamos los enunciados en el select
     const pintaEnunciados = async () => {
-      const enunciados = await Enunciado.getAll()
-      let opciones = '<option value="" >Selecciona el enunciado</option>'
+      let opciones = '<option value="-1" >Selecciona el enunciado</option>'
       console.log('enunciados ', enunciados)
       enunciados.forEach(element => {
         opciones += `<option value="${element.id}">${element.nombre}</option>`
       })
-      document.querySelector('#enunciado').innerHTML = opciones
+      document.querySelector('#selectEnunciado').innerHTML = opciones
+      // Si venimos desde enunciado cargamos el valor del enunciado
+      document.querySelector('#selectEnunciado').value = id_enunciado
+      console.log('enunciado', enunciado)
+      document.querySelector('#nombre').value = enunciado.nombre
+      document.querySelector('#descripcion').value = enunciado.definicion
     }
     pintaEnunciados()
+
+    // Si cambiamos el enunciado
+    document.querySelector('#selectEnunciado').addEventListener('change', (e) => {
+      if (e.target.value == -1) {
+        document.querySelector('#nombre').value = ''
+        document.querySelector('#descripcion').value = ''
+      } else {
+        const enunciadoSeleccionado = enunciados.filter(element => element.id == e.target.value)[0]
+        document.querySelector('#nombre').value = enunciadoSeleccionado.nombre
+        document.querySelector('#descripcion').value = enunciadoSeleccionado.definicion
+      }
+    })
+
     document.querySelector('#form_proyecto').addEventListener('submit', async function (e) {
       e.preventDefault()
       try {
@@ -81,7 +109,7 @@ export default {
           enunciado_id: document.querySelector('#enunciado').value
         }
         await Proyecto.create(proyecto)
-        //alert('Proyecto creado con éxito')
+        // alert('Proyecto creado con éxito')
         Swal.fire({
           position: 'top-end',
           icon: 'success',

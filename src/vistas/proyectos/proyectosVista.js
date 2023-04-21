@@ -59,7 +59,7 @@ export default {
           const perfil = await Perfil.getByUserId(proyecto.user_id)
           const autor = perfil.nombre + ' ' + perfil.apellidos
           tabla += `
-      <tr>
+      <tr data-id="${proyecto.id}" class="detalle">
         <td>
           <img src="/assets/imagenes/proyectos/proyecto.png" width="50" alt="" data-id="${proyecto.id}" class="detalle"/>
         </td>
@@ -70,7 +70,7 @@ export default {
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
         <td class="text-center">${proyecto.nota}</td>
         <td class="text-center">${proyecto.activo}</td>
-        <td class="text-center">${proyecto.enunciado_id}</td>
+        <td class="text-center"><a href="#/detalleEnunciado/${proyecto.enunciado_id}"> Ir a enunciado </a></td>
         <td class="text-end">
           <div style="width: 150px">
             <button
@@ -195,8 +195,12 @@ export default {
         }
 
         // VER DETALLE PROYECTO  USUARIO
-        if (e.target.classList.contains('detalle')) {
-          window.location.href = '/#/detalleProyecto/' + id
+        // Si ha hecho click sobre la imagen o sobre algún td de la fila
+        if (e.target.classList.contains('detalle') || e.target.parentNode.classList.contains('detalle')) {
+          console.log('detalle', e.target)
+          // Si id es undefined porque ha hecho click en cualquier td del tr le asignamos el id del tr
+          const nuevoid = id || e.target.parentNode.dataset.id
+          window.location.href = '/#/detalleProyecto/' + nuevoid
         }
       })
     }

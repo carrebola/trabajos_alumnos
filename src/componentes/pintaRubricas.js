@@ -65,6 +65,7 @@ const pintaRubricasUsuario = async (proyectoD) => {
       <input 
         id = "inputMiNota" 
         class = "nota me-2" 
+        style="width: 3em"
         type = "number" 
         min = "0" max = "5" 
         value = "${nota}"

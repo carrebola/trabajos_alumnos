@@ -1,13 +1,16 @@
 import { User } from '../bd/user'
 import { Perfil } from '../bd/perfil'
 import { Archivo } from '../bd/archivo'
+
+import Swal from 'sweetalert2'
+
 export default {
   template: `
-<div class="d-flex align-items-center justify-content-center">    
+  <div class="vh-100 d-flex align-items-center justify-content-center">
   <div class="" style="width: 300px">
-    <h1 class="text-center p-2 w-100">Registro</h1>
+      <h1 class="text-center ">Registro</h1>
     <div class="">
-      <form id="form_registro" class="p-3 border shadow" novalidate>
+      <form id="form_registro" class="p-3 border shadow" validate>
         <label class="mt-3 form-label" for="nombre">Nombre: </label>
         <input
           id="nombre" 
@@ -40,13 +43,12 @@ export default {
         />
         <div class="invalid-feedback">El email no es correcto</div>
 
-        <label class="mt-3 form-label" for="nick">Contraseña: </label>
+        <label class="mt-3 form-label" for="contrasena">Contraseña: </label>
         <input
             id="contrasena"
             type="password"
             class="form-control"
             value=""
-            pattern="[A-Za-z]{8,}"
             placeholder = "Contraseña"
             required
         />
@@ -93,12 +95,25 @@ export default {
         }
 
         await Perfil.create(perfilData)
-        alert('Usuario creado con éxito')
+        //alert('Usuario creado con éxito')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'De momento todo perfecto. En breve recibirás un email con un enlace para confirmar el registro.',
+          showConfirmButton: true
+        })
         // Cargamos la página login
         window.location.href = '/#/login'
       } catch (error) {
         console.log(error)
-        alert('Error al crear usuario')
+        //alert('Error al crear usuario')
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Se ha producido un error!',
+          text: 'Ha habido algún problema al registrar el usuario',
+          showConfirmButton: true
+        })
       }
     })
   }

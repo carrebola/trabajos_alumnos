@@ -1,9 +1,11 @@
 
 
 
-@import "~bootswatch/dist/superhero/variables";
+@import "~bootswatch/dist/sandstone/variables";
 @import "~bootstrap/scss/bootstrap";
-@import "~bootswatch/dist/superhero/bootswatch";
+@import "~bootswatch/dist/sandstone/bootswatch";
+
+//$primary: '#ffc107';
 
 .estrellas{
   display: inline-block;

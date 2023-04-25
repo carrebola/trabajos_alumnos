@@ -5,21 +5,23 @@ export const menuUsuario = {
   <ul class="navbar nav me-5">
       <li class="nav-item dropdown">
         <a
-          class="nav-link dropdown-toggle"        
+          class="nav-link dropdown-toggle text-light"        
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           <div class="avatarLogin d-inline-block">
-          <span id="emailUsuarioLogueado" class="pe-3 text-dark"></span>
-            <img
-              id="imgAvatar"
-              src=""
-              alt="Logo"
-              width="30"
-              height="30"
-              class="d-inline-block align-text-top"
-            />
+            <div class="d-flex align-items-center">
+              <span id="emailUsuarioLogueado" class="pe-3  text-light"></span>
+                <img
+                  id="imgAvatar"
+                  src="/assets/avatar.svg"
+                  alt="Logo"
+                  width="30"
+                  height="30"
+                  class="d-inline-block align-text-top border"
+                />
+            </div>
           </div>
         </a>
         

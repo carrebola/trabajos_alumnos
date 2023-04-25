@@ -32,7 +32,14 @@ export default {
       document.querySelector('#autor_rubrica').innerHTML = autor
     } catch (error) {
       console.log(error)
-      alert('Error al mostrar el rubrica' + error)
+      //alert('Error al mostrar el rubrica' + error)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Error al mostrar la rúbrica',
+        showConfirmButton: true,
+        timer: 1500
+      })
     }
   }
 

@@ -10,15 +10,15 @@ export const pintaTablaImagenes = (user_id) => {
       const keys = url.split('/')
       const ultimo = keys.length - 1
       const key = keys[ultimo]
-      console.log(key)
+      //console.log(key)
       // Evitamos mostrar la carpeta vacía
       if (key !== '.emptyFolderPlaceholder') {
         divImagenes += `
         <div class="border bordered m-1">
-          <div class="bg-dark border position-absolute"  style="width:35px">
-            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}">
+          <div class="bg-dark border position-absolute"  style="width:25px">
+            <img src="/assets/iconos/icons8-basura-llena.svg"  alt="basura" class="borrarImagen" data-url="${key}" width="20">
           </div>
-          <img data-key = '${key}' src="${url}" alt="" style="width:100px" class="imagenListaPerfil m-1">
+          <img data-key = '${key}' src="${url}" alt="" style="width:75px" class="imagenListaPerfil m-1">
         </div>`
       }
     })

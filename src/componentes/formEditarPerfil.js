@@ -31,24 +31,29 @@ export const formEditarPerfil = {
         </button>
     </div>
     <div class="modal-body">
-        <form id="formEditarPerfil" class="p-3">
-        <label class="mt-3 form-label" for="nick">Nombre: </label>
-        <input id="edit_nombre" type="text" class="form-control" name="nombre" value="" />
+      <div class="row">
+        <form id="formEditarPerfil" class="p-3 col-6">
+          <label class="mt-3 form-label" for="nick">Nombre: </label>
+          <input id="edit_nombre" type="text" class="form-control" name="nombre" value="" />
 
-        <label class="mt-3 form-label" for="apellidos">Apellidos: </label>
-        <input id="edit_apellidos" type="text" class="form-control" value="" name="apellidos"/>
-        <label class="mt-3 form-label" for="inputAvatar">Imagen de perfil: </label>
-        <input
-            id="inputAvatar"
-            type="file"
-            class="form-control"
-            value=""
-        />
-        </form>
-        <div class="d-flex justify-content-center mt-2" >
-          <img src="" alt="" id="imagenAvatar" class="img img-fluid w-50">
-        </div>
-        <div id="imagenesPerfil" class="d-flex justify-content-center">LISTA DE IMAGENES</div>
+          <label class="mt-3 form-label" for="apellidos">Apellidos: </label>
+          <input id="edit_apellidos" type="text" class="form-control" value="" name="apellidos"/>
+          <label class="mt-3 form-label" for="inputAvatar">Imagen de perfil: </label>
+          <input
+              id="inputAvatar"
+              type="file"
+              class="form-control"
+              value=""
+          />
+          </form>
+          <div class="col-6">
+            <div class="mt-2 border" >
+              <img src="" alt="" id="imagenAvatar" class="img img-fluid">
+            </div>
+            <div id="imagenesPerfil" class="d-flex justify-content-center">LISTA DE IMAGENES</div>
+          </div>
+        
+      </div>
     </div>
     <div class="modal-footer">
         <button id="guardarCambios" type="button" class="btn btn-primary"  data-bs-dismiss="modal">

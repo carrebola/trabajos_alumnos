@@ -1,6 +1,8 @@
 import { User } from '../bd/user'
 import { header } from '../componentes/header'
 
+import Swal from 'sweetalert2'
+
 export default {
   template: `
   
@@ -28,12 +30,7 @@ export default {
               <br />
               <a href="#/registro">Quiero Registrarme</a>
           </p>
-          <p></p>
-          <hr class="mt-5" />
-
-          <button type="button" class="mt-1 btn btn-primary w-100">
-              Login con Google
-          </button>
+          
       </form>
   </div>
 </div>
@@ -66,7 +63,14 @@ export default {
           // Cagamos la página home
           window.location.href = '/#/home'
         } catch (error) {
-          alert('No se ha podido iniciar sesión ' + error)
+          //alert('No se ha podido iniciar sesión ' + error)
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Se ha producido un error!',
+            text: error,
+            showConfirmButton: true
+          })
         }
       }
     })

@@ -8,10 +8,10 @@ export default {
   <main style="padding-top: 50px">
   <div class="container-fluid">  
       <div class="d-flex justify-content-between border-bottom">
-        <h1>Proyectos</h1>
+        <h1>Tareas entregadas</h1>
         <div>
-          <a href="/#/misProyectos" id="misProyectos" class="btn btn-link mt-3 ms-2">Ver mis proyectos</a>
-          <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success m-3 ms-auto">Nuevo Proyecto</a>
+          <a href="/#/misProyectos" id="misProyectos" class="btn btn-link mt-3 ms-2">Ver mis tareas entregadas</a>
+          
         </div>  
       </div>
       

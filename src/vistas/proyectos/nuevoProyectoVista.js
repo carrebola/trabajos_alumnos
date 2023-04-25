@@ -10,48 +10,25 @@ export default {
   class="container d-flex mt-5 justify-content-center">
   <div class="col-12">
       <a href="#/proyectos" class="btn btn-outline-secondary btn-sm">< Proyectos</a>
-      <h1 class="text-center p-2">Nuevo Proyecto</h1>
-      <form id="form_proyecto" class="p-3" novalidate>
-        <label class="mt-3 form-label" for="enunciado">Enunciado: </label>
-          <select id="selectEnunciado" class="form-control" id="enunciado" required>
-            <option value="">Selecciona el enunciado</option>
-          </select>
-          <div class="text">Si el proyecto se basa en un enunciado seleccionalo aquí</div>
-        <div class="invalid-feedback">El nombre no es correcto</div>
-          <label class="mt-3 form-label" for="nombre">Nombre: </label>
-          <input
-            id="nombre" 
-            type="text" 
-            class="form-control" 
-            value="" 
-            placeholder ="Nombre del proyecto" 
-            required 
-          />
-          <div class="invalid-feedback">El nombre no es correcto</div>
-
-          <label class="mt-3 form-label" for="descripcion">Descripción: </label>
-          <textarea 
-            id="descripcion"
-            class="form-control" 
-            value="" 
-            required 
-            />
-          </textarea>
-          <div class="invalid-feedback">Este campo no es correcto</div>
-
-          <label class="mt-3 form-label" for="enlace">Enlace a producción</label>
-          <input
-              id="enlace"
-              type="enlace"
-              class="form-control"
-              value=""
-              placeholder = "http://miproyecto.com"
-              required
-          />
-          <div class="invalid-feedback">El link no es correcto</div>
-          <button type="submit" class="mt-5 btn btn-success">
-              Crear nuevo proyecto
-          </button>
+      <h1 class="text-center p-2">Entregar tarea</h1>
+      <h3>Tarea: </h3>
+      <p id="nombreEnunciado"></p>
+      <h3>Descripción: </h3>
+      <p id="descripcionEnunciado"></p>
+      <form id="form_proyecto" class="" validate>
+        <label class="mt-3 form-label" for="enlace">URL de GitHub</label>
+        <input
+            id="enlace"
+            type="enlace"
+            class="form-control"
+            value=""
+            placeholder = "http://miproyecto.com"
+            required
+        />
+        <div class="invalid-feedback">El link no es correcto</div>
+        <button type="submit" class="mt-2 btn btn-success">
+            Enviar tarea
+        </button>
       </form>
   </div>
 </div>
@@ -61,12 +38,15 @@ export default {
     let enunciado = {}
     try {
       enunciados = await Enunciado.getAll()
+      enunciado = await Enunciado.getById(id_enunciado)
+      document.querySelector('#nombreEnunciado').innerHTML = enunciado.nombre
+      document.querySelector('#descripcionEnunciado').innerHTML = enunciado.definicion
     } catch (error) {
       console.log(error)
     }
-    if (id_enunciado) {
-      enunciado = enunciados.filter(element => element.id == id_enunciado)[0]
-    }
+    // if (id_enunciado) {
+    //   enunciado = enunciados.filter(element => element.id == id_enunciado)[0]
+    // }
     // Insertamos los enunciados en el select
     const pintaEnunciados = async () => {
       let opciones = '<option value="-1" >Selecciona el enunciado</option>'
@@ -87,11 +67,11 @@ export default {
     document.querySelector('#selectEnunciado').addEventListener('change', (e) => {
       if (e.target.value == -1) {
         document.querySelector('#nombre').value = ''
-        document.querySelector('#descripcion').value = ''
+        document.querySelector('#descripcion').innerHTML = ''
       } else {
         const enunciadoSeleccionado = enunciados.filter(element => element.id == e.target.value)[0]
         document.querySelector('#nombre').value = enunciadoSeleccionado.nombre
-        document.querySelector('#descripcion').value = enunciadoSeleccionado.definicion
+        document.querySelector('#descripcion').innerHTML = enunciadoSeleccionado.definicion
       }
     })
 

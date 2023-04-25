@@ -12,7 +12,7 @@ export const menuUsuario = {
         >
           <div class="avatarLogin d-inline-block">
             <div class="d-flex align-items-center">
-              <span id="emailUsuarioLogueado" class="pe-3  text-light"></span>
+              <span style="width:100px" id="emailUsuarioLogueado" class="pe-3  text-light"></span>
                 <img
                   id="imgAvatar"
                   src="/assets/avatar.svg"
@@ -167,7 +167,7 @@ export const menuUsuario = {
       // Insertamos la foto del avatar
       document.querySelector('#imgAvatar').src = imgAvatar
       // Insertamos el email del usuario
-      document.querySelector('#emailUsuarioLogueado').innerHTML = perfilLogueado.email
+      document.querySelector('#emailUsuarioLogueado').innerHTML = (perfilLogueado.email).split('@')[0]
       // Insertamos el rol
       document.querySelector('#rolUsuarioLogueado').innerHTML = perfilLogueado.rol
 

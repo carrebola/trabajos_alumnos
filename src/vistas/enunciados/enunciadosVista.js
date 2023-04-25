@@ -9,10 +9,9 @@ export default {
   <main style="padding-top: 50px">
   <div class="container-fluid">  
       <div class="d-flex justify-content-between border-bottom">
-        <h1>Enunciados</h1>
-        <div>
-          <a href="/#/misEnunciados" id="misEnunciados" class="btn btn-link mt-3 ms-2">Ver mis enunciados</a>
-          <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success m-3 ms-auto">Nuevo Enunciado</a>
+        <h1>Enunciados de las tareas</h1>
+        <div id="botonesProfe">
+          
         </div>  
       </div>
       
@@ -20,7 +19,7 @@ export default {
           <thead>
               <tr>
                   <th></th>
-                  <th>AUTOR</th>
+                  <th>PROFESOR</th>
                   <th>NOMBRE</th>
                   <th>DESCRIPCIÓN</th>
                   <th>MD</th>
@@ -29,7 +28,7 @@ export default {
                   <th>FECHA_INICIO</th>
                   <th>FECHA_FINAL</th>
                   <th>ESTADO</th>
-                  <th>ENLACE</th>
+                  <th>ENUNCIADO</th>
                   <th></th>
                   <th></th>
               </tr>
@@ -51,6 +50,12 @@ export default {
       // Capturamos el rol del usuario registrado
         const user = await User.getUser()
         const rol = (await Perfil.getByUserId(user.id)).rol
+        // Generamos los botones si el rol es profe o admin
+        const botonesProfes = (rol == 'admin' || rol == 'profesor'
+          ? `<a href="/#/misEnunciados" id="misEnunciados" class="btn btn-link mt-3 ms-2">Ver mis enunciados</a>
+        <a href="/#/nuevoEnunciado" id="nuevoEnunciado" class="btn btn-success m-3 ms-auto">Nuevo Enunciado</a>`
+          : '')
+        document.querySelector('#botonesProfe').innerHTML = botonesProfes
         // Capturamos todos los usuarios de la tabla perfiles
         const enunciados = await Enunciado.getAll()
         // Generamos la tabla tablaEnunciados
@@ -65,7 +70,6 @@ export default {
           const autor = perfil.nombre + ' ' + perfil.apellidos
 
           const tienePermisos = (rol === 'admin' || rol === 'profesor')
-          console.log('tiene permisos', tienePermisos)
           const imagen = enunciado.imagen ? enunciado.imagen : '/assets/imagenes/proyectos/proyecto.png'
           const botones =
         `
@@ -114,12 +118,21 @@ export default {
         <td class="">${enunciado.fecha_inicio}</td>
         <td class="">${enunciado.fecha_final}</td>
         <td class="">${enunciado.estado}</td>
-        <td class=""><a href="${enunciado.enlace}" target="blank">documento</a></td>
-        <td class=""><a href="#/nuevoProyecto/${enunciado.id}" class="btn btn-success" >Nuevo proyecto</a></td>
+        <td class=""><a href="${enunciado.enlace}" target="blank"><img src="/assets/iconos/icons8-documento.svg"></a></td>
+        
         <td class="text-end">
           <!-- Botones para edición -->
-          <div> ${tienePermisos ? botones : ''}  </div>
+          <div> 
+            <button
+              data-id="${enunciado.id}"
+              type="button"
+              class="btn text-danger detalle p-0"
+            >
+            <img  data-id="${enunciado.id}" class="detalle" src="/assets/iconos/icons8-acerca-de.svg" width="20" alt="" />
+            </button>
+          ${tienePermisos ? botones : ''}  </div>
         </td>
+        <td class=""><a href="#/nuevoProyecto/${enunciado.id}" class="btn btn-success" >Entregar tarea</a></td>
       </tr>
       `
         }

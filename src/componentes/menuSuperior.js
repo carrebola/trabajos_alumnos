@@ -11,7 +11,7 @@ export const menuSuperior = {
     const items = {
       anonimo: `
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
+        <a class="nav-link" href="#">TOP 5 - Proyectos</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/recursos">Recursos</a>
@@ -19,26 +19,27 @@ export const menuSuperior = {
       `,
       registrado: `
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
+        <a class="nav-link" href="#/proyectos">TOP 5 - Proyectos</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/recursos">Recursos</a>
       </li>
-      <li><hr /></li>
-      <li class="nav-item">
-        <a class="nav-link" href="#/adminUsuarios">Admin</a>
-      </li>
+     
       `,
       alumno: `
-      <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
-      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="#/recursos">Recursos</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/proyectos">TOP 5 - Proyectos</a>
+      </li>
       <li><hr /></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/enunciados">Enunciados</a>
+        <a class="nav-link" href="#/enunciados">Tareas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/proyectos">Tareas entregadas</a>
       </li>
       `,
       profesor: `
@@ -46,11 +47,11 @@ export const menuSuperior = {
         <a class="nav-link" href="#/recursos">Recursos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Proyectos</a>
+        <a class="nav-link" href="#/proyectos">Tareas entregadas</a>
       </li>
       <li><hr /></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/enunciados">Enunciados</a>
+        <a class="nav-link" href="#/enunciados">Tareas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/rubricas">Rúbricas</a>
@@ -65,7 +66,7 @@ export const menuSuperior = {
       </li>
       <li><hr /></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/enunciados">Enunciados</a>
+        <a class="nav-link" href="#/enunciados">Tareas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/rubricas">Rúbricas</a>

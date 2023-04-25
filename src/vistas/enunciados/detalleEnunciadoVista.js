@@ -13,25 +13,26 @@ export default {
   <div class="row">
     <div class="col-12">
       <a href="#/enunciados" class="btn btn-outline-secondary btn-sm">< Enunciados</a>
-      <h1 class="w-100 text-center p-2">Enunciado: <span id="nombre_enunciado" ></span></h1>
+      <h1 class="w-100 text-center p-2">Enunciado tarea: </h1>
+      <h3 id="nombre_enunciado"></h3>
       <div class="d-flex justify-content-center m-5">
-        <img src="" class="w-400" alt="">
+        <img src="" class="" alt="">
       </div>
       <p>Autor: <span id="autor_enunciado" class="text-center p-2"></span></p>
 
-      <span>Enlace: <span id="enlace_enunciado" class="text-center p-2"></span></span>
+      <span>Enunciado: <span id="enlace_enunciado" class="text-center p-2"></span></span>
       <span>Última actualización: <span id="actualizado_enunciado" class="text-center p-2"></span></span>
       <div class="mt-3">
-        <div class="btn btn-dark ">Módulo: <span id="modulo_enunciado" class="text-center p-2"></span></div>
-        <div class="btn btn-dark">RA: <span id="ra_enunciado" class="text-center p-2"></span></div>
-        <div class="btn btn-dark">UF: <span id="uf_enunciado" class="text-center p-2"></span></div>
-        <div class="btn btn-dark">Fecha inicio: <span id="fechaInicio_enunciado" class="text-center p-2"></span></div>
-        <div class="btn btn-dark">Fecha Final: <span id="fechaFinal_enunciado" class="text-center p-2"></span></div>
-        <div class="btn btn-dark">Estado: <span id="estado_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark ">Módulo: <span id="modulo_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark">RA: <span id="ra_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark">UF: <span id="uf_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark">Fecha inicio: <span id="fechaInicio_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark">Fecha Final: <span id="fechaFinal_enunciado" class="text-center p-2"></span></div>
+        <div class="btn btn-outline-dark">Estado: <span id="estado_enunciado" class="text-center p-2"></span></div>
       </div>
 
-      <h3 class="mt-4">Enunciado:</h3>
-      <div class="bg-dark p-2 mt-2 mb-4" id="definicion_enunciado"></div>
+      <h3 class="mt-4">Descripción: </h3>
+      <div class="p-2 mt-2 mb-4" id="definicion_enunciado"></div>
       <div class="d-flex justify-content-between">
         <h3 class="">Rúbricas asociadas: </h3>
         <div class="btn btn-outline-secondary mb-1">

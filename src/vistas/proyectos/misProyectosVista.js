@@ -9,9 +9,9 @@ export default {
   <main style="padding-top: 50px">
   <div class="container-fluid">
     <div class="d-flex justify-content-between border-bottom">
-      <h1>Mis Proyectos</h1>
+      <h1>Mis tareas entregadas</h1>
       <div>
-        <a href="/#/proyectos" id="proyectos" class="btn btn-link mt-3 ms-2">< Volver a proyectos</a>
+        <a href="/#/proyectos" id="proyectos" class="btn btn-link mt-3 ms-2">< Volver a tareas entregadas</a>
         <a href="/#/nuevoProyecto" id="nuevoProyecto" class="btn btn-success m-3 ms-auto">Nuevo Proyecto</a>
       </div>  
     </div>

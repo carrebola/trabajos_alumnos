@@ -25,7 +25,9 @@ export const enrutador = {
     nuevoRubrica: import('../vistas/rubricas/nuevoRubricaVista.js'),
     editarRubrica: import('../vistas/rubricas/editarRubricaVista.js'),
     detalleRubrica: import('../vistas/rubricas/detalleRubricaVista.js'),
-    misRubricas: import('../vistas/rubricas/misRubricasVista.js')
+    misRubricas: import('../vistas/rubricas/misRubricasVista.js'),
+    // Tareas
+    tareas: import('../vistas/tareas/tareasVista.js')
   },
 
   // Método que obtiene la ruta del navegador

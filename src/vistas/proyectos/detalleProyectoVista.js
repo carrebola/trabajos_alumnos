@@ -36,8 +36,8 @@ export default {
         <div class="col-12  mt-2">
           <div class="d-flex justify-content-between">
             <h5>Valoración alumnos:</h5>
-            <input title="Enviar nota" id="notaMedia" class=" w-25 ms-auto me-2 text-center fw-bold btn-sm mb-2" value="6.0"></input>
-            <button title="Enviar nota" id="notaMedia" class="btn btn-warning text-dark fw-bold btn-sm mb-2" >Enviar nota</button>
+            <input title="Enviar nota" id="notaMedia" class=" w-25 ms-auto me-2 text-center text-white fw-bold btn-sm bg-primary mb-2" value="6.0" disabled></input>
+            
           </div>  
         
 
@@ -147,7 +147,7 @@ export default {
           const avatar = perfil.avatar
           const fecha = perfil.created_at.split('T')[0]
           divComentarios += `
-          <div class="w-100 d-flex bg-dark mb-2 p-3">
+          <div class="w-100 d-flex mb-2 p-3">
           <img src="${avatar}" alt="us" class="border me-3 mt-1" style="width:50px;height:50px;">
             <div class="w-100">          
               <div class="comentario">${comentario.comentario}</div>

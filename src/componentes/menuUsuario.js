@@ -153,17 +153,19 @@ export const menuUsuario = {
       <li><a class="liLogout dropdown-item" href="">Logout</a></li>
       `
     }
-    console.log(perfilLogueado)
+    //console.log(perfilLogueado)
     let rol = 'anonimo'
     if (perfilLogueado.rol) rol = perfilLogueado.rol
-    console.log('cargando menu', rol)
+    //console.log('cargando menu', rol)
 
     // Insertamos los items del menú según el rol
     document.querySelector('#menuUsuario').innerHTML = items[rol]
 
+    let imgAvatar = '/assets/avatar.svg'
+
     if (rol !== 'anonimo') {
       // Leemos la url de la imagen que está en la carpeta user_id del storage de supabase
-      const imgAvatar = perfilLogueado.avatar || '/assets/avatar.svg'
+      imgAvatar = perfilLogueado.avatar
       // Insertamos la foto del avatar
       document.querySelector('#imgAvatar').src = imgAvatar
       // Insertamos el email del usuario
@@ -178,16 +180,13 @@ export const menuUsuario = {
         // Cerramos sesión utilizando el método de logout de nuestra clase User
         await User.logout()
         header.script()
-        
       })
-    }
-    else{
-      const imgAvatar = '/assets/avatar.svg'
-      // Insertamos la foto del avatar
-      document.querySelector('#imgAvatar').src = imgAvatar
+    } else {
       // Insertamos el email del usuario
       document.querySelector('#emailUsuarioLogueado').innerHTML = ''
     }
+    // Insertamos la foto del avatar
+    document.querySelector('#imgAvatar').src = imgAvatar
 
     // Gestionamos click en editar perfil
     document.querySelector('#editarPerfil').addEventListener('click', (e) => {

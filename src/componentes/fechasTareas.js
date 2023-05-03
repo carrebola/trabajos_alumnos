@@ -9,7 +9,6 @@ export const fechasTareas = {
       // Capturamos fecha hoy y marcamos la linea
       let hoy = new Date()
       hoy = hoy.toISOString().split('T')[0]
-      console.log('hoy', hoy)
       let posicionActual = 0
 
       let divFechas = ''

@@ -18,6 +18,19 @@ export default {
       ...
     </div>
 
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+
+    <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Tarea</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <h1 id="nombreTarea"></h1>
+        <div id="idTarea">...</div>
+      </div>
+    </div>
+
 
 `,
   script: async () => {
@@ -30,20 +43,32 @@ export default {
         // Capturamos las tareas
         let divTareas = ''
 
-        console.log('tareas', tareas)
         tareas.forEach((element, index) => {
-          // calculamos la posición de la tarea para apliar el margen a la izquierda y situarla 
+          // calculamos la posición de la tarea para apliar el margen a la izquierda y situarla
           const posicionInicial = semanas.findIndex(semana => element.fecha_inicio <= semana.fecha)
           const posicionFinal = semanas.findIndex(semana => element.fecha_final <= semana.fecha)
           const longitudTarea = posicionFinal - posicionInicial
-          console.log('posicionInicial: ', posicionInicial)
           divTareas += `
-          <div class="tarea border shadow d-flex align-items-center p-2 small" style="width: ${longitudTarea * 100}px; height: 60px; margin-left: ${100 * posicionInicial}px;" title="${element.fecha_inicio} - ${element.fecha_final}">
+          <div 
+            class="tarea border shadow d-flex align-items-center p-2 small" 
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#offcanvasRight" 
+            aria-controls="offcanvasRight" 
+            style="width: ${longitudTarea * 100}px; height: 60px; margin-left: ${100 * posicionInicial}px;" title="${element.fecha_inicio} - ${element.fecha_final}" data-id="${element.id}">
             ${element.nombre}
           </div>
           `
         })
         document.querySelector('#tareas').innerHTML = divTareas
+
+        document.querySelector('main').addEventListener('click', (e) => {
+          if (e.target.classList.contains('tarea')) {
+            const idTarea = e.target.dataset.id
+            console.log('id tarea', idTarea)
+            document.querySelector('#nombreTarea').innerHTML = idTarea
+            document.querySelector('#idTarea').innerHTML = idTarea
+          }
+        })
       } catch (error) {
         Swal.fire({
           position: 'top-end',

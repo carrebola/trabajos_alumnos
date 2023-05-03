@@ -1,70 +1,44 @@
 import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
 import { Enunciado } from '../../bd/enunciado'
-import { tablaTareas } from '../../componentes/tablaTareas'
+import { fechasTareas } from '../../componentes/fechasTareas'
+import { Semana } from '../../bd/semanas'
 
 import Swal from 'sweetalert2'
 
 export default {
   template: `
-  <main style="padding-top: 50px">
-    <div class="pt-5" style="width: 4000px; box-sizing: border-box;">
-      ${tablaTareas.template}
+  
+    <h1 class="text-center pt-1">Tareas entregadas</h1>
+    <div id="marcador" class="position-absolute border-end border-success border-5 h-100 ms-1" style="width: 1200px; background-color: rgb(200,200,200,0.1); z-index: -1"></div>
+    <div class="" style="width: 4000px; box-sizing: border-box; position: relative">
+      ${fechasTareas.template}
     </div>
     <div id="tareas">
       ...
     </div>
 
 
-
-  <div class="container-fluid">  
-      <div class="d-flex justify-content-between border-bottom">
-        <h1>Tareas entregadas</h1>
-        
-        <div>
-          <a href="/#/misProyectos" id="misProyectos" class="btn btn-link mt-3 ms-2">Ver mis tareas entregadas</a>
-          
-        </div>  
-      </div>
-      
-      
-      <table id="tablaProyectos" class="table table-striped table-hover mt-5 align-middle">
-          <thead>
-              <tr>
-                  <th>IMAGEN</th>
-                  <th>ID</th>
-                  <th>AUTOR</th>
-                  <th>NOMBRE</th>
-                  <th>DESCRIPCIÓN</th>
-                  <th>ENLACE</th>
-                  <th>NOTA</th>
-                  <th>ACTIVO</th>
-                  <th>ENUNCIADO</th>
-                  <th class=""></th>
-              </tr>
-          </thead>
-          <tbody>
-                     
-              
-              
-          </tbody>
-      </table>
-  </div>
-</main>
-
 `,
   script: async () => {
-    tablaTareas.script()
     // Generación de tabla
     const pintaDivsTareas = async () => {
       try {
-      // Capturamos las tareas
-        let divTareas = ''
         const tareas = await Enunciado.getAll()
+        const semanas = await Semana.getAll()
+        fechasTareas.script(semanas)
+        // Capturamos las tareas
+        let divTareas = ''
+
         console.log('tareas', tareas)
         tareas.forEach((element, index) => {
+          // calculamos la posición de la tarea para apliar el margen a la izquierda y situarla 
+          const posicionInicial = semanas.findIndex(semana => element.fecha_inicio <= semana.fecha)
+          const posicionFinal = semanas.findIndex(semana => element.fecha_final <= semana.fecha)
+          const longitudTarea = posicionFinal - posicionInicial
+          console.log('posicionInicial: ', posicionInicial)
           divTareas += `
-          <div class="tarea p-1 bg-primary text-white" style="width: 100px; margin-left: ${100*index}px;">
+          <div class="tarea border shadow d-flex align-items-center p-2 small" style="width: ${longitudTarea * 100}px; height: 60px; margin-left: ${100 * posicionInicial}px;" title="${element.fecha_inicio} - ${element.fecha_final}">
             ${element.nombre}
           </div>
           `

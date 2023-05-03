@@ -51,7 +51,7 @@ export const menuSuperior = {
       </li>
       <li><hr /></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/enunciados">Tareas</a>
+        <a class="nav-link" href="#/tareas">Tareas</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/rubricas">Rúbricas</a>

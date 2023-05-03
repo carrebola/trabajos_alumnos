@@ -15,7 +15,7 @@ export const fechasTareas = {
       semanas.forEach((element, index) => {
         if (element.fecha < hoy) posicionActual = index
         divFechas += `
-        <div style="width: 100px;" class="fecha border text-center" >semana ${element.semana} ${element.fecha}</div>
+        <div style="width: 100px;" class="fecha border text-center" >sem. <strong>${element.semana}</strong> ${element.fecha}</div>
         `
       })
       document.querySelector('.fechas').innerHTML = divFechas

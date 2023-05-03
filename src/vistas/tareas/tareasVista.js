@@ -1,4 +1,3 @@
-import { Perfil } from '../../bd/perfil'
 import { Proyecto } from '../../bd/proyecto'
 import { Enunciado } from '../../bd/enunciado'
 import { fechasTareas } from '../../componentes/fechasTareas'
@@ -26,19 +25,34 @@ export default {
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <h1 id="nombreTarea"></h1>
-        <div id="idTarea">...</div>
+        <h1 id="nombreTarea" class="text-center"></h1>
+        <div id="imagenTarea" class="text-center mb-2"></div>
+        <p><strong>Descripción: </strong><span id="descripcionTarea"></span></p>
+        <p><strong>Fecha Inicio: </strong><span id="fechaInicioTarea"></span>
+        <strong> - Fecha entrega: </strong><span id="fechaFinalTarea"></span></p>
+        <p><strong>Módulo: </strong><span id="moduloTarea"></span><strong> UF: </strong><span id="ufTarea"></span><strong> RA: </strong><span id="raTarea"></span></p>
+        <p>Enunciado: <span id="enunciadoTarea"></span><>
+        <hr>
+        <p><strong>Estado de la tarea: </strong><span id="estadoTareaEntregada"></span></p>
+
+        <label for="enlaceTareaEntregada"><strong>Enlace a la tarea: </strong></label>
+        <div class="mt-2 mb-2">
+          <input class="form-control" id="enlaceTareaEntregada"></input>
+        </div>
+        <div id="divBoton" class="row g-3">
+        </div> 
+        <div id="botonDetalle" class="">
+        </div>
       </div>
-    </div>
-
-
 `,
   script: async () => {
+    let tareas = []
+    let semanas = []
     // Generación de tabla
     const pintaDivsTareas = async () => {
       try {
-        const tareas = await Enunciado.getAll()
-        const semanas = await Semana.getAll()
+        tareas = await Enunciado.getAll()
+        semanas = await Semana.getAll()
         fechasTareas.script(semanas)
         // Capturamos las tareas
         let divTareas = ''
@@ -50,23 +64,60 @@ export default {
           const longitudTarea = posicionFinal - posicionInicial
           divTareas += `
           <div 
-            class="tarea border shadow d-flex align-items-center p-2 small" 
+            class="tarea border shadow  p-2 small overflow-hidden" 
             data-bs-toggle="offcanvas" 
             data-bs-target="#offcanvasRight" 
             aria-controls="offcanvasRight" 
-            style="width: ${longitudTarea * 100}px; height: 60px; margin-left: ${100 * posicionInicial}px;" title="${element.fecha_inicio} - ${element.fecha_final}" data-id="${element.id}">
+            style="width: ${longitudTarea * 100}px; height: 4em; margin-left: ${100 * posicionInicial}px;" title="${element.fecha_inicio} - ${element.fecha_final}" data-id="${element.id}">
             ${element.nombre}
           </div>
           `
         })
         document.querySelector('#tareas').innerHTML = divTareas
 
-        document.querySelector('main').addEventListener('click', (e) => {
+        // Detectamos evento click sobre la tarea
+        document.querySelector('main').addEventListener('click', async (e) => {
           if (e.target.classList.contains('tarea')) {
             const idTarea = e.target.dataset.id
-            console.log('id tarea', idTarea)
-            document.querySelector('#nombreTarea').innerHTML = idTarea
-            document.querySelector('#idTarea').innerHTML = idTarea
+
+            try {
+              // Pintamos los datos del enunciado de la tarea
+              const enunciado = tareas.find(element => element.id == idTarea)
+              console.log(enunciado)
+              document.querySelector('#nombreTarea').innerHTML = enunciado.nombre
+              document.querySelector('#imagenTarea').innerHTML = `<img width="200px" class="img-fluid border" src="${enunciado.imagen || '/assets/imagenes/proyectos/proyecto.png'}">`
+              document.querySelector('#descripcionTarea').innerHTML = enunciado.definicion
+              document.querySelector('#fechaInicioTarea').innerHTML = enunciado.fecha_inicio
+              document.querySelector('#fechaFinalTarea').innerHTML = enunciado.fecha_final
+              document.querySelector('#moduloTarea').innerHTML = enunciado.modulo
+              document.querySelector('#ufTarea').innerHTML = enunciado.uf
+              document.querySelector('#raTarea').innerHTML = enunciado.ra
+
+              document.querySelector('#enunciadoTarea').innerHTML = `<a href="${enunciado.enlace}">${enunciado.enlace}</a>`
+
+              // Pintamos los datos de la tarea entregada por el usuario
+
+              const tareaEntregada = await Proyecto.getByEnunciadoId(idTarea)
+              console.log('tareaEntregada', tareaEntregada)
+              document.querySelector('#estadoTareaEntregada').innerHTML = tareaEntregada.estado
+              document.querySelector('#enlaceTareaEntregada').value = tareaEntregada.enlace
+              const botonEntregar = tareaEntregada.enlace
+                ? '<div class="col-auto"><button class="actualizarTarea btn btn-primary">Actualizar Tarea</button></div><div class="col-auto"><button class="btn btn-danger">Anular Tarea</button></div>'
+                : '<div class="col-auto"><button class="entregarTarea btn btn-success">Entregar Tarea</button></div>'
+
+              document.querySelector('#divBoton').innerHTML = botonEntregar
+
+              const botonDetalle = `
+              <button id="verDetalle" class="mt-3 btn btn-link">Ver evaluación y comentarios</button>
+            `
+              document.querySelector('#botonDetalle').innerHTML = botonDetalle
+              document.querySelector('#verDetalle').addEventListener('click', () => {
+                console.log('ver',tareaEntregada.id)
+                window.location.href = '/#/detalleProyecto/' + tareaEntregada.id
+              })
+            } catch (error) {
+              console.log(error)
+            }
           }
         })
       } catch (error) {
@@ -90,11 +141,11 @@ export default {
         if (e.target.classList.contains('bloquear')) {
           try {
             const proyectoABloquear = await Proyecto.getById(id)
-            if (proyectoABloquear.activo) {
-              proyectoABloquear.activo = false
+            if (proyectoABloquear.estado) {
+              proyectoABloquear.estado = false
               e.target.classList.remove('bloqueado')
             } else {
-              proyectoABloquear.activo = true
+              proyectoABloquear.estado = true
               e.target.classList.add('bloqueado')
             }
 

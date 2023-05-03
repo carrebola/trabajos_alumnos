@@ -48,7 +48,7 @@ export default {
       let tabla = ''
 
       for (const rubrica of rubricas) {
-        console.log('rubrica', rubrica);
+        console.log('rubrica', rubrica)
         // Si rubrica.nota es null no pintamos nada
         if (!rubrica.nota) rubrica.nota = '-'
 
@@ -63,7 +63,7 @@ export default {
         <td>${autor}</td>
         <td>${rubrica.nombre}</td>
         <td class="">${rubrica.descripcion}</td>
-        <td class="text-center">${rubrica.activo}</td>
+        <td class="text-center">${rubrica.estado}</td>
         <td class="text-end">
           <button
             data-id="${rubrica.id}"
@@ -112,11 +112,11 @@ export default {
       if (e.target.classList.contains('bloquear')) {
         try {
           const rubricaABloquear = await Rubrica.getById(id)
-          if (rubricaABloquear.activo) {
-            rubricaABloquear.activo = false
+          if (rubricaABloquear.estado) {
+            rubricaABloquear.estado = false
             e.target.classList.remove('bloqueado')
           } else {
-            rubricaABloquear.activo = true
+            rubricaABloquear.estado = true
             e.target.classList.add('bloqueado')
           }
 

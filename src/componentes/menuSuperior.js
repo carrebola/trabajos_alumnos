@@ -34,12 +34,12 @@ export const menuSuperior = {
       <li class="nav-item">
         <a class="nav-link" href="#/proyectos">TOP 5 - Proyectos</a>
       </li>
-      <li><hr /></li>
+      <li class="border-start"></li>
       <li class="nav-item">
-        <a class="nav-link" href="#/enunciados">Tareas</a>
+        <a class="nav-link" href="#/proyectos">Proyectos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Tareas entregadas</a>
+        <a class="nav-link" href="#/tareas">Tareas</a>
       </li>
       `,
       profesor: `

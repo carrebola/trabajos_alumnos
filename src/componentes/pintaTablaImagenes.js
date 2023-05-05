@@ -5,7 +5,7 @@ export const pintaTablaImagenes = (user_id) => {
     // Capturamos una lista de las imagenes que ha subido el usuario
     const listaImagenes = await Archivo.getUrlAll(user_id, 'avatar')
     // Construimos lista de imagenes
-    let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-2">Mis imagenes de perfil</h5>'
+    let divImagenes = '<div class="d-flex flex-wrap"><h5 class="text-center w-100 mt-4">Mis imagenes de perfil</h5>'
     listaImagenes.forEach(url => {
       const keys = url.split('/')
       const ultimo = keys.length - 1

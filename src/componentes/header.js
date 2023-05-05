@@ -21,7 +21,8 @@ export const header = {
       <span class=""></span>
       Vanilla Games
     </a>
-    
+    <!-- Menú superior -->
+    ${menuSuperior.template}
     <button
       class="navbar-toggler ms-auto
       "
@@ -34,8 +35,7 @@ export const header = {
     >
     <span class="navbar-toggler-icon"></span>
     </button>
-    <!-- Menú superior -->
-    ${menuSuperior.template}
+   
     <!-- Menu usuario -->
     ${menuUsuario.template}
   </div>

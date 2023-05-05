@@ -20,7 +20,7 @@ export const formEditarPerfil = {
 <div class="modal-dialog" role="document">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Editar perfil</h5>
+        <h5 class="modal-title">Mi Perfil</h5>
         <button
         type="button"
         class="btn-close"
@@ -47,17 +47,17 @@ export const formEditarPerfil = {
           />
           </form>
           <div class="col-6">
-            <div class="mt-2 border" >
-              <img src="" alt="" id="imagenAvatar" class="img img-fluid">
+            <div class="mt-2 border shadow" >
+              <img src="" alt="" id="imagenAvatar" class="img img-fluid ">
             </div>
-            <div id="imagenesPerfil" class="d-flex justify-content-center">LISTA DE IMAGENES</div>
+            <div id="imagenesPerfil" class="d-flex justify-content-center border p-2">LISTA DE IMAGENES</div>
           </div>
         
       </div>
     </div>
     <div class="modal-footer">
         <button id="guardarCambios" type="button" class="btn btn-primary"  data-bs-dismiss="modal">
-        Guardar cambios
+       Actualizar cambios
         </button>
         <button
         type="button"

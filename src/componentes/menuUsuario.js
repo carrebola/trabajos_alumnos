@@ -66,7 +66,7 @@ export const menuUsuario = {
           data-bs-target="#editar"
           class="dropdown-item"
           href="#/editarPerfil"
-          >Editar perfil</a
+          >Perfil</a
         >
       </li>      
       <li><a class="liLogout dropdown-item" href="">Logout</a></li>
@@ -82,7 +82,7 @@ export const menuUsuario = {
           data-bs-target="#editar"
           class="dropdown-item"
           href="#/editarPerfil"
-          >Editar perfil</a
+          >Perfil</a
         >
       </li>
       <li>
@@ -108,7 +108,7 @@ export const menuUsuario = {
           data-bs-target="#editar"
           class="dropdown-item"
           href="#/editarPerfil"
-          >Editar perfil</a
+          >Perfil</a
         >
       </li>
       <div class="dropdown-divider"></div>
@@ -137,7 +137,7 @@ export const menuUsuario = {
           data-bs-target="#editar"
           class="dropdown-item"
           href="#/editarPerfil"
-          >Editar perfil</a
+          >Perfil</a
         >
       </li>
       <div class="dropdown-divider"></div>

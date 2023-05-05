@@ -1,40 +1,29 @@
 export const menuSuperior = {
   template: `
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul id="menuSuperior" class="navbar-nav">
-        
+      <ul id="menuSuperiorGeneral" class="navbar-nav"> 
+        <li class="nav-item">
+          <a class="nav-link" href="#">TOP 5 - Proyectos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#/recursos">Recursos</a>
+        </li>
+      </ul>
+      <ul id="menuSuperior" class="navbar-nav ms-auto border-end"> 
         
       </ul>
+      
     </div>
   `,
   script: (perfilLogueado) => {
     const items = {
-      anonimo: `
-      <li class="nav-item">
-        <a class="nav-link" href="#">TOP 5 - Proyectos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
-      </li>
-      `,
-      registrado: `
-      <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">TOP 5 - Proyectos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
-      </li>
-     
-      `,
+      anonimo: '',
+      registrado: '',
       alumno: `
-      
-      <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">TOP 5 - Proyectos</a>
-      </li>
       <li><hr /></li>
+      <li class="nav-item">
+        <a class="nav-link" href="#/proyectos">Proyectos</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="#/enunciados">Tareas</a>
       </li>
@@ -43,11 +32,9 @@ export const menuSuperior = {
       </li>
       `,
       profesor: `
+      
       <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#/proyectos">Tareas entregadas</a>
+        <a class="nav-link" href="#/proyectos">Proyectos</a>
       </li>
       <li><hr /></li>
       <li class="nav-item">
@@ -58,13 +45,11 @@ export const menuSuperior = {
       </li>
       `,
       admin: `
-      <li class="nav-item">
-        <a class="nav-link" href="#/recursos">Recursos</a>
-      </li>
+      <li><hr /></li>
       <li class="nav-item">
         <a class="nav-link" href="#/proyectos">Proyectos</a>
       </li>
-      <li><hr /></li>
+      
       <li class="nav-item">
         <a class="nav-link" href="#/enunciados">Tareas</a>
       </li>
@@ -81,7 +66,7 @@ export const menuSuperior = {
       // Insertamos los items del menú según el rol
       document.querySelector('#menuSuperior').innerHTML = items[rol]
     } else {
-      document.querySelector('#menuSuperior').innerHTML = items['anonimo']
+      document.querySelector('#menuSuperior').innerHTML = items.anonimo
     }
   }
 }

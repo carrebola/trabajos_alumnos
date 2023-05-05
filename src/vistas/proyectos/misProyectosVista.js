@@ -24,7 +24,7 @@ export default {
                   <th>DESCRIPCIÓN</th>
                   <th>ENLACE</th>
                   <th>NOTA</th>
-                  <th>ACTIVO</th>
+                  <th>estado</th>
                   <th class="w-100"></th>
               </tr>
           </thead>
@@ -66,7 +66,7 @@ export default {
         <td class="w-100">${proyecto.descripcion}</td>
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
         <td class="text-center">${proyecto.nota}</td>
-        <td class="text-center">${proyecto.activo}</td>
+        <td class="text-center">${proyecto.estado}</td>
         <td class="text-end">
           <button
             data-id="${proyecto.id}"
@@ -104,7 +104,7 @@ export default {
       }
       document.querySelector('#tablaProyectos tbody').innerHTML = tabla
     } catch (error) {
-      //alert('No se han podido cargar la tabla de usuarios ' + error)
+      // alert('No se han podido cargar la tabla de usuarios ' + error)
       Swal.fire({
         position: 'top-end',
         icon: 'error',
@@ -122,18 +122,18 @@ export default {
       if (e.target.classList.contains('bloquear')) {
         try {
           const proyectoABloquear = await Proyecto.getById(id)
-          if (proyectoABloquear.activo) {
-            proyectoABloquear.activo = false
+          if (proyectoABloquear.estado) {
+            proyectoABloquear.estado = false
             e.target.classList.remove('bloqueado')
           } else {
-            proyectoABloquear.activo = true
+            proyectoABloquear.estado = true
             e.target.classList.add('bloqueado')
           }
 
           await proyectoABloquear.block()
           window.location.href = '/#/proyectos'
         } catch (error) {
-          //alert('No se han podido desactivar el proyecto' + error)
+          // alert('No se han podido desactivar el proyecto' + error)
           Swal.fire({
             position: 'top-end',
             icon: 'error',
@@ -141,7 +141,6 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
-          
         }
       }
 
@@ -157,7 +156,7 @@ export default {
           }
           window.location.href = '/#/proyectos'
         } catch (error) {
-          //alert('No se han podido borrar el proyecto' + error)
+          // alert('No se han podido borrar el proyecto' + error)
           Swal.fire({
             position: 'top-end',
             icon: 'error',

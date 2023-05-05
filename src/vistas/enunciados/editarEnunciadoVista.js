@@ -108,7 +108,7 @@ export default {
           />
           <div class="invalid-feedback">El estado no es correcto</div>
 
-          <label class="mt-3 form-label" for="enlace">Estado: </label>
+          <label class="mt-3 form-label" for="enlace">Enunciado: </label>
           <input
             id="enlace" 
             name="enlace" 

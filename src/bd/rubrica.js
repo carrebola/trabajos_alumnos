@@ -3,13 +3,13 @@ import { supabase } from './supabase.js'
 
 export class Rubrica {
   // Mapping de propiedades de la tabla rubricas
-  constructor (id = null, create_at = null, nombre = null, descripcion = null, user_id = null, activo = null) {
+  constructor (id = null, create_at = null, nombre = null, descripcion = null, user_id = null, estado = null) {
     this.id = id
     this.create_at = create_at
     this.nombre = nombre
     this.descripcion = descripcion
     this.user_id = user_id
-    this.activo = activo
+    this.estado = estado
   }
 
   // leer todos en orden descendiente a como se han creado
@@ -23,8 +23,8 @@ export class Rubrica {
     }
 
     // devuelve array de objetos
-    return rubricas.map(({ id, create_at, nombre, descripcion, user_id, activo }) => {
-      return new Rubrica(id, create_at, nombre, descripcion, user_id, activo)
+    return rubricas.map(({ id, create_at, nombre, descripcion, user_id, estado }) => {
+      return new Rubrica(id, create_at, nombre, descripcion, user_id, estado)
     })
   }
 
@@ -41,8 +41,8 @@ export class Rubrica {
     }
 
     // devuelve array de objetos
-    return rubricas.map(({ id, create_at, nombre, descripcion, user_id, activo }) => {
-      return new Rubrica(id, create_at, nombre, descripcion, user_id, activo)
+    return rubricas.map(({ id, create_at, nombre, descripcion, user_id, estado }) => {
+      return new Rubrica(id, create_at, nombre, descripcion, user_id, estado)
     })
   }
 
@@ -58,7 +58,7 @@ export class Rubrica {
       throw new Error(error.message)
     }
 
-    return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.activo)
+    return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.estado)
   }
 
   // leer registro por id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -73,7 +73,7 @@ export class Rubrica {
       throw new Error(error.message)
     }
 
-    return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.activo)
+    return new Rubrica(rubrica.id, rubrica.create_at, rubrica.nombre, rubrica.descripcion, rubrica.user_id, rubrica.estado)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -97,7 +97,7 @@ export class Rubrica {
         nombre: this.nombre,
         descripcion: this.descripcion,
         user_id: this.user_id,
-        activo: this.activo
+        estado: this.estado
       })
       .eq('id', this.id)
       .single()
@@ -126,7 +126,7 @@ export class Rubrica {
     const { error } = await supabase
       .from('rubricas')
       .update({
-        activo: this.activo
+        estado: this.estado
       })
       .eq('id', this.id)
       .single()

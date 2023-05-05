@@ -92,8 +92,8 @@ export default {
 
           <label class="mt-3 form-label" for="nombre">Estado: </label>
           <select id="estado" class="form-control" />
-            <option value="true">Activo</option>
-            <option value="false">No activo</option>
+            <option value="true">estado</option>
+            <option value="false">No estado</option>
           </select>
           <div class="invalid-feedback">El estado no es correcto</div>
 
@@ -124,7 +124,7 @@ export default {
           estado: document.querySelector('#estado').value
         }
         await Enunciado.create(enunciado)
-        //alert('Enunciado creado con éxito')
+        // alert('Enunciado creado con éxito')
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -136,7 +136,7 @@ export default {
         window.location.href = '/#/enunciados'
       } catch (error) {
         console.log(error)
-        //alert('Error al crear enunciado ' + error)
+        // alert('Error al crear enunciado ' + error)
         Swal.fire({
           position: 'top-end',
           icon: 'error',

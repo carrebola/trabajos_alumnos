@@ -26,7 +26,7 @@ export default {
                   <th>DESCRIPCIÓN</th>
                   <th>ENLACE</th>
                   <th>NOTA</th>
-                  <th>ACTIVO</th>
+                  <th>estado</th>
                   <th>ENUNCIADO</th>
                   <th class=""></th>
               </tr>
@@ -69,7 +69,7 @@ export default {
         <td class="">${proyecto.descripcion}</td>
         <td><a href="${proyecto.enlace}" target="_black">${proyecto.enlace}</a></td>
         <td class="text-center">${proyecto.nota}</td>
-        <td class="text-center">${proyecto.activo}</td>
+        <td class="text-center">${proyecto.estado}</td>
         <td class="text-center"><a href="#/detalleEnunciado/${proyecto.enunciado_id}"> Ir a enunciado </a></td>
         <td class="text-end">
           <div style="width: 150px">
@@ -133,11 +133,11 @@ export default {
         if (e.target.classList.contains('bloquear')) {
           try {
             const proyectoABloquear = await Proyecto.getById(id)
-            if (proyectoABloquear.activo) {
-              proyectoABloquear.activo = false
+            if (proyectoABloquear.estado) {
+              proyectoABloquear.estado = false
               e.target.classList.remove('bloqueado')
             } else {
-              proyectoABloquear.activo = true
+              proyectoABloquear.estado = true
               e.target.classList.add('bloqueado')
             }
 

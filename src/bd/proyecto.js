@@ -3,14 +3,14 @@ import { supabase } from './supabase.js'
 
 class Proyecto {
   // Mapping de propiedades de la tabla proyectos
-  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null, enunciado_id = null) {
+  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, estado = null, enunciado_id = null) {
     this.id = id
     this.nombre = nombre
     this.descripcion = descripcion
     this.user_id = user_id
     this.nota = nota
     this.enlace = enlace
-    this.activo = activo
+    this.estado = estado
     this.enunciado_id = enunciado_id
   }
 
@@ -25,8 +25,8 @@ class Proyecto {
     }
 
     // devuelve array de objetos
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id }) => {
-      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, estado, enunciado_id }) => {
+      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, estado, enunciado_id)
     })
   }
 
@@ -43,8 +43,8 @@ class Proyecto {
     }
 
     // devuelve array de objetos
-    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id }) => {
-      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
+    return proyectos.map(({ id, nombre, descripcion, user_id, nota, enlace, estado, enunciado_id }) => {
+      return new Proyecto(id, nombre, descripcion, user_id, nota, enlace, estado, enunciado_id)
     })
   }
 
@@ -60,22 +60,22 @@ class Proyecto {
       throw new Error(error.message)
     }
 
-    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo, proyecto.enunciado_id)
+    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.estado, proyecto.enunciado_id)
   }
 
   // leer registro por proyecto_id (método static que se puede leer desde la clase sin necesidad de crear una instancia)
-  static async getByProjectId (id) {
+  static async getByEnunciadoId (id) {
     const { data: proyecto, error } = await supabase
       .from('proyectos')
       .select('*')
-      .eq('proyecto_id', id)
+      .eq('enunciado_id', id)
       .single()
 
     if (error) {
       throw new Error(error.message)
     }
 
-    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.activo, proyecto.enunciado_id)
+    return new Proyecto(proyecto.id, proyecto.nombre, proyecto.descripcion, proyecto.user_id, proyecto.nota, proyecto.enlace, proyecto.estado, proyecto.enunciado_id)
   }
 
   // crear registro (método static que se puede leer desde la clase sin necesidad de crear una instancia)
@@ -101,7 +101,7 @@ class Proyecto {
         user_id: this.user_id,
         nota: this.nota,
         enlace: this.enlace,
-        activo: this.activo,
+        estado: this.estado,
         enunciado_id: this.enunciado_id
       })
       .eq('id', this.id)
@@ -131,7 +131,7 @@ class Proyecto {
     const { error } = await supabase
       .from('proyectos')
       .update({
-        activo: this.activo
+        estado: this.estado
       })
       .eq('id', this.id)
       .single()
@@ -143,8 +143,8 @@ class Proyecto {
   }
 }
 class ProyectoDetalle extends Proyecto {
-  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, activo = null, enunciado_id = null, nombre_usuario = null, apellidos_usuario, nombre_enunciado = null, definicion_enunciado = null) {
-    super(id, nombre, descripcion, user_id, nota, enlace, activo, enunciado_id)
+  constructor (id = null, nombre = null, descripcion = null, user_id = null, nota = null, enlace = null, estado = null, enunciado_id = null, nombre_usuario = null, apellidos_usuario, nombre_enunciado = null, definicion_enunciado = null) {
+    super(id, nombre, descripcion, user_id, nota, enlace, estado, enunciado_id)
 
     this.id = id
     this.nombre = nombre
@@ -152,7 +152,7 @@ class ProyectoDetalle extends Proyecto {
     this.user_id = user_id
     this.nota = nota
     this.enlace = enlace
-    this.activo = activo
+    this.estado = estado
     this.enunciado_id = enunciado_id
     // detalle
     this.nombre_usuario = nombre_usuario
@@ -176,7 +176,7 @@ class ProyectoDetalle extends Proyecto {
     if (error) console.error(error)
     else {
       const proyecto = data[0]
-      console.log('data desde clase proyectosdetalle2-', data[0])
+      // console.log('data desde clase proyectosdetalle2-', data[0])
       return new ProyectoDetalle(
         proyecto.id,
         proyecto.nombre,
@@ -184,7 +184,7 @@ class ProyectoDetalle extends Proyecto {
         proyecto.user_id,
         proyecto.nota,
         proyecto.enlace,
-        proyecto.activo,
+        proyecto.estado,
         proyecto.enunciado_id,
         // detalle
         proyecto.nombre_usuario,

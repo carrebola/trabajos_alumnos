@@ -52,7 +52,7 @@ export default {
     <td>${autor}</td>
     <td>${rubrica.nombre}</td>
     <td class="">${rubrica.descripcion}</td>
-    <td class="">${rubrica.activo}</td>
+    <td class="">${rubrica.estado}</td>
     <td class="text-end">
       <button
         data-id="${rubrica.id}"
@@ -103,11 +103,11 @@ export default {
       if (e.target.classList.contains('bloquear')) {
         try {
           const rubricaABloquear = await Rubrica.getById(id)
-          if (rubricaABloquear.activo) {
-            rubricaABloquear.activo = false
+          if (rubricaABloquear.estado) {
+            rubricaABloquear.estado = false
             e.target.classList.remove('bloqueado')
           } else {
-            rubricaABloquear.activo = true
+            rubricaABloquear.estado = true
             e.target.classList.add('bloqueado')
           }
 
